@@ -1,0 +1,121 @@
+version: 1
+
+project:
+  name: SDP-Pipeline
+  working_directory: Pipeline/
+
+authority:
+  primary: Pipeline/AGENT_ARCHITECTURE.md
+  development_rules: Pipeline/CLAUDE.md
+  supersedes:
+    - PIPELINE_WORKFLOW.md
+    - INTEGRATION_COMPLETE.md
+    - MODEL_TRAINING_REPORT.md
+    - AI_MODEL_PIPELINE_REPORT_SECTION.md
+    - CHRONOS_SETUP.md
+    - ARCHITECTURE.md
+    - README.md
+    - high_level.md
+
+scope:
+  allowed_directories:
+    - Pipeline/
+  disallowed_directories:
+    - Pipeline/_legacy/
+  disallowed_files:
+    - Pipeline/preprocessing_pipeline.py
+    - Pipeline/preprocessor.py
+    - Pipeline/run_full_pipeline.py
+    - Pipeline/models/trainer.py
+    - Pipeline/models/evaluator.py
+    - Pipeline/quick_test_pipeline.py
+
+entrypoint:
+  pipeline: Pipeline/orchestrator.py
+  method: run_pipeline(input_file, config)
+  note: No agent or utility may invoke the full pipeline except through this entrypoint.
+
+diff_policy:
+  prefer_minimal_diffs: true
+  refactor_unrelated_files: never
+  delete_files: never
+  prefer_new_files_over_modifying: true
+  modify_existing_file_only_if: task explicitly targets that file
+
+legacy_policy:
+  action: ignore
+  permitted_use: read for logic reference only
+  prohibited_use:
+    - import from new code
+    - extend or call from new code
+    - modify to fit new architecture
+
+architectural_constraints:
+  manifest_driven: true
+  manifest_path_pattern: runs/{run_id}/job_manifest.json
+  agent_communication: artifact files only
+  agents_may_not: call other agent functions directly
+  schema_compliance: strict
+  artifact_schemas_defined_in: Pipeline/AGENT_ARCHITECTURE.md
+
+agent_execution_order:
+  sequential:
+    - step: 1
+      agent: IngestionAgent
+      module: agents/ingestion_agent.py
+    - step: 2
+      agent: ProblemClassificationAgent
+      module: agents/problem_classification_agent.py
+    - step: 5
+      agent: ModelSelectionAgent
+      module: agents/model_selection_agent.py
+    - step: 6
+      agent: TrainingAgent
+      module: agents/training_agent.py
+    - step: 7
+      agent: EvaluationAgent
+      module: agents/evaluation_agent.py
+    - step: 8
+      agent: ArtifactAssemblyAgent
+      module: agents/artifact_assembly_agent.py
+  parallel:
+    - step: 3
+      agent: PreprocessingPlanningAgent
+      module: agents/preprocessing_planning_agent.py
+    - step: 4
+      agent: EvaluationProtocolAgent
+      module: agents/evaluation_protocol_agent.py
+
+model_policy:
+  max_models_in_codebase: 10
+  models_selected_per_run: 3
+  tier_coverage_required:
+    - baseline
+    - classical
+    - specialized
+  catalog: catalogs/model_catalog.json
+  registry: models/model_registry.py
+  task_compatibility_enforced: true
+
+testing:
+  unit_test_directory: tests/unit/
+  integration_test_directory: tests/integration/
+  determinism_required: true
+  legacy_imports_in_tests: forbidden
+
+guardrails:
+  ask_before_proceeding:
+    - manifest schema changes
+    - artifact field additions or removals
+    - agent boundary modifications
+    - orchestrator execution order changes
+    - changes to core/ shared utilities
+    - model pool additions or removals
+    - any change that affects more than one agent
+  never_do:
+    - redesign architecture without explicit instruction
+    - hardcode model names in agent logic
+    - hardcode file paths in agent logic
+    - bypass ModelSelectionAgent tier enforcement
+    - select fewer or more than 3 models per run
+    - import legacy files from new modules

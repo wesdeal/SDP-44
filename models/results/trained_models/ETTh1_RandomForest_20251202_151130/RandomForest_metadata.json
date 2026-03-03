@@ -1,0 +1,25 @@
+{
+  "model_name": "RandomForest",
+  "hyperparameters": {
+    "n_estimators": 202,
+    "max_depth": 5,
+    "min_samples_split": 9,
+    "min_samples_leaf": 1,
+    "max_features": "log2",
+    "bootstrap": true
+  },
+  "is_trained": true,
+  "created_at": "2025-12-02 15:11:29",
+  "model_type": "RandomForestModel",
+  "training_time_seconds": 0.14159297943115234,
+  "n_features": 6,
+  "n_training_samples": 9296,
+  "feature_names": [
+    "HUFL",
+    "HULL",
+    "MUFL",
+    "MULL",
+    "LUFL",
+    "LULL"
+  ]
+}

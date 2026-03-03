@@ -1,0 +1,262 @@
+{
+  "metadata": {
+    "dataset_name": "file-XWFsKbY1HPxrF8vth7xW58-ETTh1.csv",
+    "dataset_description": "Hourly time series (multiple measured features) from 2016-07-01 to 2018-06-26. Contains 7 numeric sensor/measurement columns and one timestamp column. Likely target column named 'OT' (continuous).",
+    "data_source": "/mnt/data/file-XWFsKbY1HPxrF8vth7xW58-ETTh1.csv (user upload)",
+    "ingestion_date": "2026-01-23",
+    "num_rows": 17420,
+    "num_columns": 8,
+    "column_summaries": [
+      {
+        "name": "date",
+        "inferred_type": "datetime",
+        "example_values": [
+          "2016-07-01 00:00:00",
+          "2016-07-01 01:00:00",
+          "2016-07-01 02:00:00"
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": false,
+        "is_temporal": true
+      },
+      {
+        "name": "HUFL",
+        "inferred_type": "numeric",
+        "example_values": [
+          5.827000141143799,
+          5.692999839782715,
+          5.1570000648498535
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "HULL",
+        "inferred_type": "numeric",
+        "example_values": [
+          2.009000062942505,
+          2.075999975204468,
+          1.741000056266785
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": false,
+        "is_temporal": false
+      },
+      {
+        "name": "MUFL",
+        "inferred_type": "numeric",
+        "example_values": [
+          1.5989999771118164,
+          1.4919999837875366,
+          1.2790000438690186
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "MULL",
+        "inferred_type": "numeric",
+        "example_values": [
+          0.4620000123977661,
+          0.4259999990463257,
+          0.3549999892711639
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": false,
+        "is_temporal": false
+      },
+      {
+        "name": "LUFL",
+        "inferred_type": "numeric",
+        "example_values": [
+          4.203000068664552,
+          4.142000198364259,
+          3.776999950408936
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "LULL",
+        "inferred_type": "numeric",
+        "example_values": [
+          1.3400000333786009,
+          1.371000051498413,
+          1.218000054359436
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "OT",
+        "inferred_type": "numeric",
+        "example_values": [
+          30.5310001373291,
+          27.78700065612793,
+          25.04400062561035
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      }
+    ],
+    "target_variable": "OT",
+    "temporal_coverage": {
+      "earliest_timestamp": "2016-07-01 00:00:00",
+      "latest_timestamp": "2018-06-26 19:00:00"
+    },
+    "known_data_quality_issues": [
+      "Negative values present in columns that are likely non-negative (e.g., HUFL min -22.706, MUFL min -25.088, OT min -4.08, LUFL min -1.188). Verify whether these are valid or measurement/encoding errors.",
+      "Outliers flagged (IQR rule) in HUFL, MUFL, LUFL, LULL and OT (several percent of rows).",
+      "No missing values detected but there are irregular extreme values that may need correction or removal.",
+      "All timestamps are regular hourly, but columns may require unit checks and shifting before log-transform due to negative minima."
+    ],
+    "preprocessing_steps": [
+      {
+        "method": "remove_outliers",
+        "parameters": {
+          "method": "IQR",
+          "threshold": 1.5,
+          "columns": [
+            "HUFL",
+            "MUFL",
+            "LUFL",
+            "LULL",
+            "OT"
+          ],
+          "action": "cap_or_remove",
+          "cap_strategy": {
+            "lower_quantile": 0.01,
+            "upper_quantile": 0.99
+          }
+        },
+        "reason": "IQR-rule outliers detected in multiple numeric columns (some extreme negative/positive measurements). Remove or cap them early to avoid distortion of detrending/scaling.",
+        "order": 1
+      },
+      {
+        "method": "detrend",
+        "parameters": {
+          "type": "linear",
+          "columns": [
+            "OT",
+            "HUFL",
+            "LUFL",
+            "MUFL"
+          ],
+          "fit_on": "training_set_only",
+          "preserve_residuals": true
+        },
+        "reason": "A persistent (slight) linear trend is present (linear regression on OT shows a non-zero slope and R^2 ~0.39). Detrending helps models that assume stationarity and reduces leakage from trend.",
+        "order": 2
+      },
+      {
+        "method": "log_transform",
+        "parameters": {
+          "columns": {
+            "OT": {
+              "offset": 4.080002
+            },
+            "LUFL": {
+              "offset": 1.188002
+            }
+          },
+          "base": "e"
+        },
+        "reason": "OT and LUFL show right-skew (OT skew ~0.97, LUFL skew >1). Apply log after shifting to stabilize variance and reduce skewness before scaling and differencing.",
+        "order": 3
+      },
+      {
+        "method": "differencing",
+        "parameters": {
+          "type": "seasonal_and_regular",
+          "regular_difference_order": 1,
+          "seasonal_difference_order": 1,
+          "seasonal_period": 24,
+          "columns": [
+            "OT"
+          ],
+          "apply_after": [
+            "detrend",
+            "log_transform"
+          ]
+        },
+        "reason": "Strong daily (lag 24) and weekly (lag 168) autocorrelations detected (e.g., ACF(24) ~0.94, ACF(168) ~0.86). Seasonal differencing (lag 24) and first differencing help achieve stationarity for many forecasting methods.",
+        "order": 4
+      },
+      {
+        "method": "z_norm",
+        "parameters": {
+          "columns": [
+            "HUFL",
+            "HULL",
+            "MUFL",
+            "MULL",
+            "LUFL",
+            "LULL",
+            "OT"
+          ],
+          "with_mean": true,
+          "with_std": true,
+          "fit_on": "training_set_only"
+        },
+        "reason": "Features are on different scales; z-score normalization ensures comparable scales for gradient-based and distance-based models.",
+        "order": 5
+      },
+      {
+        "method": "smoothing",
+        "parameters": {
+          "method": "rolling_mean",
+          "window": 3,
+          "min_periods": 1,
+          "columns": [
+            "OT"
+          ],
+          "preserve_index": true
+        },
+        "reason": "Hourly measurements show high autocorrelation and occasional high-frequency noise. A small rolling window (3) smooths noise while preserving hourly dynamics; optionally apply only for feature engineering, not label smoothing.",
+        "order": 6
+      }
+    ],
+    "licenses_or_usage_rights": "Dataset was provided by the user. Confirm original source and license before redistribution or commercial use.",
+    "class_or_value_distribution_for_target": null,
+    "related_documentation_links": [],
+    "security_or_privacy_notes": "No explicit PII detected in this dataset; it contains timestamps and measurement values. If these measurements can be linked to individuals or sensitive systems, apply appropriate privacy controls. Keep raw timestamps when sharing only if permitted.",
+    "has_missing_data": false,
+    "has_seasonality": true,
+    "has_trend": true,
+    "is_multivariate": true,
+    "recommended_models": [
+      "LightGBM (with lag features & exogenous variables)",
+      "Prophet (or SARIMAX with exogenous regressors)",
+      "LSTM (sequence-to-one, multivariate)",
+      "N-BEATS (deep learning, interpretable trend/seasonality)"
+    ],
+    "model_reasoning": {
+      "LightGBM (with lag features & exogenous variables)": "Tree-based gradient boosting handles heterogeneous features, is robust to outliers after capping, can use engineered lag/rolling features, and works well on moderate-sized datasets (~17k rows).",
+      "Prophet (or SARIMAX with exogenous regressors)": "Designed for time series with trend and multiple seasonality components (daily/weekly). SARIMAX can incorporate exogenous variables; Prophet automatically models trend and seasonality.",
+      "LSTM (sequence-to-one, multivariate)": "RNN-based model that can learn temporal dependencies from multivariate hourly sequences; appropriate if you want to capture complex nonlinear interactions and have sufficient training data.",
+      "N-BEATS (deep learning, interpretable trend/seasonality)": "Modern deep learning forecasting model that separates trend/seasonality blocks; works well for mid-sized time series and often outperforms classical methods on complex patterns."
+    }
+  },
+  "preprocessing_applied": [
+    "remove_outliers",
+    "detrend",
+    "log_transform",
+    "differencing",
+    "z_norm",
+    "smoothing"
+  ],
+  "original_shape": [
+    17420,
+    8
+  ],
+  "processed_shape": [
+    17420,
+    8
+  ],
+  "input_file": "inputs/ETTh1.csv"
+}

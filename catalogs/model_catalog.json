@@ -1,0 +1,104 @@
+{
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "compatible_tasks": ["tabular_regression", "time_series_forecasting"],
+      "requires_features": false,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "DummyRegressor",
+      "description": "Predicts the training set mean. Required baseline for regression tasks."
+    },
+    {
+      "name": "DummyClassifier",
+      "tier": "baseline",
+      "compatible_tasks": ["tabular_classification"],
+      "requires_features": false,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "DummyClassifier",
+      "description": "Predicts majority class or uniform random. Required baseline for classification."
+    },
+    {
+      "name": "LinearModel",
+      "tier": "baseline",
+      "compatible_tasks": ["tabular_regression", "tabular_classification"],
+      "requires_features": true,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "LinearModel",
+      "description": "Ridge regression (regression) or LogisticRegression (classification). Interpretable baseline."
+    },
+    {
+      "name": "RandomForest",
+      "tier": "classical",
+      "compatible_tasks": ["tabular_regression", "tabular_classification", "time_series_forecasting"],
+      "requires_features": true,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "RandomForest",
+      "description": "Ensemble of decision trees. Robust, parallelizable, handles mixed types well."
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "compatible_tasks": ["tabular_regression", "tabular_classification", "time_series_forecasting"],
+      "requires_features": true,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "XGBoost",
+      "description": "Gradient boosted trees. High-capacity, widely used benchmark for tabular data."
+    },
+    {
+      "name": "LightGBM",
+      "tier": "classical",
+      "compatible_tasks": ["tabular_regression", "tabular_classification", "time_series_forecasting"],
+      "requires_features": true,
+      "cpu_feasible": true,
+      "available": false,
+      "registry_key": "LightGBM",
+      "description": "Histogram-based gradient boosting. Fast on larger datasets."
+    },
+    {
+      "name": "ARIMA",
+      "tier": "specialized",
+      "compatible_tasks": ["time_series_forecasting"],
+      "requires_features": false,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "ARIMA",
+      "description": "Classical univariate time-series model. Strong baseline for single-series forecasting."
+    },
+    {
+      "name": "LSTM",
+      "tier": "specialized",
+      "compatible_tasks": ["time_series_forecasting"],
+      "requires_features": true,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "LSTM",
+      "description": "Recurrent neural network with long-range memory. CPU-feasible at small scale."
+    },
+    {
+      "name": "Chronos",
+      "tier": "specialized",
+      "compatible_tasks": ["time_series_forecasting"],
+      "requires_features": false,
+      "cpu_feasible": true,
+      "available": false,
+      "registry_key": "Chronos",
+      "description": "Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering."
+    },
+    {
+      "name": "SVR",
+      "tier": "classical",
+      "compatible_tasks": ["tabular_regression"],
+      "requires_features": true,
+      "cpu_feasible": true,
+      "available": true,
+      "registry_key": "SVR",
+      "description": "Support Vector Regression. Good for small-to-medium datasets with non-linear boundaries."
+    }
+  ]
+}

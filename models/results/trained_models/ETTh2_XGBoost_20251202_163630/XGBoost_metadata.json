@@ -1,0 +1,26 @@
+{
+  "model_name": "XGBoost",
+  "hyperparameters": {
+    "n_estimators": 500,
+    "max_depth": 10,
+    "learning_rate": 0.25587351374291045,
+    "subsample": 0.6616011011120211,
+    "colsample_bytree": 0.6783715954207381,
+    "reg_alpha": 9.892085647189427,
+    "reg_lambda": 1.0552287461875885e-05
+  },
+  "is_trained": true,
+  "created_at": "2025-12-02 16:36:30",
+  "model_type": "XGBoostModel",
+  "training_time_seconds": 0.486663818359375,
+  "n_features": 6,
+  "n_training_samples": 11358,
+  "feature_names": [
+    "HUFL",
+    "HULL",
+    "MUFL",
+    "MULL",
+    "LUFL",
+    "LULL"
+  ]
+}

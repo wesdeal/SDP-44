@@ -1,0 +1,246 @@
+{
+  "metadata": {
+    "dataset_name": "file-MZAY6vaoiGpu7wEefEthHK-ETTh2.csv",
+    "dataset_description": "Hourly sensor/meteorological time series (2016-07-01 to 2018-06-26) with seven numeric features (HUFL, HULL, MUFL, MULL, LUFL, LULL) and a numeric target OT. Likely temperature or related measurements recorded hourly from sensors or model layers.",
+    "data_source": "/mnt/data/file-MZAY6vaoiGpu7wEefEthHK-ETTh2.csv",
+    "ingestion_date": "2025-12-04",
+    "num_rows": 17420,
+    "num_columns": 8,
+    "column_summaries": [
+      {
+        "name": "date",
+        "inferred_type": "datetime",
+        "example_values": [
+          "2016-07-01T00:00:00",
+          "2016-07-01T01:00:00",
+          "2016-07-01T02:00:00"
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": false,
+        "is_temporal": true
+      },
+      {
+        "name": "HUFL",
+        "inferred_type": "numeric",
+        "example_values": [
+          41.13000106811523,
+          37.52799987792969,
+          37.946998596191406
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "HULL",
+        "inferred_type": "numeric",
+        "example_values": [
+          12.480999946594238,
+          10.13599967956543,
+          11.309000015258787
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "MUFL",
+        "inferred_type": "numeric",
+        "example_values": [
+          36.5359992980957,
+          33.93600082397461,
+          35.33000183105469
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "MULL",
+        "inferred_type": "numeric",
+        "example_values": [
+          9.354999542236328,
+          7.532000064849853,
+          9.006999969482422
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "LUFL",
+        "inferred_type": "numeric",
+        "example_values": [
+          4.423999786376953,
+          4.434999942779541,
+          2.0999999046325684
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "LULL",
+        "inferred_type": "numeric",
+        "example_values": [
+          1.3109999895095823,
+          1.2150000333786009,
+          0.0
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": true,
+        "is_temporal": false
+      },
+      {
+        "name": "OT",
+        "inferred_type": "numeric",
+        "example_values": [
+          38.6619987487793,
+          37.124000549316406,
+          36.46500015258789
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": false,
+        "is_temporal": false
+      }
+    ],
+    "target_variable": "OT",
+    "temporal_coverage": {
+      "earliest_timestamp": "2016-07-01T00:00:00",
+      "latest_timestamp": "2018-06-26T19:00:00"
+    },
+    "known_data_quality_issues": [
+      "Outliers detected in multiple feature columns (HUFL, HULL, MUFL, MULL, LUFL, LULL) based on z-score > 3",
+      "No missing values present (all columns fully populated)",
+      "Strong periodicity/seasonality (high autocorrelation at 24h, 168h, and ~8766h) \u2014 daily, weekly and annual cycles",
+      "Slight long-term trend (small negative linear slope in OT over the 2-year window)",
+      "Different ranges/scales across features (means and stds differ substantially)",
+      "Some features contain negative values (e.g., LULL, LUFL) \u2014 check physical validity before transforms like log"
+    ],
+    "preprocessing_steps": [
+      {
+        "method": "remove_outliers",
+        "parameters": {
+          "method": "zscore",
+          "threshold": 3.0,
+          "columns": [
+            "HUFL",
+            "HULL",
+            "MUFL",
+            "MULL",
+            "LUFL",
+            "LULL"
+          ],
+          "action": "cap_or_remove",
+          "cap_strategy": {
+            "lower_percentile": 1.0,
+            "upper_percentile": 99.0
+          }
+        },
+        "reason": "Several features show z-score outliers (>3). Remove or cap these early to avoid biasing scaling and models.",
+        "order": 1
+      },
+      {
+        "method": "detrend",
+        "parameters": {
+          "type": "linear",
+          "columns": [
+            "OT",
+            "HUFL",
+            "MUFL",
+            "MUFL"
+          ],
+          "fit_window": "full_series",
+          "preserve_mean": true
+        },
+        "reason": "A small but measurable long-term trend exists in OT (and some features); detrending helps many forecasting models and stabilizes stationarity.",
+        "order": 2
+      },
+      {
+        "method": "log_transform",
+        "parameters": {
+          "columns": [
+            "MUFL"
+          ],
+          "offset": 0.0,
+          "check_positive": true
+        },
+        "reason": "MUFL shows strong right skew (skewness > 2). Apply log transform to reduce skew and stabilize variance (only on strictly positive columns).",
+        "order": 3
+      },
+      {
+        "method": "z_norm",
+        "parameters": {
+          "columns": [
+            "HUFL",
+            "HULL",
+            "MUFL",
+            "MULL",
+            "LUFL",
+            "LULL",
+            "OT"
+          ],
+          "with_mean": true,
+          "with_std": true
+        },
+        "reason": "Features are on different scales and ranges; standardization (z-score) centers and scales inputs for most models (esp. ML and DL).",
+        "order": 4
+      },
+      {
+        "method": "smoothing",
+        "parameters": {
+          "method": "rolling_mean",
+          "window": 3,
+          "min_periods": 1,
+          "columns": [
+            "HUFL",
+            "HULL",
+            "MUFL",
+            "MULL",
+            "LUFL",
+            "LULL",
+            "OT"
+          ]
+        },
+        "reason": "Short-term measurement noise is present; a small rolling window (3-hour) reduces high-frequency noise while preserving diurnal cycles. Use as optional preprocessing / for feature engineering.",
+        "order": 5
+      }
+    ],
+    "licenses_or_usage_rights": "Not provided with the file. Verify dataset license and usage rights with the data provider before distribution or commercial use.",
+    "class_or_value_distribution_for_target": null,
+    "related_documentation_links": [],
+    "security_or_privacy_notes": "No personal identifiable information detected. Data appears to be sensor/meteorological measurements; if location or device IDs are associated elsewhere, ensure compliance with location privacy and organizational policies.",
+    "has_missing_data": false,
+    "has_seasonality": true,
+    "has_trend": true,
+    "is_multivariate": true,
+    "recommended_models": [
+      "LightGBM",
+      "Prophet",
+      "N-BEATS",
+      "LSTM"
+    ],
+    "model_reasoning": {
+      "LightGBM": "Gradient-boosted tree model that handles large tabular datasets, robust to outliers after preprocessing, works well with engineered lag/rolling features and exogenous variables.",
+      "Prophet": "Designed for time series with multiple seasonalities (daily, weekly, yearly) and trend components; fast and interpretable for baseline forecasting.",
+      "N-BEATS": "Modern deep-learning architecture for univariate/multivariate forecasting that captures complex seasonality and trend without heavy feature engineering\u2014good for large datasets and multi-horizon forecasts.",
+      "LSTM": "Sequence model (RNN) that can learn temporal dependencies and interactions across multiple sensor features; useful when you want end-to-end sequence forecasting with exogenous inputs."
+    }
+  },
+  "preprocessing_applied": [
+    "remove_outliers",
+    "detrend",
+    "log_transform",
+    "z_norm",
+    "smoothing"
+  ],
+  "original_shape": [
+    17420,
+    8
+  ],
+  "processed_shape": [
+    17420,
+    8
+  ],
+  "input_file": "inputs/ETTh2.csv"
+}

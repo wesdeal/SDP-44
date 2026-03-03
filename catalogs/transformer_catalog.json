@@ -1,0 +1,14 @@
+{
+  "transformers": [
+    { "name": "imputation", "allowed_modalities": ["tabular_iid", "time_series", "grouped_tabular"], "params": ["strategy"] },
+    { "name": "z_norm", "allowed_modalities": ["tabular_iid", "time_series", "grouped_tabular"], "params": [] },
+    { "name": "min_max", "allowed_modalities": ["tabular_iid", "time_series", "grouped_tabular"], "params": [] },
+    { "name": "log_transform", "allowed_modalities": ["tabular_iid", "tabular_regression"], "params": [] },
+    { "name": "remove_outliers", "allowed_modalities": ["tabular_iid"], "params": ["method", "threshold"] },
+    { "name": "detrend", "allowed_modalities": ["time_series"], "params": ["type"] },
+    { "name": "differencing", "allowed_modalities": ["time_series"], "params": [] },
+    { "name": "smoothing", "allowed_modalities": ["time_series"], "params": ["window"] },
+    { "name": "label_encode", "allowed_modalities": ["tabular_iid", "grouped_tabular"], "params": [] },
+    { "name": "onehot_encode", "allowed_modalities": ["tabular_iid", "grouped_tabular"], "params": ["max_cardinality"] }
+  ]
+}

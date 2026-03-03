@@ -1,0 +1,24 @@
+[
+  {
+    "rmse":0.091023862,
+    "mae":0.0650665021,
+    "mape":702994612327386.125,
+    "r2":0.0216267234,
+    "mean_residual":-0.0030690681,
+    "std_residual":0.0909865277,
+    "max_error":0.5948235055,
+    "model_name":"RandomForest",
+    "n_test_samples":3155
+  },
+  {
+    "rmse":0.0911274602,
+    "mae":0.0652432441,
+    "mape":670358888674114.5,
+    "r2":0.0193983968,
+    "mean_residual":-0.0044160911,
+    "std_residual":0.0910348223,
+    "max_error":0.569750743,
+    "model_name":"XGBoost",
+    "n_test_samples":3155
+  }
+]

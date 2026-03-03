@@ -1,0 +1,10 @@
+{
+  "dataset": "AirPassengers",
+  "timestamp": "2025-12-02T16:23:05.561940",
+  "results": {
+    "XGBoost": {
+      "status": "failed",
+      "error": "DataFrame.dtypes for data must be int, float, bool or category. When categorical type is supplied, the experimental DMatrix parameter`enable_categorical` must be set to `True`.  Invalid columns:Month: object"
+    }
+  }
+}

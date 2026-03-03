@@ -1,0 +1,131 @@
+{
+  "metadata": {
+    "dataset_name": "AirPassengers",
+    "dataset_description": "Monthly totals of international airline passengers (passengers) from Jan 1949 to Dec 1960. Classic univariate time series with clear upward trend and yearly seasonality (multiplicative).",
+    "data_source": "/mnt/data/file-CqCPLqC11MJbWsryxR81WU-AirPassengers.csv",
+    "ingestion_date": "2025-12-02",
+    "num_rows": 144,
+    "num_columns": 2,
+    "column_summaries": [
+      {
+        "name": "Month",
+        "inferred_type": "datetime",
+        "example_values": [
+          "1949-01",
+          "1949-02",
+          "1949-03"
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": false,
+        "is_temporal": true
+      },
+      {
+        "name": "#Passengers",
+        "inferred_type": "numeric",
+        "example_values": [
+          112,
+          118,
+          132
+        ],
+        "missing_fraction": 0.0,
+        "has_outliers": false,
+        "is_temporal": false
+      }
+    ],
+    "target_variable": "#Passengers",
+    "temporal_coverage": {
+      "earliest_timestamp": "1949-01-01",
+      "latest_timestamp": "1960-12-01"
+    },
+    "known_data_quality_issues": [
+      "Datetime column stored as string (format 'YYYY-MM') \u2014 parse to datetime and set as index",
+      "Column name contains special character '#' which can cause issues in some processing pipelines",
+      "Non-stationary series with strong upward trend (detected by linear regression r\u22480.924)",
+      "Clear annual seasonality (peaks in Jul/Aug) and multiplicative behavior (variance grows with level)",
+      "Moderate right skew and heteroscedasticity (variance increases over time)",
+      "Small sample size (144 monthly observations) \u2014 limits very large ML models without augmentation/feature engineering"
+    ],
+    "preprocessing_steps": [
+      {
+        "method": "log_transform",
+        "parameters": {
+          "base": "e",
+          "on_column": "#Passengers"
+        },
+        "reason": "Multiplicative seasonality and increasing variance (heteroscedasticity); log stabilizes variance and converts multiplicative effects to additive.",
+        "order": 1
+      },
+      {
+        "method": "detrend",
+        "parameters": {
+          "type": "linear",
+          "method": "OLS",
+          "on_column": "log_#Passengers"
+        },
+        "reason": "Strong upward linear trend detected (non-stationary). Remove linear trend to help stationarity and make seasonality clearer.",
+        "order": 2
+      },
+      {
+        "method": "differencing",
+        "parameters": {
+          "lag": 1,
+          "order": 1,
+          "on_column": "detrended_log_#Passengers"
+        },
+        "reason": "First-order differencing to remove remaining non-stationarity after detrending and to stabilize mean for many forecasting models.",
+        "order": 3
+      },
+      {
+        "method": "smoothing",
+        "parameters": {
+          "method": "moving_average",
+          "window": 3,
+          "on_column": "differenced_detrended_log_#Passengers"
+        },
+        "reason": "Reduce short-term noise while preserving seasonal pattern for feature extraction or ML model training (use small window like 3).",
+        "order": 4
+      },
+      {
+        "method": "z_norm",
+        "parameters": {
+          "with_mean": true,
+          "with_std": true,
+          "on_columns": [
+            "processed_series"
+          ]
+        },
+        "reason": "Standardize scale for machine-learning models (e.g., LSTM, RandomForest with scalers) so features are comparable; applied after transformations.",
+        "order": 5
+      }
+    ],
+    "licenses_or_usage_rights": "Unknown \u2014 check original data source for license and redistribution terms (this file appears to be the classic AirPassengers dataset).",
+    "class_or_value_distribution_for_target": null,
+    "related_documentation_links": [],
+    "security_or_privacy_notes": "No personal or sensitive information detected. Standard data protection practices apply.",
+    "has_missing_data": false,
+    "has_seasonality": true,
+    "has_trend": true,
+    "is_multivariate": false,
+    "recommended_models": [
+      "ARIMA",
+      "LSTM",
+      "XGBoost"
+    ]
+  },
+  "preprocessing_applied": [
+    "log_transform",
+    "detrend",
+    "differencing",
+    "smoothing",
+    "z_norm"
+  ],
+  "original_shape": [
+    144,
+    2
+  ],
+  "processed_shape": [
+    144,
+    2
+  ],
+  "input_file": "inputs/AirPassengers.csv"
+}
