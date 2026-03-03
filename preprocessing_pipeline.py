@@ -441,7 +441,7 @@ class PreprocessingPipeline:
 
 def main(input_file_path: str = "./inputs/ETTh1.csv"):
     # Initialize extractor
-    api_key = "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"  # Replace with your key
+    api_key = ""  # Replace with your key
     extractor = MetadataExtractor(api_key)
 
     # Extract metadata
