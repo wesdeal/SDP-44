@@ -127,6 +127,17 @@ Every agent **reads** the manifest at startup and **writes** exactly its own sta
       },
       "error": "string | null"
     },
+    "ensembling": {
+      "status": "pending | running | completed | failed",
+      "started_at": "ISO-8601 | null",
+      "completed_at": "ISO-8601 | null",
+      "artifacts": {
+        "ensemble_spec": "runs/{run_id}/artifacts/ensemble_spec.json",
+        "ensemble_predictions": "runs/{run_id}/artifacts/ensemble_predictions.csv",
+        "ensemble_report": "runs/{run_id}/artifacts/ensemble_report.json"
+      },
+      "error": "string | null"
+    },
     "artifact_assembly": {
       "status": "pending | running | completed | failed",
       "started_at": "ISO-8601 | null",
@@ -622,67 +633,51 @@ Define the evaluation protocol deterministically from the task spec: which split
 ```json
 {
   "run_id": "string",
-  "split_strategy": "random | stratified | chronological | group_kfold",
-  "split_rationale": "string",
+  "task_type": "string",
+
+  "split_strategy": "random | stratified | chronological | group_kfold | time_series_cv",
   "train_fraction": 0.7,
   "val_fraction": 0.1,
   "test_fraction": 0.2,
+
   "shuffle": "bool — always false for time_series",
   "stratify_on": "string | null — target column name for stratified",
   "group_col": "string | null — for group_kfold",
-  "time_col": "string | null — for chronological split",
+  "time_col": "string | null — for chronological/time_series_cv",
+
+  "cv": {
+    "enabled": "bool",
+    "method": "rolling | expanding",
+    "n_folds": "int",
+    "initial_train_size": "int — rows or timesteps",
+    "step_size": "int — rows or timesteps",
+    "val_window_size": "int — rows or timesteps",
+    "gap": "int — optional embargo between train and val to reduce leakage",
+    "aggregate": "mean | median",
+    "use_for": "tuning_only | tuning_and_model_ranking"
+  },
+
+  "prediction_type": "point | quantile",
+  "quantiles": ["list[float] — required when prediction_type == quantile (e.g., [0.1,0.5,0.9])"],
+
   "primary_metric": "string — single metric name used to rank models",
   "metrics": [
-    {
-      "name": "rmse",
-      "display_name": "RMSE",
-      "higher_is_better": false,
-      "applicable_tasks": ["tabular_regression", "time_series_forecasting"]
-    },
-    {
-      "name": "mae",
-      "display_name": "MAE",
-      "higher_is_better": false,
-      "applicable_tasks": ["tabular_regression", "time_series_forecasting"]
-    },
-    {
-      "name": "mape",
-      "display_name": "MAPE (%)",
-      "higher_is_better": false,
-      "applicable_tasks": ["tabular_regression", "time_series_forecasting"]
-    },
-    {
-      "name": "r2",
-      "display_name": "R²",
-      "higher_is_better": true,
-      "applicable_tasks": ["tabular_regression"]
-    },
-    {
-      "name": "accuracy",
-      "display_name": "Accuracy",
-      "higher_is_better": true,
-      "applicable_tasks": ["tabular_classification"]
-    },
-    {
-      "name": "f1_weighted",
-      "display_name": "F1 (weighted)",
-      "higher_is_better": true,
-      "applicable_tasks": ["tabular_classification"]
-    },
-    {
-      "name": "roc_auc",
-      "display_name": "ROC-AUC",
-      "higher_is_better": true,
-      "applicable_tasks": ["tabular_classification"]
-    },
-    {
-      "name": "smape",
-      "display_name": "sMAPE (%)",
-      "higher_is_better": false,
-      "applicable_tasks": ["time_series_forecasting"]
-    }
+    { "name": "rmse", "display_name": "RMSE", "higher_is_better": false, "applicable_tasks": ["tabular_regression", "time_series_forecasting"] },
+    { "name": "mae", "display_name": "MAE", "higher_is_better": false, "applicable_tasks": ["tabular_regression", "time_series_forecasting"] },
+    { "name": "mape", "display_name": "MAPE (%)", "higher_is_better": false, "applicable_tasks": ["tabular_regression", "time_series_forecasting"] },
+    { "name": "smape", "display_name": "sMAPE (%)", "higher_is_better": false, "applicable_tasks": ["time_series_forecasting"] },
+
+    { "name": "pinball_loss", "display_name": "Pinball Loss", "higher_is_better": false, "applicable_tasks": ["time_series_forecasting"], "requires": "quantile" },
+    { "name": "coverage_80", "display_name": "Coverage @ 80%", "higher_is_better": true, "applicable_tasks": ["time_series_forecasting"], "requires": "quantile" },
+    { "name": "interval_width_80", "display_name": "Interval Width @ 80%", "higher_is_better": false, "applicable_tasks": ["time_series_forecasting"], "requires": "quantile" },
+
+    { "name": "r2", "display_name": "R²", "higher_is_better": true, "applicable_tasks": ["tabular_regression"] },
+    { "name": "accuracy", "display_name": "Accuracy", "higher_is_better": true, "applicable_tasks": ["tabular_classification"] },
+    { "name": "f1_weighted", "display_name": "F1 (weighted)", "higher_is_better": true, "applicable_tasks": ["tabular_classification"] },
+    { "name": "roc_auc", "display_name": "ROC-AUC", "higher_is_better": true, "applicable_tasks": ["tabular_classification"] }
   ],
-  "metrics_for_this_run": ["list of metric names applicable to this task_type"],
+
+  "metrics_for_this_run": ["list of metric names applicable to this task_type and prediction_type"],
   "minimum_test_samples": 30
 }
 ```
@@ -1037,7 +1032,46 @@ Artifact Assembly Agent reads `evaluation_report.json` and `comparison_table.jso
 
 ---
 
-### Agent 8 — Artifact Assembly Agent
+### Agent 8 — Ensemble Agent
+
+**Purpose:**
+Combine multiple trained model predictions into a single ensemble prediction artifact and evaluate it using the same protocol.
+
+**Inputs**
+| Artifact | Notes |
+|---|---|
+| `evaluation_report.json` | Must include each model’s predictions path or in-memory reference |
+| `comparison_table.json` | Used to derive weights (if weight_strategy == "metric_weighted") |
+| `eval_protocol.json` | Defines prediction_type, quantiles, and which metrics to compute |
+
+**Outputs**
+`runs/{run_id}/artifacts/ensemble_spec.json`
+```json
+{
+  "run_id": "string",
+  "method": "mean | median | weighted_mean",
+  "weight_strategy": "uniform | metric_weighted",
+  "weight_metric": "string | null",
+  "weights": { "ModelA": 0.2, "ModelB": 0.5, "ModelC": 0.3 },
+  "notes": "string"
+}
+```
+
+`runs/{run_id}/artifacts/ensemble_predictions.csv`
+- For point forecasts: a single `y_pred` column aligned to test timestamps/rows.
+- For quantiles: columns like `q0.1`, `q0.5`, `q0.9`.
+
+`runs/{run_id}/artifacts/ensemble_report.json`
+- Same schema shape as a single model entry in `evaluation_report.json`, plus the `ensemble_spec` reference.
+
+**Guardrails**
+- Ensemble uses only predictions produced on the identical frozen test set (no leakage).
+- If any required quantile column is missing from any model, ensemble downgrades to point-only (median/mean) and logs a warning.
+
+
+---
+
+### Agent 9 — Artifact Assembly Agent
 
 **Purpose:**
 Gather all run artifacts and assemble them into a clean, frontend-consumable dashboard bundle under `runs/{run_id}/dashboard/`. This agent writes no new data — it curates, renames, and restructures existing artifacts.

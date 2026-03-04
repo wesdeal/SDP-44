@@ -41,10 +41,13 @@
 ### Phase 2 — Core Shared Utilities
 *Stable before any real agent is written. Includes unit tests.*
 
-**2.1** `core/splitter.py` — implements all 4 strategies (`random`, `stratified`, `chronological`, `group_kfold`). Port from legacy `trainer.py:prepare_data_splits`, do not import it.
+**2.1** `core/splitter.py` — implements all 4 strategies (`random`, `stratified`, `chronological`, `group_kfold`) **plus** `time_series_cv` (rolling/expanding window folds). Port from legacy `trainer.py:prepare_data_splits`, do not import it.
 - Deps: 0.1
 
-**2.2** `core/metric_engine.py` — `compute_all(y_true, y_pred, metrics_list) → dict`. Handles `null` for failed metrics consistently across all models. Port from legacy `evaluator.py`, do not import it.
+**2.2** `core/metric_engine.py` — `compute_all(y_true, y_pred, metrics_list) → dict`. Handles `null` for failed metrics consistently across all models. Must support **probabilistic metrics** when `eval_protocol.prediction_type == "quantile"`:
+  - `pinball_loss`
+  - `coverage_80`, `interval_width_80` (derived from quantile columns)
+Port from legacy `evaluator.py`, do not import it.
 - Deps: 0.1
 
 **2.3** `core/schema_validator.py` — stub with `validate(artifact_path, schema_name) → bool`. Ship with schemas for `dataset_profile` and `task_spec` only. Remaining schemas added incrementally as agents are implemented.
@@ -88,7 +91,11 @@
 ### Phase 5 — Preprocessing Agent + Evaluation Protocol Agent *(parallel development)*
 *These two agents run in parallel in the pipeline and can be developed in parallel by different engineers.*
 
-**5.1** `agents/evaluation_protocol_agent.py` — deterministic routing table only. No LLM calls. Output: `eval_protocol.json` per §4 Agent 4. Add schema to `schema_validator.py`.
+**5.1** `agents/evaluation_protocol_agent.py` — deterministic routing table only. No LLM calls. Output: `eval_protocol.json` per §4 Agent 4, **including**:
+  - `cv` block for time-series (rolling/expanding)
+  - `prediction_type` (point vs quantile)
+  - `quantiles` list when probabilistic is enabled
+Add schema to `schema_validator.py`.
 - Deps: 1.1, 4.2
 
 **5.2** `agents/preprocessing_execution.py` — execution sub-phase. Accepts a `preprocessing_plan.json` dict. Records fitted scaler params. Output: `processed_data.csv`, `preprocessing_manifest.json`. Implement the heuristic fallback plan path first — LLM planning layers on top in 5.3.
@@ -121,14 +128,21 @@
 **7.2** `agents/evaluation_agent.py` — replaces legacy `evaluator.py`. Re-derives test set deterministically from `eval_protocol.json` + `processed_data.csv`. Calls `metric_engine.compute_all()` identically for all 3 models. Generates plots. Output: `evaluation_report.json`, `comparison_table.json`, `plots/`.
 - Deps: 1.1, 2.1, 2.2, 5.1, 7.1
 
-**7.3** `agents/artifact_assembly_agent.py` — assembles `dashboard/` bundle: `leaderboard.json`, `model_cards/`, `comparison_chart.png`, `run_summary.json`.
-- Deps: 1.1, 7.2
+**7.3** `agents/ensemble_agent.py` — builds `ensemble_spec.json`, `ensemble_predictions.csv`, and `ensemble_report.json`. Must support:
+  - uniform mean/median for point forecasts
+  - quantile-wise ensembling when prediction_type == "quantile"
+- Deps: 1.1, 7.2, 5.1
 
-**7.4** `orchestrator.py` finalization — replace stub agents with real agent calls. Add `ThreadPoolExecutor` for parallel execution of Agents 3+4 (preprocessing + eval protocol). Verify all stage dependency checks.
-- Deps: all prior tasks
+**7.4** `agents/artifact_assembly_agent.py` — assembles `dashboard/` bundle and includes ensemble artifacts + ensemble rank in leaderboard when present.
+- Deps: 1.1, 7.2, 7.3
 
-**7.5** Integration tests: `tests/integration/test_full_pipeline_regression.py`, `tests/integration/test_full_pipeline_timeseries.py` — run on `ETTh1.csv` and one tabular regression dataset. Assert determinism (two runs with same seed produce identical metric values).
-- Deps: 7.4
+**7.5** `orchestrator.py` finalization — replace stub agents with real agent calls. Add `ThreadPoolExecutor` for parallel execution of Agents 3+4 (preprocessing + eval protocol). Verify all stage dependency checks. Must run: training → evaluation → **ensembling** → assembly.
+ - Deps: all prior tasks
+
+**7.6** Integration tests: add assertions that:
+  - time_series_cv folds are deterministic given seed
+  - probabilistic metrics return numeric values when quantile predictions exist
+  - ensemble artifacts exist and are included in dashboard bundle
 
 ---
 

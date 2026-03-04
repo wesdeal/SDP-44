@@ -1,104 +1,276 @@
 {
+  "catalog_version": "1.1",
   "models": [
     {
       "name": "DummyRegressor",
       "tier": "baseline",
+      "family": "tabular",
       "compatible_tasks": ["tabular_regression", "time_series_forecasting"],
       "requires_features": false,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "DummyRegressor",
-      "description": "Predicts the training set mean. Required baseline for regression tasks."
+      "description": "Predicts the training set mean. Required baseline for regression tasks.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": false,
+        "supports_multi_series": true,
+        "requires_time_col": false,
+        "requires_lag_features": false
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "DummyClassifier",
       "tier": "baseline",
+      "family": "tabular",
       "compatible_tasks": ["tabular_classification"],
       "requires_features": false,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "DummyClassifier",
-      "description": "Predicts majority class or uniform random. Required baseline for classification."
+      "description": "Predicts majority class or uniform random. Required baseline for classification.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": false,
+        "supports_multi_series": true,
+        "requires_time_col": false,
+        "requires_lag_features": false
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "LinearModel",
       "tier": "baseline",
+      "family": "tabular",
       "compatible_tasks": ["tabular_regression", "tabular_classification"],
       "requires_features": true,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "LinearModel",
-      "description": "Ridge regression (regression) or LogisticRegression (classification). Interpretable baseline."
+      "description": "Ridge regression (regression) or LogisticRegression (classification). Interpretable baseline.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": false,
+        "supports_multi_series": true,
+        "requires_time_col": false,
+        "requires_lag_features": false
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "RandomForest",
       "tier": "classical",
+      "family": "ts_ml",
       "compatible_tasks": ["tabular_regression", "tabular_classification", "time_series_forecasting"],
       "requires_features": true,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "RandomForest",
-      "description": "Ensemble of decision trees. Robust, parallelizable, handles mixed types well."
+      "description": "Ensemble of decision trees. Robust, parallelizable, handles mixed types well.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": false,
+        "supports_multi_series": true,
+        "requires_time_col": true,
+        "requires_lag_features": true
+      },
+      "time_series": {
+        "mode": "feature_based",
+        "univariate_only": false,
+        "min_history": 50,
+        "notes": "For time_series_forecasting, this model requires lag/rolling feature engineering in preprocessing."
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "XGBoost",
       "tier": "classical",
+      "family": "ts_ml",
       "compatible_tasks": ["tabular_regression", "tabular_classification", "time_series_forecasting"],
       "requires_features": true,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "XGBoost",
-      "description": "Gradient boosted trees. High-capacity, widely used benchmark for tabular data."
+      "description": "Gradient boosted trees. High-capacity, widely used benchmark for tabular data.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": false,
+        "supports_multi_series": true,
+        "requires_time_col": true,
+        "requires_lag_features": true
+      },
+      "time_series": {
+        "mode": "feature_based",
+        "univariate_only": false,
+        "min_history": 50,
+        "notes": "For time_series_forecasting, this model requires lag/rolling feature engineering in preprocessing."
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "LightGBM",
       "tier": "classical",
+      "family": "ts_ml",
       "compatible_tasks": ["tabular_regression", "tabular_classification", "time_series_forecasting"],
       "requires_features": true,
       "cpu_feasible": true,
       "available": false,
       "registry_key": "LightGBM",
-      "description": "Histogram-based gradient boosting. Fast on larger datasets."
+      "description": "Histogram-based gradient boosting. Fast on larger datasets.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": false,
+        "supports_multi_series": true,
+        "requires_time_col": true,
+        "requires_lag_features": true
+      },
+      "time_series": {
+        "mode": "feature_based",
+        "univariate_only": false,
+        "min_history": 50,
+        "notes": "For time_series_forecasting, requires lag/rolling feature engineering in preprocessing. Marked unavailable until implemented."
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "ARIMA",
       "tier": "specialized",
+      "family": "ts_stats",
       "compatible_tasks": ["time_series_forecasting"],
       "requires_features": false,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "ARIMA",
-      "description": "Classical univariate time-series model. Strong baseline for single-series forecasting."
+      "description": "Classical univariate time-series model. Strong baseline for single-series forecasting.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": true,
+        "supports_multi_series": false,
+        "requires_time_col": true,
+        "requires_lag_features": false
+      },
+      "time_series": {
+        "mode": "native",
+        "univariate_only": true,
+        "min_history": 30,
+        "notes": "Univariate only; if multiple unique_id series exist, this is eligible only when the run contains exactly one series."
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "LSTM",
       "tier": "specialized",
+      "family": "ts_neural",
       "compatible_tasks": ["time_series_forecasting"],
       "requires_features": true,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "LSTM",
-      "description": "Recurrent neural network with long-range memory. CPU-feasible at small scale."
+      "description": "Recurrent neural network with long-range memory. CPU-feasible at small scale.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": true,
+        "supports_multi_series": true,
+        "requires_time_col": true,
+        "requires_lag_features": true
+      },
+      "time_series": {
+        "mode": "feature_based",
+        "univariate_only": false,
+        "min_history": 100,
+        "notes": "Assumes supervised framing using lagged windows. Treated as multi-horizon capable if implemented as seq2seq; otherwise recursive."
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     },
     {
       "name": "Chronos",
       "tier": "specialized",
+      "family": "ts_foundation",
       "compatible_tasks": ["time_series_forecasting"],
       "requires_features": false,
       "cpu_feasible": true,
-      "available": false,
+      "available": true,
       "registry_key": "Chronos",
-      "description": "Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering."
+      "description": "Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering.",
+      "io": {
+        "prediction_type_supported": ["point", "quantile"],
+        "supports_multi_horizon": true,
+        "supports_multi_series": true,
+        "requires_time_col": true,
+        "requires_lag_features": false
+      },
+      "time_series": {
+        "mode": "native",
+        "univariate_only": false,
+        "min_history": 64,
+        "notes": "Designed for long-format forecasting inputs. Preferred for probabilistic evaluation and ensembling."
+      },
+      "probabilistic": {
+        "native_quantiles": true,
+        "supported_quantiles": "any",
+        "default_quantiles": [0.1, 0.5, 0.9]
+      },
+      "foundation": {
+        "provider": "amazon",
+        "repo_id": "amazon/chronos-t5-tiny",
+        "device": "cpu"
+      }
     },
     {
       "name": "SVR",
       "tier": "classical",
+      "family": "tabular",
       "compatible_tasks": ["tabular_regression"],
       "requires_features": true,
       "cpu_feasible": true,
       "available": true,
       "registry_key": "SVR",
-      "description": "Support Vector Regression. Good for small-to-medium datasets with non-linear boundaries."
+      "description": "Support Vector Regression. Good for small-to-medium datasets with non-linear boundaries.",
+      "io": {
+        "prediction_type_supported": ["point"],
+        "supports_multi_horizon": false,
+        "supports_multi_series": true,
+        "requires_time_col": false,
+        "requires_lag_features": false
+      },
+      "probabilistic": {
+        "native_quantiles": false,
+        "supported_quantiles": null,
+        "default_quantiles": null
+      }
     }
   ]
 }

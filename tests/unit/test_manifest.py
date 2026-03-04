@@ -5,7 +5,7 @@ Covers:
 - Invalid inputs → expected exceptions
 - Boundary conditions (missing file, unsupported extension, etc.)
 - Stage isolation: update_stage must not touch other stages
-- Determinism: successive reads return identical results
+- Determinism: successive 
 """
 
 import json
