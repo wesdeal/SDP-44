@@ -1,144 +1,26 @@
-"""orchestrator.py — Skeleton pipeline orchestrator.
+"""orchestrator.py — Pipeline orchestrator.
 
 Public API
 ----------
 run_pipeline(input_file: str, config: dict) -> str
 
 This is the sole entry point for pipeline execution (IMPLEMENTATION_RULES.md §3).
-All stage coordination, manifest management, and artifact creation happen here.
-
-Phase 1.2 — stub stages only. No real agent imports or logic.
-Real agent calls replace stubs in Phase 7.4.
+All stage coordination happens here; agents are never called from each other.
 """
 
-import json
 import os
+from concurrent.futures import ThreadPoolExecutor
 
-from core.manifest import initialize_manifest, read_manifest, update_stage
+from core.manifest import initialize_manifest, read_manifest
 
-
-# ---------------------------------------------------------------------------
-# Internal path helpers (all paths derived from manifest_path, never hardcoded)
-# ---------------------------------------------------------------------------
-
-def _run_dir(manifest_path: str) -> str:
-    """Return the run directory (parent of job_manifest.json)."""
-    return os.path.dirname(os.path.abspath(manifest_path))
-
-
-def _artifacts_dir(manifest_path: str) -> str:
-    """Return the artifacts/ subdirectory for this run."""
-    return os.path.join(_run_dir(manifest_path), "artifacts")
-
-
-def _write_empty_json(path: str) -> None:
-    """Write an empty JSON object to *path*, creating parent dirs as needed."""
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump({}, f)
-
-
-def _write_empty_file(path: str) -> None:
-    """Write an empty file at *path*, creating parent dirs as needed."""
-    os.makedirs(os.path.dirname(path), exist_ok=True)
-    open(path, "w").close()
-
-
-# ---------------------------------------------------------------------------
-# Stub stages — inline placeholders, no real agent imports
-# Each stub writes placeholder artifacts and returns the artifacts dict.
-# ---------------------------------------------------------------------------
-
-def _stub_ingestion(manifest_path: str) -> dict:
-    arts = _artifacts_dir(manifest_path)
-    dataset_profile = os.path.join(arts, "dataset_profile.json")
-    _write_empty_json(dataset_profile)
-    return {"dataset_profile": dataset_profile}
-
-
-def _stub_problem_classification(manifest_path: str) -> dict:
-    arts = _artifacts_dir(manifest_path)
-    task_spec = os.path.join(arts, "task_spec.json")
-    _write_empty_json(task_spec)
-    return {"task_spec": task_spec}
-
-
-def _stub_preprocessing_planning(manifest_path: str) -> dict:
-    arts = _artifacts_dir(manifest_path)
-    preprocessing_plan = os.path.join(arts, "preprocessing_plan.json")
-    processed_data = os.path.join(arts, "processed_data.csv")
-    preprocessing_manifest = os.path.join(arts, "preprocessing_manifest.json")
-    _write_empty_json(preprocessing_plan)
-    _write_empty_file(processed_data)
-    _write_empty_json(preprocessing_manifest)
-    return {
-        "preprocessing_plan": preprocessing_plan,
-        "processed_data": processed_data,
-        "preprocessing_manifest": preprocessing_manifest,
-    }
-
-
-def _stub_evaluation_protocol(manifest_path: str) -> dict:
-    arts = _artifacts_dir(manifest_path)
-    eval_protocol = os.path.join(arts, "eval_protocol.json")
-    _write_empty_json(eval_protocol)
-    return {"eval_protocol": eval_protocol}
-
-
-def _stub_model_selection(manifest_path: str) -> dict:
-    arts = _artifacts_dir(manifest_path)
-    selected_models = os.path.join(arts, "selected_models.json")
-    _write_empty_json(selected_models)
-    return {"selected_models": selected_models}
-
-
-def _stub_training(manifest_path: str) -> dict:
-    arts = _artifacts_dir(manifest_path)
-    training_results = os.path.join(arts, "training_results.json")
-    trained_models = os.path.join(_run_dir(manifest_path), "trained_models")
-    _write_empty_json(training_results)
-    os.makedirs(trained_models, exist_ok=True)
-    return {
-        "training_results": training_results,
-        "trained_model_paths": trained_models,
-    }
-
-
-def _stub_evaluation(manifest_path: str) -> dict:
-    arts = _artifacts_dir(manifest_path)
-    evaluation_report = os.path.join(arts, "evaluation_report.json")
-    comparison_table = os.path.join(arts, "comparison_table.json")
-    plots_dir = os.path.join(_run_dir(manifest_path), "plots")
-    _write_empty_json(evaluation_report)
-    _write_empty_json(comparison_table)
-    os.makedirs(plots_dir, exist_ok=True)
-    return {
-        "evaluation_report": evaluation_report,
-        "comparison_table": comparison_table,
-        "plots_dir": plots_dir,
-    }
-
-
-def _stub_artifact_assembly(manifest_path: str) -> dict:
-    dashboard_dir = os.path.join(_run_dir(manifest_path), "dashboard")
-    os.makedirs(dashboard_dir, exist_ok=True)
-    return {"dashboard_bundle": dashboard_dir}
-
-
-# ---------------------------------------------------------------------------
-# Stage registry — canonical order (AGENT_ARCHITECTURE.md §5)
-# ---------------------------------------------------------------------------
-
-_STAGES = [
-    ("ingestion",               _stub_ingestion),
-    ("problem_classification",  _stub_problem_classification),
-    ("preprocessing_planning",  _stub_preprocessing_planning),
-    ("evaluation_protocol",     _stub_evaluation_protocol),
-    ("model_selection",         _stub_model_selection),
-    ("training",                _stub_training),
-    ("evaluation",              _stub_evaluation),
-    ("artifact_assembly",       _stub_artifact_assembly),
-]
+from agents.ingestion_agent import IngestionAgent
+from agents.problem_classification_agent import ProblemClassificationAgent
+from agents.preprocessing_planning_agent import PreprocessingPlanningAgent
+from agents.evaluation_protocol_agent import EvaluationProtocolAgent
+from agents.model_selection_agent import ModelSelectionAgent
+from agents.training_agent import TrainingAgent
+from agents.evaluation_agent import EvaluationAgent
+from agents.artifact_assembly_agent import ArtifactAssemblyAgent
 
 
 # ---------------------------------------------------------------------------
@@ -159,16 +41,96 @@ def run_pipeline(input_file: str, config: dict) -> str:
     # 1. Initialize manifest — generates run_id, writes job_manifest.json.
     manifest = initialize_manifest(input_file, config)
     run_id = manifest["run_id"]
-
     runs_dir = config.get("runs_dir", "runs")
     manifest_path = os.path.join(runs_dir, run_id, "job_manifest.json")
 
-    # 2. Execute each stub stage in canonical order: pending → running → completed.
-    for stage_name, stub_fn in _STAGES:
-        update_stage(manifest_path, stage_name, "running")
-        artifacts = stub_fn(manifest_path)
-        update_stage(manifest_path, stage_name, "completed", artifacts=artifacts)
+    # 2. Stage 1: Ingestion
+    IngestionAgent().run(manifest_path)
+    _require_completed(manifest_path, "ingestion")
 
-    # 3. Return the dashboard bundle path recorded by artifact_assembly.
+    # 3. Stage 2: Problem Classification
+    ProblemClassificationAgent().run(manifest_path)
+    _require_completed(manifest_path, "problem_classification")
+
+    # 4. Stages 3 & 4: Preprocessing Planning + Evaluation Protocol (parallel).
+    #    Both agents must reach "completed" before model_selection may start.
+    _run_parallel_pair(manifest_path)
+    _require_completed(manifest_path, "preprocessing_planning")
+    _require_completed(manifest_path, "evaluation_protocol")
+
+    # 5. Stage 5: Model Selection
+    ModelSelectionAgent().run(manifest_path)
+    _require_completed(manifest_path, "model_selection")
+
+    # 6. Stage 6: Training.
+    #    partial_failure (some models failed) does not raise — evaluation still runs.
+    #    A hard failure (all models failed) raises — skip evaluation, run assembly.
+    training_failed = False
+    try:
+        TrainingAgent().run(manifest_path)
+    except Exception:
+        training_failed = True
+
+    # 7. Stage 7: Evaluation.
+    #    Skipped only when training completely failed.
+    #    Any evaluation failure is non-fatal: artifact_assembly assembles whatever exists.
+    if not training_failed:
+        try:
+            EvaluationAgent().run(manifest_path)
+        except Exception:
+            pass
+
+    # 8. Stage 8: Artifact Assembly — always runs regardless of upstream failures.
+    ArtifactAssemblyAgent().run(manifest_path)
+
     final_manifest = read_manifest(manifest_path)
     return final_manifest["stages"]["artifact_assembly"]["artifacts"]["dashboard_bundle"]
+
+
+# ---------------------------------------------------------------------------
+# Internal helpers
+# ---------------------------------------------------------------------------
+
+def _require_completed(manifest_path: str, stage_name: str) -> None:
+    """Raise RuntimeError if the named stage did not reach 'completed' status.
+
+    Enforces the dependency gate: a downstream stage must not start until all
+    required upstream stages are confirmed completed in the manifest.
+    """
+    manifest = read_manifest(manifest_path)
+    status = manifest["stages"][stage_name]["status"]
+    if status != "completed":
+        error = manifest["stages"][stage_name].get("error") or ""
+        raise RuntimeError(
+            f"Stage '{stage_name}' did not complete (status={status!r}). {error}".strip()
+        )
+
+
+def _run_parallel_pair(manifest_path: str) -> None:
+    """Run preprocessing_planning and evaluation_protocol concurrently.
+
+    Both agents manage their own stage status transitions. Agent-level exceptions
+    are captured so both stages are allowed to finish before failure is surfaced.
+    If either agent fails its exception is re-raised after both futures settle.
+    """
+    exc_results: dict = {
+        "preprocessing_planning": None,
+        "evaluation_protocol": None,
+    }
+
+    def _run(agent, key: str) -> None:
+        try:
+            agent.run(manifest_path)
+        except Exception as exc:
+            exc_results[key] = exc
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        f3 = executor.submit(_run, PreprocessingPlanningAgent(), "preprocessing_planning")
+        f4 = executor.submit(_run, EvaluationProtocolAgent(), "evaluation_protocol")
+        f3.result()  # propagate scheduling-level errors from the executor itself
+        f4.result()
+
+    # Surface agent-level failures after both stages have settled.
+    for exc in exc_results.values():
+        if exc is not None:
+            raise exc

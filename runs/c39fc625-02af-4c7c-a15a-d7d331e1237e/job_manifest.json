@@ -1,0 +1,83 @@
+{
+  "run_id": "c39fc625-02af-4c7c-a15a-d7d331e1237e",
+  "created_at": "2026-03-24T15:39:45.192072+00:00",
+  "updated_at": "2026-03-24T15:39:45.205987+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/AirPassengers.csv",
+    "file_format": "csv",
+    "original_filename": "AirPassengers.csv"
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-03-24T15:39:45.193138+00:00",
+      "completed_at": "2026-03-24T15:39:45.198985+00:00",
+      "artifacts": {
+        "dataset_profile": "/Users/wesdeal/Desktop/Pipeline/runs/c39fc625-02af-4c7c-a15a-d7d331e1237e/artifacts/dataset_profile.json"
+      },
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-03-24T15:39:45.199440+00:00",
+      "completed_at": "2026-03-24T15:39:45.200281+00:00",
+      "artifacts": {
+        "task_spec": "/Users/wesdeal/Desktop/Pipeline/runs/c39fc625-02af-4c7c-a15a-d7d331e1237e/artifacts/task_spec.json"
+      },
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-03-24T15:39:45.202398+00:00",
+      "completed_at": "2026-03-24T15:39:45.205987+00:00",
+      "artifacts": {
+        "preprocessing_plan": "/Users/wesdeal/Desktop/Pipeline/runs/c39fc625-02af-4c7c-a15a-d7d331e1237e/artifacts/preprocessing_plan.json",
+        "processed_data": "/Users/wesdeal/Desktop/Pipeline/runs/c39fc625-02af-4c7c-a15a-d7d331e1237e/artifacts/processed_data.csv",
+        "preprocessing_manifest": "/Users/wesdeal/Desktop/Pipeline/runs/c39fc625-02af-4c7c-a15a-d7d331e1237e/artifacts/preprocessing_manifest.json"
+      },
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "model_selection": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "training": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "evaluation": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    }
+  },
+  "config": {
+    "runs_dir": "runs",
+    "random_seed": 42,
+    "tune_hyperparameters": false,
+    "forecast_horizon": 10
+  }
+}

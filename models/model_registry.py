@@ -7,6 +7,10 @@ from typing import Dict, Type
 from .base_model import BaseModel
 from .tree_based.xgboost_model import XGBoostModel
 from .tree_based.random_forest_model import RandomForestModel
+from .dummy.dummy_model import DummyRegressorModel, DummyClassifierModel
+from .linear.linear_model import LinearModel
+from .tabular.svr_model import SVRModel
+from .time_series.arima_model import ARIMAModel
 
 # Try to import Chronos (optional dependency)
 try:
@@ -31,9 +35,12 @@ class ModelRegistry:
     _registry: Dict[str, Type[BaseModel]] = {
         'XGBoost': XGBoostModel,
         'RandomForest': RandomForestModel,
-        # Add LSTM and ARIMA when implemented
-        # 'LSTM': LSTMModel,
-        # 'ARIMA': ARIMAModel,
+        'DummyRegressor': DummyRegressorModel,
+        'DummyClassifier': DummyClassifierModel,
+        'LinearModel': LinearModel,
+        'SVR': SVRModel,
+        'ARIMA': ARIMAModel,
+        # 'LSTM': LSTMModel,  # Add when implemented
     }
 
     # Add Chronos if available

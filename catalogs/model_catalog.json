@@ -221,8 +221,8 @@
       "family": "ts_foundation",
       "compatible_tasks": ["time_series_forecasting"],
       "requires_features": false,
-      "cpu_feasible": true,
-      "available": true,
+      "cpu_feasible": false,
+      "available": false,
       "registry_key": "Chronos",
       "description": "Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering.",
       "io": {
@@ -251,7 +251,7 @@
     },
     {
       "name": "SVR",
-      "tier": "classical",
+      "tier": "specialized",
       "family": "tabular",
       "compatible_tasks": ["tabular_regression"],
       "requires_features": true,

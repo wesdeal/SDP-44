@@ -2,15 +2,32 @@
 Hyperparameter Tuner - Automatic hyperparameter optimization using Optuna
 """
 
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 import optuna
-from sklearn.metrics import mean_squared_error
 import numpy as np
 from pathlib import Path
 import sys
 sys.path.append(str(Path(__file__).parent))
+sys.path.append(str(Path(__file__).parent.parent))
 
 from .model_registry import ModelRegistry
+from core.metric_engine import compute_all
+
+# Optimization direction per metric, derived from evaluation_protocol_agent._METRIC_CATALOG.
+# True = higher is better (maximize); False = lower is better (minimize).
+_METRIC_HIGHER_IS_BETTER: Dict[str, bool] = {
+    "rmse": False,
+    "mae": False,
+    "mape": False,
+    "smape": False,
+    "pinball_loss": False,
+    "interval_width_80": False,
+    "r2": True,
+    "accuracy": True,
+    "f1_weighted": True,
+    "roc_auc": True,
+    "coverage_80": True,
+}
 
 
 class HyperparameterTuner:
@@ -21,18 +38,31 @@ class HyperparameterTuner:
     intelligently search the hyperparameter space.
     """
 
-    def __init__(self, model_name: str, data_splits: Dict, n_trials: int = 50):
+    def __init__(
+        self,
+        model_name: str,
+        data_splits: Dict,
+        n_trials: int = 50,
+        primary_metric: str = "rmse",
+        task_type: Optional[str] = None,
+    ):
         """
         Args:
             model_name: Which model to tune (e.g., "XGBoost")
             data_splits: Dict with train/val/test data
             n_trials: Number of trials to run
+            primary_metric: Metric name from eval_protocol.json (e.g. "rmse", "roc_auc")
+            task_type: Pipeline task type; required when tuning LinearModel
         """
         self.model_name = model_name
         self.data_splits = data_splits
         self.n_trials = n_trials
+        self.primary_metric = primary_metric
+        self.task_type = task_type
         self.best_params = None
-        self.best_score = float('inf')
+        self.best_score = None
+        higher_is_better = _METRIC_HIGHER_IS_BETTER.get(primary_metric, False)
+        self._direction = "maximize" if higher_is_better else "minimize"
 
     def tune(self) -> Dict[str, Any]:
         """
@@ -45,7 +75,7 @@ class HyperparameterTuner:
 
         # Create optimization study
         study = optuna.create_study(
-            direction='minimize',  # Minimize validation RMSE
+            direction=self._direction,
             sampler=optuna.samplers.TPESampler(seed=42)
         )
 
@@ -61,7 +91,7 @@ class HyperparameterTuner:
         self.best_params = study.best_params
         self.best_score = study.best_value
 
-        print(f"  ✓ Best validation RMSE: {self.best_score:.4f}")
+        print(f"  ✓ Best validation {self.primary_metric}: {self.best_score:.4f}")
         print(f"  ✓ Best params: {self.best_params}")
 
         return self.best_params
@@ -74,7 +104,7 @@ class HyperparameterTuner:
             trial: Optuna trial object
 
         Returns:
-            Validation RMSE (lower is better)
+            Validation metric value (direction determined by primary_metric)
         """
         # Get hyperparameters for this trial
         hyperparameters = self._get_search_space(trial)
@@ -91,19 +121,22 @@ class HyperparameterTuner:
                 self.data_splits['y_val']
             )
 
-            # Evaluate on validation set
+            # Evaluate on validation set using primary_metric
             y_val_pred = model.predict(self.data_splits['X_val'])
-            val_rmse = np.sqrt(mean_squared_error(
+            metrics = compute_all(
                 self.data_splits['y_val'],
-                y_val_pred
-            ))
-
-            return val_rmse
+                y_val_pred,
+                [self.primary_metric],
+            )
+            score = metrics.get(self.primary_metric)
+            if score is None:
+                return float('inf') if self._direction == "minimize" else float('-inf')
+            return score
 
         except Exception as e:
-            # If training fails, return large penalty
+            # If training fails, return sentinel penalty in the worst direction
             print(f"    Trial failed: {e}")
-            return float('inf')
+            return float('inf') if self._direction == "minimize" else float('-inf')
 
     def _get_search_space(self, trial: optuna.Trial) -> Dict:
         """
@@ -148,6 +181,38 @@ class HyperparameterTuner:
                 'temperature': trial.suggest_float('temperature', 0.5, 1.5),
                 'top_k': trial.suggest_int('top_k', 20, 100),
                 'top_p': trial.suggest_float('top_p', 0.8, 1.0)
+            }
+
+        elif self.model_name == 'LinearModel':
+            # task_type is a required fixed parameter (not tuned); default to regression
+            task_type = self.task_type or "tabular_regression"
+            if task_type == "tabular_regression":
+                return {
+                    'task_type': task_type,
+                    'alpha': trial.suggest_float('alpha', 1e-4, 100.0, log=True),
+                    'random_state': 42,
+                }
+            else:  # tabular_classification
+                return {
+                    'task_type': task_type,
+                    'C': trial.suggest_float('C', 1e-4, 100.0, log=True),
+                    'max_iter': trial.suggest_int('max_iter', 100, 2000),
+                    'random_state': 42,
+                }
+
+        elif self.model_name == 'SVR':
+            return {
+                'C': trial.suggest_float('C', 1e-2, 1e3, log=True),
+                'epsilon': trial.suggest_float('epsilon', 1e-3, 1.0, log=True),
+                'kernel': trial.suggest_categorical('kernel', ['rbf', 'linear']),
+                'gamma': trial.suggest_categorical('gamma', ['scale', 'auto']),
+            }
+
+        elif self.model_name == 'DummyRegressor':
+            # strategy is the only meaningful hyperparameter for DummyRegressor
+            return {
+                'strategy': trial.suggest_categorical('strategy', ['mean', 'median']),
+                'random_state': 42,
             }
 
         else:

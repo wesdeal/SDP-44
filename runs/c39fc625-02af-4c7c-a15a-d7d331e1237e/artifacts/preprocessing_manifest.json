@@ -1,0 +1,32 @@
+{
+  "run_id": "c39fc625-02af-4c7c-a15a-d7d331e1237e",
+  "steps_applied": [
+    {
+      "order": 1,
+      "method": "imputation",
+      "parameters_used": {
+        "strategy": "mean"
+      },
+      "fitted_params": {},
+      "rows_before": 144,
+      "rows_after": 144,
+      "columns_affected": []
+    },
+    {
+      "order": 2,
+      "method": "z_norm",
+      "parameters_used": {},
+      "fitted_params": {},
+      "rows_before": 144,
+      "rows_after": 144,
+      "columns_affected": []
+    }
+  ],
+  "final_shape": {
+    "rows": 144,
+    "cols": 2
+  },
+  "feature_columns": [],
+  "target_column": "#Passengers",
+  "time_column": "Month"
+}
