@@ -1,0 +1,25 @@
+{
+  "model_name": "DummyRegressor",
+  "tier": "baseline",
+  "task_type": "time_series_forecasting",
+  "rationale_for_selection": "Baseline slot for time_series_forecasting: Predicts the training set mean. Required baseline for regression tasks.",
+  "hyperparameters": {
+    "task_type": "time_series_forecasting"
+  },
+  "hyperparameter_source": "default",
+  "training_duration_seconds": 0.0019,
+  "metrics": {
+    "primary_metric_name": "mae",
+    "primary_metric_value": 8.576839629965447,
+    "all_metrics": {
+      "rmse": 9.240041763440333,
+      "mae": 8.576839629965447,
+      "mape": 1.9448804337277763,
+      "smape": 0.7728454629844705
+    }
+  },
+  "rank": 2,
+  "is_recommended": false,
+  "plot_path": "plots/DummyRegressor_eval.png",
+  "trained_model_path": "../trained_models/DummyRegressor"
+}

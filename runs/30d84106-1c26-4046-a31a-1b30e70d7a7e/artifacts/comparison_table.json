@@ -1,0 +1,32 @@
+{
+  "run_id": "30d84106-1c26-4046-a31a-1b30e70d7a7e",
+  "ranked_by": "mae",
+  "ranking": [
+    {
+      "rank": 1,
+      "model_name": "ARIMA",
+      "tier": "specialized",
+      "primary_metric_value": 104.25605589397817,
+      "is_best": true,
+      "all_metrics": {
+        "rmse": 127.37992008904725,
+        "mae": 104.25605589397817,
+        "mape": 0.21580640000603352,
+        "smape": 0.25197191836285404
+      }
+    },
+    {
+      "rank": 2,
+      "model_name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 223.41419354838715,
+      "is_best": false,
+      "all_metrics": {
+        "rmse": 236.02162131684514,
+        "mae": 223.41419354838715,
+        "mape": 0.4914664724179969,
+        "smape": 0.6598895982726526
+      }
+    }
+  ]
+}

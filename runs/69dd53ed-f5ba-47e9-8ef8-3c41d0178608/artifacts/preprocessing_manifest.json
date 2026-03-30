@@ -1,0 +1,71 @@
+{
+  "run_id": "69dd53ed-f5ba-47e9-8ef8-3c41d0178608",
+  "steps_applied": [
+    {
+      "order": 1,
+      "method": "imputation",
+      "parameters_used": {
+        "strategy": "mean"
+      },
+      "fitted_params": {},
+      "rows_before": 17420,
+      "rows_after": 17420,
+      "columns_affected": []
+    },
+    {
+      "order": 2,
+      "method": "z_norm",
+      "parameters_used": {},
+      "fitted_params": {
+        "HUFL": {
+          "mean": 7.375141332557705,
+          "std": 7.067541093131278
+        },
+        "HULL": {
+          "mean": 2.2422424215417096,
+          "std": 2.042283685577753
+        },
+        "MUFL": {
+          "mean": 4.300239086766587,
+          "std": 6.826782257343103
+        },
+        "MULL": {
+          "mean": 0.8815677387633465,
+          "std": 1.8092415392851546
+        },
+        "LUFL": {
+          "mean": 3.0660619981835002,
+          "std": 1.164472527511968
+        },
+        "LULL": {
+          "mean": 0.856932145499343,
+          "std": 0.5995346203442732
+        }
+      },
+      "rows_before": 17420,
+      "rows_after": 17420,
+      "columns_affected": [
+        "HUFL",
+        "HULL",
+        "MUFL",
+        "MULL",
+        "LUFL",
+        "LULL"
+      ]
+    }
+  ],
+  "final_shape": {
+    "rows": 17420,
+    "cols": 8
+  },
+  "feature_columns": [
+    "HUFL",
+    "HULL",
+    "MUFL",
+    "MULL",
+    "LUFL",
+    "LULL"
+  ],
+  "target_column": "OT",
+  "time_column": "date"
+}

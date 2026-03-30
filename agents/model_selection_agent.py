@@ -108,6 +108,7 @@ def _select_models(
         )
 
     registry_keys_available = set(ModelRegistry.list_available_models())
+    is_multivariate_ts = task_spec.get("is_multivariate_ts", False)
 
     # Build per-tier sets of available registry keys and rejection log
     available_by_tier: dict[str, set] = {t: set() for t in _TIERS}
@@ -146,6 +147,18 @@ def _select_models(
             })
             continue
 
+        # Reject univariate-only models when the dataset is multivariate.
+        ts_config = m.get("time_series", {})
+        if is_multivariate_ts and ts_config.get("univariate_only", False):
+            models_rejected.append({
+                "name": name,
+                "rejection_reason": (
+                    "univariate_only=true but task has is_multivariate_ts=true; "
+                    "model cannot exploit multivariate features."
+                ),
+            })
+            continue
+
         models_considered.append(name)
         if tier in available_by_tier:
             available_by_tier[tier].add(registry_key)
@@ -165,17 +178,41 @@ def _select_models(
                 chosen = key
                 break
 
+        # Cross-tier fallback: when no model in this tier's catalog slot is
+        # available (e.g. all specialized models are unavailable or rejected),
+        # pick the first unused model from any other tier's available set.
+        # This prevents MODEL_POOL_INSUFFICIENT when e.g. univariate models are
+        # rejected for a multivariate dataset and the specialized pool is empty.
+        cross_tier_substitution = False
+        if chosen is None:
+            for fallback_tier in _TIERS:
+                if fallback_tier == tier:
+                    continue
+                for fallback_pref_list in [preferences.get(fallback_tier, [])]:
+                    for key in fallback_pref_list:
+                        if key in available_by_tier[fallback_tier] and key not in selected_names:
+                            chosen = key
+                            cross_tier_substitution = True
+                            break
+                if cross_tier_substitution:
+                    break
+
         if chosen is None:
             raise ValueError(
                 f"MODEL_POOL_INSUFFICIENT: No {tier} model available for "
-                f"task_type={task_type!r}. "
+                f"task_type={task_type!r} (including cross-tier fallback). "
                 f"Available {tier} candidates: {sorted(available_by_tier[tier])}. "
                 f"Preference order: {pref_list}. "
                 "Ensure at least one model per tier is implemented and registered."
             )
 
         if chosen != preferred:
-            if preferred not in available_by_tier[tier]:
+            if cross_tier_substitution:
+                substitution_reason = (
+                    f"No {tier}-tier model available for task_type={task_type!r} "
+                    f"(all rejected or unavailable); cross-tier fallback to {chosen!r}."
+                )
+            elif preferred not in available_by_tier[tier]:
                 substitution_reason = (
                     f"Preferred model {preferred!r} is not available in the registry "
                     f"or catalog for task_type={task_type!r}; substituted with {chosen!r}."

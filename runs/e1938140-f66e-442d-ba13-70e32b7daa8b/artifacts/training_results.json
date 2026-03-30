@@ -1,0 +1,62 @@
+{
+  "run_id": "e1938140-f66e-442d-ba13-70e32b7daa8b",
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "success",
+      "hyperparameters": {
+        "task_type": "time_series_forecasting"
+      },
+      "hyperparameter_source": "default",
+      "best_val_score": 153.33230769230764,
+      "training_duration_seconds": 0.0014,
+      "training_history": {
+        "training_time": 0.0004611015319824219
+      },
+      "model_path": "/Users/wesdeal/Desktop/Pipeline/runs/e1938140-f66e-442d-ba13-70e32b7daa8b/trained_models/DummyRegressor",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "failed",
+      "hyperparameters": {},
+      "hyperparameter_source": "default",
+      "best_val_score": null,
+      "training_duration_seconds": 0.0012,
+      "training_history": {},
+      "model_path": "/Users/wesdeal/Desktop/Pipeline/runs/e1938140-f66e-442d-ba13-70e32b7daa8b/trained_models/XGBoost",
+      "error": "list index out of range"
+    },
+    {
+      "name": "ARIMA",
+      "tier": "specialized",
+      "status": "success",
+      "hyperparameters": {
+        "task_type": "time_series_forecasting"
+      },
+      "hyperparameter_source": "default",
+      "best_val_score": 41.45829344142362,
+      "training_duration_seconds": 0.2245,
+      "training_history": {
+        "order": [
+          1,
+          1,
+          1
+        ],
+        "aic": 898.9105789419419
+      },
+      "model_path": "/Users/wesdeal/Desktop/Pipeline/runs/e1938140-f66e-442d-ba13-70e32b7daa8b/trained_models/ARIMA",
+      "error": null
+    }
+  ],
+  "split_info": {
+    "strategy": "chronological",
+    "n_train": 100,
+    "n_val": 13,
+    "n_test": 31
+  },
+  "feature_columns": [],
+  "target_column": "#Passengers"
+}

@@ -1,0 +1,53 @@
+{
+  "run_id": "69dd53ed-f5ba-47e9-8ef8-3c41d0178608",
+  "primary_metric": "mae",
+  "test_split_size": 3484,
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 9.240041763440333,
+        "mae": 8.576839629965447,
+        "mape": 1.9448804337277763,
+        "smape": 0.7728454629844705
+      },
+      "n_test_samples": 3484,
+      "inference_time_ms": 0.105,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/69dd53ed-f5ba-47e9-8ef8-3c41d0178608/plots/DummyRegressor_eval.png",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 11.296842820762834,
+        "mae": 9.684882110410319,
+        "mape": 1.9864822044046888,
+        "smape": 0.7868417191636444
+      },
+      "n_test_samples": 3484,
+      "inference_time_ms": 2.022,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/69dd53ed-f5ba-47e9-8ef8-3c41d0178608/plots/XGBoost_eval.png",
+      "error": null
+    },
+    {
+      "name": "ARIMA",
+      "tier": "specialized",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 4.3949922863794555,
+        "mae": 3.6427834019100964,
+        "mape": 0.5357133218951378,
+        "smape": 0.5426116633763862
+      },
+      "n_test_samples": 3484,
+      "inference_time_ms": 37.431,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/69dd53ed-f5ba-47e9-8ef8-3c41d0178608/plots/ARIMA_eval.png",
+      "error": null
+    }
+  ],
+  "evaluated_at": "2026-03-30T21:33:03.623655+00:00"
+}

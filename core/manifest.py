@@ -9,8 +9,14 @@ Schema authority: AGENT_ARCHITECTURE.md §2.
 import json
 import os
 import tempfile
+import threading
 import uuid
 from datetime import datetime, timezone
+
+# Protects the read-modify-write cycle in update_stage against concurrent
+# access from threads (e.g., the parallel preprocessing_planning +
+# evaluation_protocol pair in orchestrator._run_parallel_pair).
+_manifest_lock = threading.Lock()
 
 # Canonical stage order — must match AGENT_ARCHITECTURE.md §5.
 _STAGE_NAMES = [
@@ -177,30 +183,31 @@ def update_stage(
             f"Invalid status {status!r}. Must be one of {sorted(_VALID_STATUSES)}"
         )
 
-    manifest = read_manifest(manifest_path)
+    with _manifest_lock:
+        manifest = read_manifest(manifest_path)
 
-    if stage_name not in manifest["stages"]:
-        raise KeyError(f"Stage {stage_name!r} not found in manifest")
+        if stage_name not in manifest["stages"]:
+            raise KeyError(f"Stage {stage_name!r} not found in manifest")
 
-    now = _now_iso()
-    stage = manifest["stages"][stage_name]
+        now = _now_iso()
+        stage = manifest["stages"][stage_name]
 
-    stage["status"] = status
+        stage["status"] = status
 
-    if status == "running":
-        stage["started_at"] = now
-    elif status in ("completed", "failed", "partial_failure"):
-        stage["completed_at"] = now
+        if status == "running":
+            stage["started_at"] = now
+        elif status in ("completed", "failed", "partial_failure"):
+            stage["completed_at"] = now
 
-    if artifacts is not None:
-        stage["artifacts"] = artifacts
+        if artifacts is not None:
+            stage["artifacts"] = artifacts
 
-    if error is not None:
-        stage["error"] = error
+        if error is not None:
+            stage["error"] = error
 
-    manifest["updated_at"] = now
+        manifest["updated_at"] = now
 
-    _write_atomically(manifest_path, manifest)
+        _write_atomically(manifest_path, manifest)
 
 
 def read_manifest(manifest_path: str) -> dict:

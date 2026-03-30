@@ -1,0 +1,17 @@
+{
+  "run_id": "b031ae80-a733-4a07-a1d6-8421d312f93f",
+  "task_type": "time_series_forecasting",
+  "modality": "time_series",
+  "target_col": "#Passengers",
+  "target_dtype": "numeric",
+  "target_cardinality": 118,
+  "time_col": "Month",
+  "group_col": null,
+  "forecast_horizon": 10,
+  "is_multivariate_ts": false,
+  "classification_subtype": null,
+  "regression_subtype": "count",
+  "task_confidence": "high",
+  "task_reasoning": "Datetime column 'Month' is monotonically increasing and target '#Passengers' is numeric \u2192 time_series_forecasting.",
+  "warnings": []
+}

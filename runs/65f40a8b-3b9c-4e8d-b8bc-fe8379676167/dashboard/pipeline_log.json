@@ -1,0 +1,63 @@
+{
+  "run_id": "65f40a8b-3b9c-4e8d-b8bc-fe8379676167",
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:51.369707+00:00",
+      "completed_at": "2026-03-24T16:13:51.375689+00:00",
+      "duration_seconds": 0.006,
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:51.376183+00:00",
+      "completed_at": "2026-03-24T16:13:51.377081+00:00",
+      "duration_seconds": 0.001,
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:51.378965+00:00",
+      "completed_at": "2026-03-24T16:13:51.382691+00:00",
+      "duration_seconds": 0.004,
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:51.378369+00:00",
+      "completed_at": "2026-03-24T16:13:51.379731+00:00",
+      "duration_seconds": 0.001,
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:51.383290+00:00",
+      "completed_at": "2026-03-24T16:13:51.384292+00:00",
+      "duration_seconds": 0.001,
+      "error": null
+    },
+    "training": {
+      "status": "partial_failure",
+      "started_at": "2026-03-24T16:13:51.384708+00:00",
+      "completed_at": "2026-03-24T16:13:51.658436+00:00",
+      "duration_seconds": 0.274,
+      "error": null
+    },
+    "evaluation": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:51.659235+00:00",
+      "completed_at": "2026-03-24T16:13:52.147904+00:00",
+      "duration_seconds": 0.489,
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-03-24T16:13:52.148527+00:00",
+      "completed_at": null,
+      "duration_seconds": null,
+      "error": null
+    }
+  },
+  "missing_artifacts": [],
+  "assembled_at": "2026-03-24T16:13:52.193302+00:00"
+}

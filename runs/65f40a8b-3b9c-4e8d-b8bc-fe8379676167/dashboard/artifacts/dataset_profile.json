@@ -1,0 +1,70 @@
+{
+  "run_id": "65f40a8b-3b9c-4e8d-b8bc-fe8379676167",
+  "dataset_name": "AirPassengers.csv",
+  "file_format": "csv",
+  "num_rows": 144,
+  "num_columns": 2,
+  "columns": [
+    {
+      "name": "Month",
+      "dtype_pandas": "object",
+      "inferred_type": "datetime",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 144,
+      "sample_values": [
+        "1949-01",
+        "1949-02",
+        "1949-03",
+        "1949-04",
+        "1949-05"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": true,
+      "is_monotonically_increasing": true
+    },
+    {
+      "name": "#Passengers",
+      "dtype_pandas": "int64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 118,
+      "sample_values": [
+        112,
+        118,
+        132,
+        129,
+        121
+      ],
+      "min": 104.0,
+      "max": 622.0,
+      "mean": 280.2986111111111,
+      "std": 119.9663169429432,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    }
+  ],
+  "has_header": true,
+  "detected_datetime_columns": [
+    "Month"
+  ],
+  "llm_analysis": {
+    "dataset_description": "Heuristic-only mode: LLM analysis unavailable.",
+    "suggested_target_variable": "#Passengers",
+    "target_confidence": "low",
+    "target_reasoning": "Heuristic-only mode (no LLM): last numeric column selected as candidate target.",
+    "known_quality_issues": [],
+    "has_trend": false,
+    "has_seasonality": false,
+    "is_multivariate": false,
+    "data_source_hint": "unknown",
+    "ingestion_date": "2026-03-24"
+  },
+  "profiling_completed_at": "2026-03-24T16:13:51.375154+00:00"
+}

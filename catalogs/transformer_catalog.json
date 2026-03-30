@@ -8,6 +8,8 @@
     { "name": "detrend", "allowed_modalities": ["time_series"], "params": ["type"] },
     { "name": "differencing", "allowed_modalities": ["time_series"], "params": [] },
     { "name": "smoothing", "allowed_modalities": ["time_series"], "params": ["window"] },
+    { "name": "lag_features", "allowed_modalities": ["time_series"], "params": ["lags", "include_target_lags", "target_col"] },
+    { "name": "rolling_stats", "allowed_modalities": ["time_series"], "params": ["window", "include_target_lags", "target_col"] },
     { "name": "label_encode", "allowed_modalities": ["tabular_iid", "grouped_tabular"], "params": [] },
     { "name": "onehot_encode", "allowed_modalities": ["tabular_iid", "grouped_tabular"], "params": ["max_cardinality"] }
   ]

@@ -1,0 +1,53 @@
+{
+  "run_id": "31fa75d5-9f40-4562-9550-6415b9b202b8",
+  "primary_metric": "mae",
+  "test_split_size": 31,
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 236.02162131684514,
+        "mae": 223.41419354838715,
+        "mape": 0.4914664724179969,
+        "smape": 0.6598895982726526
+      },
+      "n_test_samples": 31,
+      "inference_time_ms": 0.08,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/31fa75d5-9f40-4562-9550-6415b9b202b8/plots/DummyRegressor_eval.png",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "failed",
+      "metrics": {
+        "rmse": null,
+        "mae": null,
+        "mape": null,
+        "smape": null
+      },
+      "n_test_samples": 31,
+      "inference_time_ms": null,
+      "plot_path": null,
+      "error": "Skipped: training status was 'failed'"
+    },
+    {
+      "name": "ARIMA",
+      "tier": "specialized",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 127.37992008904725,
+        "mae": 104.25605589397817,
+        "mape": 0.21580640000603352,
+        "smape": 0.25197191836285404
+      },
+      "n_test_samples": 31,
+      "inference_time_ms": 1.236,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/31fa75d5-9f40-4562-9550-6415b9b202b8/plots/ARIMA_eval.png",
+      "error": null
+    }
+  ],
+  "evaluated_at": "2026-03-24T16:11:53.096584+00:00"
+}

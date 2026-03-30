@@ -1,0 +1,67 @@
+{
+  "run_id": "30d84106-1c26-4046-a31a-1b30e70d7a7e",
+  "created_at": "2026-03-24T16:13:55.563790+00:00",
+  "assembled_at": "2026-03-24T16:13:56.305657+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/AirPassengers.csv",
+    "file_format": "csv",
+    "original_filename": "AirPassengers.csv"
+  },
+  "config": {
+    "runs_dir": "runs",
+    "random_seed": 42,
+    "tune_hyperparameters": false,
+    "forecast_horizon": 10
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:55.564821+00:00",
+      "completed_at": "2026-03-24T16:13:55.570592+00:00",
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:55.571066+00:00",
+      "completed_at": "2026-03-24T16:13:55.571836+00:00",
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:55.574115+00:00",
+      "completed_at": "2026-03-24T16:13:55.577435+00:00",
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:55.573370+00:00",
+      "completed_at": "2026-03-24T16:13:55.575047+00:00",
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:55.578017+00:00",
+      "completed_at": "2026-03-24T16:13:55.578978+00:00",
+      "error": null
+    },
+    "training": {
+      "status": "partial_failure",
+      "started_at": "2026-03-24T16:13:55.579432+00:00",
+      "completed_at": "2026-03-24T16:13:55.817167+00:00",
+      "error": null
+    },
+    "evaluation": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:13:55.817789+00:00",
+      "completed_at": "2026-03-24T16:13:56.304079+00:00",
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-03-24T16:13:56.304773+00:00",
+      "completed_at": null,
+      "error": null
+    }
+  }
+}

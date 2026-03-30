@@ -100,7 +100,7 @@ def _build_plan(dataset_profile: dict, task_spec: dict, run_id: str) -> dict:
         pass  # Any failure in LLM path → fall through to heuristic.
 
     if plan is None:
-        plan = _heuristic_fallback_plan(run_id, task_spec)
+        plan = _heuristic_fallback_plan(run_id, task_spec, dataset_profile)
 
     return plan
 
@@ -289,42 +289,129 @@ def _validate_llm_plan(
     }
 
 
-def _heuristic_fallback_plan(run_id: str, task_spec: dict) -> dict:
+def _heuristic_fallback_plan(
+    run_id: str, task_spec: dict, dataset_profile: dict = None
+) -> dict:
     """Return the minimal safe heuristic preprocessing plan.
 
-    Architecture-specified fallback: imputation → z_norm for numeric features.
-    Both methods are allowed for all three modalities (tabular_iid,
-    time_series, grouped_tabular).
+    For ``time_series`` modality, builds a richer plan that includes lag
+    features and rolling statistics so that tree-based models (XGBoost,
+    RandomForest) receive meaningful temporal features.  Rolling/lag steps
+    are applied to the known original feature columns (derived from
+    dataset_profile) to avoid feature explosion from chained transforms.
+
+    For other modalities: imputation → z_norm (unchanged from prior behaviour).
 
     ``plan_source`` is set to ``"heuristic_fallback"``.
     """
     modality = task_spec["modality"]
     time_col = task_spec.get("time_col")
     group_col = task_spec.get("group_col")
+    target_col = task_spec.get("target_col")
 
     exclude = [c for c in [time_col, group_col] if c]
 
+    if modality != "time_series":
+        return {
+            "run_id": run_id,
+            "steps": [
+                {
+                    "order": 1,
+                    "method": "imputation",
+                    "parameters": {"strategy": "mean"},
+                    "applies_to": "features_only",
+                    "reason": "Fill missing values before normalization.",
+                    "skip_columns": [],
+                },
+                {
+                    "order": 2,
+                    "method": "z_norm",
+                    "parameters": {},
+                    "applies_to": "all_numeric",
+                    "reason": "Standardize numeric features to zero mean and unit variance.",
+                    "skip_columns": [],
+                },
+            ],
+            "preserve_temporal_order": False,
+            "exclude_columns_from_features": exclude,
+            "plan_source": "heuristic_fallback",
+        }
+
+    # --- Time-series specific plan ---
+    # Derive the original numeric feature column names from the dataset profile
+    # so that rolling_stats and lag_features apply only to the original columns,
+    # avoiding the quadratic feature explosion that would occur if rolling/lag
+    # transforms were applied to each other's output columns.
+    always_excluded = {c for c in [time_col, group_col, target_col] if c}
+    original_feature_cols: list = []
+    if dataset_profile is not None:
+        for col_info in dataset_profile.get("columns", []):
+            name = col_info.get("name", "")
+            if (
+                col_info.get("inferred_type") == "numeric"
+                and name not in always_excluded
+            ):
+                original_feature_cols.append(name)
+
+    # Fall back to "features_only" keyword when profile is unavailable.
+    applies_to_features = original_feature_cols if original_feature_cols else "features_only"
+
+    steps = [
+        {
+            "order": 1,
+            "method": "imputation",
+            "parameters": {"strategy": "mean"},
+            "applies_to": "features_only",
+            "reason": "Fill missing values before feature engineering.",
+            "skip_columns": [],
+        },
+        {
+            "order": 2,
+            "method": "rolling_stats",
+            "parameters": {
+                "window": 24,
+                "include_target_lags": False,
+                "target_col": target_col,
+            },
+            "applies_to": applies_to_features,
+            "reason": (
+                "Rolling mean/std (24-step window) on original features to capture "
+                "local trends without leaking from the target."
+            ),
+            "skip_columns": [],
+        },
+        {
+            "order": 3,
+            "method": "lag_features",
+            "parameters": {
+                "lags": [1, 2, 3, 6, 24],
+                "include_target_lags": True,
+                "target_col": target_col,
+            },
+            "applies_to": applies_to_features,
+            "reason": (
+                "Lag features (1, 2, 3, 6, 24 steps) on original features plus "
+                "target lags so tree-based models can learn temporal dynamics."
+            ),
+            "skip_columns": [],
+        },
+        {
+            "order": 4,
+            "method": "z_norm",
+            "parameters": {},
+            "applies_to": "all_numeric",
+            "reason": (
+                "Standardize all numeric columns (original + rolling + lag) "
+                "to zero mean and unit variance."
+            ),
+            "skip_columns": [],
+        },
+    ]
+
     return {
         "run_id": run_id,
-        "steps": [
-            {
-                "order": 1,
-                "method": "imputation",
-                "parameters": {"strategy": "mean"},
-                "applies_to": "features_only",
-                "reason": "Fill missing values before normalization.",
-                "skip_columns": [],
-            },
-            {
-                "order": 2,
-                "method": "z_norm",
-                "parameters": {},
-                "applies_to": "all_numeric",
-                "reason": "Standardize numeric features to zero mean and unit variance.",
-                "skip_columns": [],
-            },
-        ],
-        "preserve_temporal_order": modality == "time_series",
+        "steps": steps,
+        "preserve_temporal_order": True,
         "exclude_columns_from_features": exclude,
         "plan_source": "heuristic_fallback",
     }

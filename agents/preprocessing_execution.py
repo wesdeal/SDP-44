@@ -287,6 +287,10 @@ def _apply_transform(
         return _apply_differencing(df, cols)
     if method == "smoothing":
         return _apply_smoothing(df, cols, parameters)
+    if method == "lag_features":
+        return _apply_lag_features(df, cols, parameters)
+    if method == "rolling_stats":
+        return _apply_rolling_stats(df, cols, parameters)
     if method == "label_encode":
         return _apply_label_encode(df, cols)
     if method == "onehot_encode":
@@ -484,6 +488,104 @@ def _apply_smoothing(
         affected.append(col)
 
     return df, {"window": window}, affected
+
+
+def _apply_lag_features(
+    df: pd.DataFrame, cols: list, parameters: dict
+) -> tuple[pd.DataFrame, dict, list]:
+    """Create lagged copies of feature columns and optionally the target column.
+
+    Parameters:
+        lags (list[int]):           Lag offsets, e.g. [1, 2, 3, 6, 24].
+        include_target_lags (bool): If True, also create lags for the target
+                                    column named in ``target_col``.
+        target_col (str):           Name of the target column; only used when
+                                    include_target_lags=True.
+
+    Rows 0..max(lags)-1 are dropped after shifting to remove all-NaN lag rows.
+    The target column values are never modified — only new lag columns are added.
+    """
+    lags = parameters.get("lags", [1, 2, 3, 6, 24])
+    if not lags:
+        return df, {}, []
+
+    include_target_lags = parameters.get("include_target_lags", False)
+    target_col_name = parameters.get("target_col")
+
+    df = df.copy()
+    new_cols: list = []
+
+    # Feature lags
+    for col in cols:
+        if not pd.api.types.is_numeric_dtype(df[col]):
+            continue
+        for lag in lags:
+            lag_col = f"{col}_lag_{lag}"
+            df[lag_col] = df[col].shift(lag)
+            new_cols.append(lag_col)
+
+    # Target lags — added as NEW feature columns, target column untouched
+    if include_target_lags and target_col_name and target_col_name in df.columns:
+        if pd.api.types.is_numeric_dtype(df[target_col_name]):
+            for lag in lags:
+                lag_col = f"{target_col_name}_lag_{lag}"
+                df[lag_col] = df[target_col_name].shift(lag)
+                new_cols.append(lag_col)
+
+    # Drop the first max(lags) rows which have NaN in every lag column.
+    max_lag = max(lags)
+    if max_lag > 0:
+        df = df.iloc[max_lag:].reset_index(drop=True)
+
+    fitted_params = {"lags": lags, "new_columns": new_cols}
+    return df, fitted_params, new_cols
+
+
+def _apply_rolling_stats(
+    df: pd.DataFrame, cols: list, parameters: dict
+) -> tuple[pd.DataFrame, dict, list]:
+    """Create rolling mean and std columns for feature columns.
+
+    Parameters:
+        window (int):               Rolling window size (default 24).
+        include_target_lags (bool): If True, also compute rolling stats for the
+                                    target column.  Target stats are computed on
+                                    shifted values (shift=1) to avoid leakage.
+        target_col (str):           Name of the target column.
+
+    Uses min_periods=1 so no rows are dropped.
+    """
+    window = int(parameters.get("window", 24))
+    include_target_lags = parameters.get("include_target_lags", False)
+    target_col_name = parameters.get("target_col")
+
+    df = df.copy()
+    new_cols: list = []
+
+    for col in cols:
+        if not pd.api.types.is_numeric_dtype(df[col]):
+            continue
+        mean_col = f"{col}_rolling_mean_{window}"
+        std_col = f"{col}_rolling_std_{window}"
+        df[mean_col] = df[col].rolling(window=window, min_periods=1).mean()
+        df[std_col] = (
+            df[col].rolling(window=window, min_periods=1).std(ddof=0).fillna(0.0)
+        )
+        new_cols.extend([mean_col, std_col])
+
+    # Target rolling stats — use shift(1) to exclude current OT value (avoid leakage)
+    if include_target_lags and target_col_name and target_col_name in df.columns:
+        if pd.api.types.is_numeric_dtype(df[target_col_name]):
+            shifted = df[target_col_name].shift(1)
+            mean_col = f"{target_col_name}_rolling_mean_{window}"
+            std_col = f"{target_col_name}_rolling_std_{window}"
+            df[mean_col] = shifted.rolling(window=window, min_periods=1).mean()
+            df[std_col] = (
+                shifted.rolling(window=window, min_periods=1).std(ddof=0).fillna(0.0)
+            )
+            new_cols.extend([mean_col, std_col])
+
+    return df, {"window": window}, new_cols
 
 
 def _apply_label_encode(

@@ -1,0 +1,28 @@
+{
+  "run_id": "30d84106-1c26-4046-a31a-1b30e70d7a7e",
+  "dataset_name": "AirPassengers.csv",
+  "task_type": "time_series_forecasting",
+  "primary_metric": "mae",
+  "higher_is_better": false,
+  "models": [
+    {
+      "rank": 1,
+      "name": "ARIMA",
+      "tier": "specialized",
+      "primary_metric_value": 104.25605589397817,
+      "delta_from_baseline": 119.158138,
+      "delta_pct": 53.3351,
+      "recommendation": "Best Overall"
+    },
+    {
+      "rank": 2,
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 223.41419354838715,
+      "delta_from_baseline": 0.0,
+      "delta_pct": 0.0,
+      "recommendation": "Strong Performer"
+    }
+  ],
+  "generated_at": "2026-03-24T16:13:56.305963+00:00"
+}

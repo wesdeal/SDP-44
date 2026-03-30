@@ -1,0 +1,95 @@
+{
+  "run_id": "d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc",
+  "created_at": "2026-03-24T16:17:06.329524+00:00",
+  "updated_at": "2026-03-24T16:17:07.136406+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/AirPassengers.csv",
+    "file_format": "csv",
+    "original_filename": "AirPassengers.csv"
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:17:06.330686+00:00",
+      "completed_at": "2026-03-24T16:17:06.336486+00:00",
+      "artifacts": {
+        "dataset_profile": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/dataset_profile.json"
+      },
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:17:06.336929+00:00",
+      "completed_at": "2026-03-24T16:17:06.337672+00:00",
+      "artifacts": {
+        "task_spec": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/task_spec.json"
+      },
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:17:06.339736+00:00",
+      "completed_at": "2026-03-24T16:17:06.343048+00:00",
+      "artifacts": {
+        "preprocessing_plan": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/preprocessing_plan.json",
+        "processed_data": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/processed_data.csv",
+        "preprocessing_manifest": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/preprocessing_manifest.json"
+      },
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:17:06.339179+00:00",
+      "completed_at": "2026-03-24T16:17:06.340560+00:00",
+      "artifacts": {
+        "eval_protocol": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/eval_protocol.json"
+      },
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:17:06.343760+00:00",
+      "completed_at": "2026-03-24T16:17:06.344923+00:00",
+      "artifacts": {
+        "selected_models": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/selected_models.json"
+      },
+      "error": null
+    },
+    "training": {
+      "status": "partial_failure",
+      "started_at": "2026-03-24T16:17:06.345335+00:00",
+      "completed_at": "2026-03-24T16:17:06.628216+00:00",
+      "artifacts": {
+        "training_results": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/training_results.json"
+      },
+      "error": null
+    },
+    "evaluation": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:17:06.628852+00:00",
+      "completed_at": "2026-03-24T16:17:07.090369+00:00",
+      "artifacts": {
+        "evaluation_report": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/evaluation_report.json",
+        "comparison_table": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/artifacts/comparison_table.json",
+        "plots_dir": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/plots"
+      },
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "completed",
+      "started_at": "2026-03-24T16:17:07.090920+00:00",
+      "completed_at": "2026-03-24T16:17:07.136406+00:00",
+      "artifacts": {
+        "dashboard_bundle": "/Users/wesdeal/Desktop/Pipeline/runs/d64af1df-3b83-4f4c-9ffd-efcb21f7ccfc/dashboard"
+      },
+      "error": null
+    }
+  },
+  "config": {
+    "runs_dir": "runs",
+    "random_seed": 42,
+    "tune_hyperparameters": false,
+    "forecast_horizon": 10
+  }
+}

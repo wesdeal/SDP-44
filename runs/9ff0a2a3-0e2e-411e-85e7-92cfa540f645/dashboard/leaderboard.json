@@ -1,0 +1,37 @@
+{
+  "run_id": "9ff0a2a3-0e2e-411e-85e7-92cfa540f645",
+  "dataset_name": "ETTh1.csv",
+  "task_type": "time_series_forecasting",
+  "primary_metric": "mae",
+  "higher_is_better": false,
+  "models": [
+    {
+      "rank": 1,
+      "name": "RandomForest",
+      "tier": "specialized",
+      "primary_metric_value": 0.47753190285495584,
+      "delta_from_baseline": 6.879556,
+      "delta_pct": 93.5092,
+      "recommendation": "Best Overall"
+    },
+    {
+      "rank": 2,
+      "name": "XGBoost",
+      "tier": "classical",
+      "primary_metric_value": 0.48030178841074994,
+      "delta_from_baseline": 6.876786,
+      "delta_pct": 93.4716,
+      "recommendation": "Strong Performer"
+    },
+    {
+      "rank": 3,
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 7.357087541371584,
+      "delta_from_baseline": 0.0,
+      "delta_pct": 0.0,
+      "recommendation": "Baseline"
+    }
+  ],
+  "generated_at": "2026-03-30T22:09:10.738607+00:00"
+}

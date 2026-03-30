@@ -1,0 +1,45 @@
+{
+  "run_id": "69dd53ed-f5ba-47e9-8ef8-3c41d0178608",
+  "ranked_by": "mae",
+  "ranking": [
+    {
+      "rank": 1,
+      "model_name": "ARIMA",
+      "tier": "specialized",
+      "primary_metric_value": 3.6427834019100964,
+      "is_best": true,
+      "all_metrics": {
+        "rmse": 4.3949922863794555,
+        "mae": 3.6427834019100964,
+        "mape": 0.5357133218951378,
+        "smape": 0.5426116633763862
+      }
+    },
+    {
+      "rank": 2,
+      "model_name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 8.576839629965447,
+      "is_best": false,
+      "all_metrics": {
+        "rmse": 9.240041763440333,
+        "mae": 8.576839629965447,
+        "mape": 1.9448804337277763,
+        "smape": 0.7728454629844705
+      }
+    },
+    {
+      "rank": 3,
+      "model_name": "XGBoost",
+      "tier": "classical",
+      "primary_metric_value": 9.684882110410319,
+      "is_best": false,
+      "all_metrics": {
+        "rmse": 11.296842820762834,
+        "mae": 9.684882110410319,
+        "mape": 1.9864822044046888,
+        "smape": 0.7868417191636444
+      }
+    }
+  ]
+}
