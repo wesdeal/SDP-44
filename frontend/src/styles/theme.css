@@ -1,0 +1,82 @@
+:root {
+  /* Surfaces */
+  --bg-0: #0a0d12;
+  --bg-1: #10141b;
+  --bg-2: #161b25;
+  --bg-3: #1c2230;
+  --border: #1f2735;
+  --border-strong: #2a3447;
+  --grid: #141a24;
+
+  /* Text */
+  --text-hi: #e7ecf3;
+  --text-md: #b3bccd;
+  --text-lo: #7c8699;
+  --text-dim: #4a5466;
+
+  /* Accents */
+  --accent-cyan: #22d3ee;
+  --accent-cyan-dim: #0e7490;
+  --accent-amber: #fbbf24;
+  --accent-purple: #a78bfa;
+  --accent-green: #34d399;
+  --accent-red: #f87171;
+  --accent-blue: #60a5fa;
+
+  /* Tier colors — matched to accent palette */
+  --tier-baseline: #7c8699;
+  --tier-classical: #22d3ee;
+  --tier-specialized: #a78bfa;
+
+  /* Per-model stable colors — used by charts and detail panels */
+  --model-xgboost:      #22d3ee;   /* cyan  — rank 1 */
+  --model-randomforest: #fbbf24;   /* amber — rank 2 */
+  --model-dummy:        #7c8699;   /* grey  — rank 3 / baseline */
+
+  /* Rank accent colors */
+  --rank-1: #22d3ee;
+  --rank-2: #fbbf24;
+  --rank-3: #7c8699;
+
+  /* Spacing scale */
+  --sp-0: 2px;
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* Radii */
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-xl: 14px;
+
+  /* Type */
+  --font-sans:
+    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui,
+    sans-serif;
+  --font-mono:
+    "JetBrains Mono", "SF Mono", "Menlo", ui-monospace, "Cascadia Code",
+    monospace;
+
+  /* Transitions */
+  --t-fast:   80ms ease;
+  --t-base:   150ms ease;
+  --t-slow:   250ms ease;
+
+  /* Effects */
+  --glow-cyan: 0 0 0 1px rgba(34, 211, 238, 0.4),
+    0 0 24px -4px rgba(34, 211, 238, 0.35);
+  --glow-amber: 0 0 0 1px rgba(251, 191, 36, 0.35),
+    0 0 20px -6px rgba(251, 191, 36, 0.3);
+  --shadow-panel: 0 1px 0 rgba(255, 255, 255, 0.02) inset,
+    0 8px 24px -12px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 2px 12px -4px rgba(0, 0, 0, 0.5);
+
+  /* Focus ring — used globally via :focus-visible */
+  --focus-ring: 0 0 0 2px var(--bg-0), 0 0 0 4px rgba(34, 211, 238, 0.5);
+}

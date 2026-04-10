@@ -74,7 +74,7 @@ class ChronosModel(BaseModel):
         Note: Chronos is a pretrained model, so 'build' loads the pretrained weights.
         No architecture construction is needed.
         """
-        model_size = self.hyperparameters.get('model_size', 'small')
+        model_size = self.hyperparameters.get('model_size', 'tiny')
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         # Map model size to Hugging Face model ID
@@ -188,9 +188,9 @@ class ChronosModel(BaseModel):
             top_p=top_p
         )
 
-        # forecast shape: [num_samples, prediction_length]
-        # Use median across samples as point forecast
-        predictions = np.median(forecast.numpy(), axis=0)
+        # forecast shape: [batch_size, num_samples, prediction_length]
+        # batch_size=1 for single-series context; squeeze batch dim first
+        predictions = np.median(forecast.numpy()[0], axis=0)
 
         return predictions
 
@@ -224,7 +224,8 @@ class ChronosModel(BaseModel):
         )
 
         # Compute quantiles across samples
-        forecast_np = forecast.numpy()  # Shape: [num_samples, prediction_length]
+        # forecast shape: [batch_size, num_samples, prediction_length]; squeeze batch dim
+        forecast_np = forecast.numpy()[0]  # Shape: [num_samples, prediction_length]
 
         quantile_forecasts = {}
         for q in quantiles:

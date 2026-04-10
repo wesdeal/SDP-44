@@ -1,0 +1,227 @@
+/* ── Outer wrapper + scroll ──────────────────────────────────────────────── */
+
+.outer {
+  position: relative;
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+/* Horizontal scroll for narrower viewports */
+.scrollWrapper {
+  overflow-x: auto;
+  /* Fade-out on right edge to hint scrollability */
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-3) transparent;
+}
+
+/* ── Table ───────────────────────────────────────────────────────────────── */
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+  color: var(--text-md);
+  min-width: 700px; /* ensures table never collapses on narrow screens */
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+
+thead th {
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  font-weight: 500;
+  padding: 12px var(--sp-4);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.thLeft {
+  text-align: left;
+}
+
+.thNum {
+  text-align: right;
+}
+
+.thPrimary {
+  color: rgba(34, 211, 238, 0.8);
+}
+
+.thRank {
+  text-align: center;
+  width: 56px;
+}
+
+.primaryMark {
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--accent-cyan);
+  font-size: 9px;
+  vertical-align: super;
+}
+
+/* ── Body rows ───────────────────────────────────────────────────────────── */
+
+tbody td {
+  padding: 13px var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.row {
+  transition: background var(--t-fast);
+}
+
+.row:hover {
+  background: var(--bg-2);
+}
+
+.row:focus-within {
+  outline: none;
+  background: var(--bg-2);
+}
+
+/* ── Cell types ──────────────────────────────────────────────────────────── */
+
+.tdRank {
+  text-align: center;
+}
+
+.tdModel {
+  min-width: 140px;
+}
+
+.tdTier {
+  /* breathing room around tier badge */
+}
+
+.tdStatus {
+  padding-right: var(--sp-5);
+}
+
+.modelName {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--text-hi);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.bestTag {
+  display: inline-flex;
+  align-items: center;
+  height: 17px;
+  padding: 0 6px;
+  border-radius: var(--r-sm);
+  background: rgba(34, 211, 238, 0.12);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+  border: 1px solid rgba(34, 211, 238, 0.4);
+}
+
+.num {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--text-lo);
+  font-size: 12px;
+}
+
+.numPrimary {
+  color: var(--text-hi);
+  font-size: 13px;
+}
+
+.numWinner {
+  color: var(--accent-cyan);
+  text-shadow: 0 0 8px rgba(34, 211, 238, 0.35);
+}
+
+/* ── Best row highlight ──────────────────────────────────────────────────── */
+
+.rowBest {
+  background: linear-gradient(
+    90deg,
+    rgba(34, 211, 238, 0.09) 0%,
+    rgba(34, 211, 238, 0.02) 50%,
+    transparent 100%
+  );
+}
+
+.rowBest td {
+  border-bottom-color: rgba(34, 211, 238, 0.18);
+}
+
+.rowBest td:first-child {
+  box-shadow: inset 3px 0 0 var(--accent-cyan);
+}
+
+.rowBest .num {
+  color: var(--text-md);
+}
+
+.rowBest:hover {
+  background: linear-gradient(
+    90deg,
+    rgba(34, 211, 238, 0.13) 0%,
+    rgba(34, 211, 238, 0.03) 50%,
+    transparent 100%
+  );
+}
+
+/* ── Status pill ─────────────────────────────────────────────────────────── */
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  flex-shrink: 0;
+}
+
+.statusOk {
+  color: var(--accent-green);
+}
+
+.statusOk .statusDot {
+  background: var(--accent-green);
+  box-shadow: 0 0 6px rgba(52, 211, 153, 0.6);
+}
+
+.statusBad {
+  color: var(--accent-red);
+}
+
+.statusBad .statusDot {
+  background: var(--accent-red);
+}

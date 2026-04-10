@@ -1,0 +1,63 @@
+{
+  "run_id": "299970a3-0f86-4c91-bc05-4e0f3995ee43",
+  "task_type": "time_series_forecasting",
+  "selected_models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "rationale": "Baseline slot for time_series_forecasting: Predicts the training set mean. Required baseline for regression tasks.",
+      "substituted_from": "ARIMA",
+      "substitution_reason": "Preferred model 'ARIMA' is not available in the registry or catalog for task_type='time_series_forecasting'; substituted with 'DummyRegressor'."
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "rationale": "Classical slot for time_series_forecasting: Gradient boosted trees. High-capacity, widely used benchmark for tabular data.",
+      "substituted_from": null,
+      "substitution_reason": null
+    },
+    {
+      "name": "RandomForest",
+      "tier": "specialized",
+      "rationale": "Specialized slot for time_series_forecasting: Ensemble of decision trees. Robust, parallelizable, handles mixed types well.",
+      "substituted_from": "Chronos",
+      "substitution_reason": "No specialized-tier model available for task_type='time_series_forecasting' (all rejected or unavailable); cross-tier fallback to 'RandomForest'."
+    }
+  ],
+  "selection_strategy": "tier_gated_deterministic",
+  "models_considered": [
+    "DummyRegressor",
+    "RandomForest",
+    "XGBoost"
+  ],
+  "models_rejected": [
+    {
+      "name": "DummyClassifier",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_classification']"
+    },
+    {
+      "name": "LinearModel",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_regression', 'tabular_classification']"
+    },
+    {
+      "name": "LightGBM",
+      "rejection_reason": "catalog available=false"
+    },
+    {
+      "name": "ARIMA",
+      "rejection_reason": "univariate_only=true but task has is_multivariate_ts=true; model cannot exploit multivariate features."
+    },
+    {
+      "name": "LSTM",
+      "rejection_reason": "registry_key 'LSTM' not importable (not present in ModelRegistry)"
+    },
+    {
+      "name": "Chronos",
+      "rejection_reason": "catalog available=false"
+    },
+    {
+      "name": "SVR",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_regression']"
+    }
+  ]
+}

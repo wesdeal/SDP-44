@@ -3,7 +3,9 @@
     "allow": [
       "Bash(python -m pytest tests/integration/test_skeleton_pipeline.py -v)",
       "Bash(python -m pytest tests/ -v)",
-      "Bash(python3 -c \":*)"
+      "Bash(python3 -c \":*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k: d[k] for k in list\\(d.keys\\(\\)\\)[:5]}, indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\('/Users/wesdeal/Desktop/Pipeline/runs/299970a3-0f86-4c91-bc05-4e0f3995ee43/artifacts/training_results.json'\\)\\); print\\(json.dumps\\(d, indent=2\\)\\)\")"
     ]
   }
 }

@@ -1,0 +1,85 @@
+{
+  "run_id": "be9f2bb2-e2d1-48df-85a8-f12b265aa67b",
+  "created_at": "2026-04-10T19:10:55.364727+00:00",
+  "updated_at": "2026-04-10T19:11:01.616647+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/ETTh1.csv",
+    "file_format": "csv",
+    "original_filename": "ETTh1.csv"
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-10T19:10:55.365660+00:00",
+      "completed_at": "2026-04-10T19:11:00.679319+00:00",
+      "artifacts": {
+        "dataset_profile": "/Users/wesdeal/Desktop/Pipeline/runs/be9f2bb2-e2d1-48df-85a8-f12b265aa67b/artifacts/dataset_profile.json"
+      },
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-10T19:11:00.680198+00:00",
+      "completed_at": "2026-04-10T19:11:00.681327+00:00",
+      "artifacts": {
+        "task_spec": "/Users/wesdeal/Desktop/Pipeline/runs/be9f2bb2-e2d1-48df-85a8-f12b265aa67b/artifacts/task_spec.json"
+      },
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-10T19:11:00.683874+00:00",
+      "completed_at": "2026-04-10T19:11:01.613277+00:00",
+      "artifacts": {
+        "preprocessing_plan": "/Users/wesdeal/Desktop/Pipeline/runs/be9f2bb2-e2d1-48df-85a8-f12b265aa67b/artifacts/preprocessing_plan.json",
+        "processed_data": "/Users/wesdeal/Desktop/Pipeline/runs/be9f2bb2-e2d1-48df-85a8-f12b265aa67b/artifacts/processed_data.csv",
+        "preprocessing_manifest": "/Users/wesdeal/Desktop/Pipeline/runs/be9f2bb2-e2d1-48df-85a8-f12b265aa67b/artifacts/preprocessing_manifest.json"
+      },
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-10T19:11:00.683186+00:00",
+      "completed_at": "2026-04-10T19:11:00.684974+00:00",
+      "artifacts": {
+        "eval_protocol": "/Users/wesdeal/Desktop/Pipeline/runs/be9f2bb2-e2d1-48df-85a8-f12b265aa67b/artifacts/eval_protocol.json"
+      },
+      "error": null
+    },
+    "model_selection": {
+      "status": "failed",
+      "started_at": "2026-04-10T19:11:01.615797+00:00",
+      "completed_at": "2026-04-10T19:11:01.616647+00:00",
+      "artifacts": {},
+      "error": "MODEL_POOL_INSUFFICIENT: No specialized model available for task_type='time_series_forecasting' (including cross-tier fallback). Available specialized candidates: []. Preference order: ['Chronos', 'LSTM', 'ARIMA']. Ensure at least one model per tier is implemented and registered."
+    },
+    "training": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "evaluation": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    }
+  },
+  "config": {
+    "runs_dir": "runs",
+    "random_seed": 42,
+    "tune_hyperparameters": false,
+    "forecast_horizon": 10
+  }
+}

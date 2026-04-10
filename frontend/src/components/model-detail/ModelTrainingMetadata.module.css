@@ -1,0 +1,88 @@
+.wrap {
+  display: flex;
+  gap: var(--sp-6);
+  padding: var(--sp-5);
+  flex-wrap: wrap;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  min-width: 200px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: var(--sp-1);
+}
+
+/* Key-value pairs */
+.infoGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.kvRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+}
+
+.kvKey {
+  flex-shrink: 0;
+  width: 168px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-lo);
+  letter-spacing: 0.01em;
+}
+
+.kvVal {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-md);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-lo);
+  word-break: break-all;
+}
+
+/* Hyperparameter chips */
+.hpGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.hpCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+}
+
+.hpKey {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-lo);
+  letter-spacing: 0.03em;
+}
+
+.hpVal {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-hi);
+}

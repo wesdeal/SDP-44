@@ -1,0 +1,204 @@
+.shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar ──────────────────────────────────────────────────────────────── */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: 0 var(--sp-6);
+  height: 52px;
+  background: rgba(10, 13, 18, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Brand ────────────────────────────────────────────────────────────────── */
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-shrink: 0;
+}
+
+.brandMark {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 10px var(--accent-cyan);
+}
+
+.brandName {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-hi);
+  white-space: nowrap;
+}
+
+/* ── Divider ──────────────────────────────────────────────────────────────── */
+
+.divider {
+  width: 1px;
+  height: 16px;
+  background: var(--border-strong);
+  flex-shrink: 0;
+}
+
+/* ── Run metadata ─────────────────────────────────────────────────────────── */
+
+.runMeta {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-lo);
+  overflow: hidden;
+  min-width: 0;
+}
+
+.metaKey {
+  color: var(--text-dim);
+  letter-spacing: 0.12em;
+  flex-shrink: 0;
+}
+
+.metaValue {
+  color: var(--text-md);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dot {
+  color: var(--text-dim);
+  flex-shrink: 0;
+}
+
+/* ── Run selector wrapper ─────────────────────────────────────────────────── */
+
+.selectorWrap {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ── Spacer ───────────────────────────────────────────────────────────────── */
+
+.spacer {
+  flex: 1;
+}
+
+/* ── Status pill ──────────────────────────────────────────────────────────── */
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: color var(--t-base), border-color var(--t-base);
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-dim);
+}
+
+/* Status variants */
+
+.statusCompleted {
+  color: var(--accent-green);
+  border-color: rgba(52, 211, 153, 0.3);
+  background: rgba(52, 211, 153, 0.06);
+}
+
+.statusCompleted .statusDot {
+  background: var(--accent-green);
+  box-shadow: 0 0 8px rgba(52, 211, 153, 0.7);
+}
+
+.statusRunning {
+  color: var(--accent-amber);
+  border-color: rgba(251, 191, 36, 0.3);
+  background: rgba(251, 191, 36, 0.06);
+}
+
+.statusRunning .statusDot {
+  background: var(--accent-amber);
+  animation: pulse-dot 1.2s ease-in-out infinite;
+}
+
+.statusFailed {
+  color: var(--accent-red);
+  border-color: rgba(248, 113, 113, 0.3);
+  background: rgba(248, 113, 113, 0.06);
+}
+
+.statusFailed .statusDot {
+  background: var(--accent-red);
+}
+
+/* ── Content frame ────────────────────────────────────────────────────────── */
+
+.content {
+  flex: 1;
+  padding: var(--sp-6);
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .content {
+    padding: var(--sp-5) var(--sp-4);
+  }
+  .topbar {
+    padding: 0 var(--sp-4);
+    gap: var(--sp-3);
+  }
+}
+
+@media (max-width: 768px) {
+  .brandName {
+    display: none;
+  }
+  .divider {
+    display: none;
+  }
+  .runMeta {
+    gap: var(--sp-2);
+    font-size: 10px;
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}

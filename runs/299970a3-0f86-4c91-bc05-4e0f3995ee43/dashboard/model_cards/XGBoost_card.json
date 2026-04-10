@@ -1,0 +1,31 @@
+{
+  "model_name": "XGBoost",
+  "tier": "classical",
+  "task_type": "time_series_forecasting",
+  "rationale_for_selection": "Classical slot for time_series_forecasting: Gradient boosted trees. High-capacity, widely used benchmark for tabular data.",
+  "hyperparameters": {
+    "n_estimators": 317,
+    "max_depth": 3,
+    "learning_rate": 0.07896186801026692,
+    "subsample": 0.6682096494749166,
+    "colsample_bytree": 0.6260206371941118,
+    "reg_alpha": 3.4671276804481113,
+    "reg_lambda": 4.905556676028774
+  },
+  "hyperparameter_source": "optuna_tuned",
+  "training_duration_seconds": 52.5229,
+  "metrics": {
+    "primary_metric_name": "mae",
+    "primary_metric_value": 0.48030178841074994,
+    "all_metrics": {
+      "rmse": 0.6778202306014786,
+      "mae": 0.48030178841074994,
+      "mape": 0.1030231146233,
+      "smape": 0.10345088703105361
+    }
+  },
+  "rank": 2,
+  "is_recommended": false,
+  "plot_path": "plots/XGBoost_eval.png",
+  "trained_model_path": "../trained_models/XGBoost"
+}

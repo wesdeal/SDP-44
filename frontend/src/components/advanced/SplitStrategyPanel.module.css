@@ -1,0 +1,207 @@
+.panel {
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-5);
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Config column ─────────────────────────────────────── */
+
+.configCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.subsectionLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.strategyRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.strategyName {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--accent-cyan);
+}
+
+.noShufflePill {
+  display: inline-flex;
+  align-items: center;
+  height: 18px;
+  padding: 0 7px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--accent-amber);
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.25);
+}
+
+.strategyNote {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--text-lo);
+  max-width: 380px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: var(--sp-1) 0;
+}
+
+.configGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.statRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+.statLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-lo);
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: 0.04em;
+}
+
+/* ── Bar column ─────────────────────────────────────────── */
+
+.barCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.splitBarSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.splitBar {
+  display: flex;
+  height: 10px;
+  border-radius: var(--r-sm);
+  overflow: hidden;
+  background: var(--bg-3);
+  gap: 2px;
+}
+
+.segment {
+  height: 100%;
+  border-radius: 2px;
+}
+
+.segTrain {
+  background: var(--accent-cyan);
+  opacity: 0.7;
+}
+
+.segVal {
+  background: var(--accent-amber);
+  opacity: 0.7;
+}
+
+.segTest {
+  background: var(--accent-purple);
+  opacity: 0.7;
+}
+
+.splitLegend {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  column-gap: var(--sp-2);
+  row-gap: var(--sp-2);
+  align-items: center;
+}
+
+.legendDot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.trainDot { background: var(--accent-cyan); opacity: 0.7; }
+.valDot   { background: var(--accent-amber); opacity: 0.7; }
+.testDot  { background: var(--accent-purple); opacity: 0.7; }
+
+.legendLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-lo);
+}
+
+.legendCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-hi);
+  text-align: right;
+}
+
+.legendPct {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+/* ── Footer ─────────────────────────────────────────────── */
+
+.footer {
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+
+.footerNote {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-dim);
+}

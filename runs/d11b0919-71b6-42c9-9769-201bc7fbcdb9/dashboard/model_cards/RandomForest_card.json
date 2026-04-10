@@ -1,0 +1,25 @@
+{
+  "model_name": "RandomForest",
+  "tier": "specialized",
+  "task_type": "time_series_forecasting",
+  "rationale_for_selection": "Specialized slot for time_series_forecasting: Ensemble of decision trees. Robust, parallelizable, handles mixed types well.",
+  "hyperparameters": {
+    "task_type": "time_series_forecasting"
+  },
+  "hyperparameter_source": "default",
+  "training_duration_seconds": 0.6683,
+  "metrics": {
+    "primary_metric_name": "mae",
+    "primary_metric_value": 1.183780006468462,
+    "all_metrics": {
+      "rmse": 1.5797236280744236,
+      "mae": 1.183780006468462,
+      "mape": 0.33077781460594047,
+      "smape": 0.21719123931062417
+    }
+  },
+  "rank": 2,
+  "is_recommended": false,
+  "plot_path": "plots/RandomForest_eval.png",
+  "trained_model_path": "../trained_models/RandomForest"
+}

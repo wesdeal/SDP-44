@@ -1,0 +1,72 @@
+.selector {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-1);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.selector::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-4) var(--sp-5);
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border);
+  cursor: pointer;
+  text-align: left;
+  transition: background var(--t-fast);
+  position: relative;
+  min-width: 160px;
+  white-space: nowrap;
+}
+
+.tab:last-child {
+  border-right: none;
+}
+
+.tab:hover:not(.active) {
+  background: var(--bg-2);
+}
+
+.tab:focus-visible {
+  outline: none;
+  box-shadow: inset 0 0 0 2px rgba(34, 211, 238, 0.4);
+}
+
+/* Active tab: colored bottom bar + brighter background */
+.active {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--tab-accent, var(--accent-cyan));
+  border-radius: 1px 1px 0 0;
+  box-shadow: 0 -2px 8px -2px var(--tab-accent, var(--accent-cyan));
+}
+
+.name {
+  flex: 1;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-lo);
+  letter-spacing: -0.01em;
+  transition: color var(--t-fast);
+}
+
+.active .name {
+  color: var(--text-hi);
+}

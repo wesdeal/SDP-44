@@ -1,0 +1,118 @@
+.panel {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-panel);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.compact {
+  background: var(--bg-2);
+  border-color: var(--border);
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding: var(--sp-4) var(--sp-5) var(--sp-3);
+  border-bottom: 1px solid var(--border);
+}
+
+.compact .header {
+  padding: var(--sp-3) var(--sp-4) var(--sp-2);
+  border-bottom: 1px dashed var(--border);
+}
+
+.headLeft {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-hi);
+  letter-spacing: -0.005em;
+}
+
+.compact .title {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--text-md);
+  font-weight: 500;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: var(--text-lo);
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+.headRight {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.dirPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 22px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-2);
+  color: var(--text-lo);
+  white-space: nowrap;
+}
+
+.compact .dirPill {
+  height: 18px;
+  padding: 0 8px;
+  font-size: 9px;
+}
+
+.dirArrow {
+  font-size: 11px;
+  color: var(--accent-cyan);
+}
+
+.dirDown .dirArrow {
+  color: var(--accent-amber);
+}
+
+.dirUp .dirArrow {
+  color: var(--accent-green);
+}
+
+.body {
+  padding: var(--sp-4) var(--sp-5) var(--sp-5);
+  flex: 1;
+  min-width: 0;
+}
+
+.compact .body {
+  padding: var(--sp-3) var(--sp-3) var(--sp-3);
+}

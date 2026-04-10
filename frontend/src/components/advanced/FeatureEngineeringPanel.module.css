@@ -1,0 +1,199 @@
+.panel {
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* ── Summary strip ───────────────────────────────────────── */
+
+.summaryStrip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  overflow: hidden;
+}
+
+.summaryItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-3) var(--sp-4);
+  gap: 3px;
+}
+
+.summaryDivider {
+  width: 1px;
+  align-self: stretch;
+  background: var(--border);
+}
+
+.summaryVal {
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-hi);
+}
+
+.summaryLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── Config row ──────────────────────────────────────────── */
+
+.configRow {
+  display: flex;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+}
+
+.configBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.configLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+
+.configTag {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--bg-3);
+  border: 1px solid var(--border-strong);
+  color: var(--text-md);
+}
+
+.tagCyan {
+  color: var(--accent-cyan);
+  background: rgba(34, 211, 238, 0.07);
+  border-color: rgba(34, 211, 238, 0.2);
+}
+
+.tagAmber {
+  color: var(--accent-amber);
+  background: rgba(251, 191, 36, 0.07);
+  border-color: rgba(251, 191, 36, 0.2);
+}
+
+.tagDefault {
+  color: var(--text-lo);
+}
+
+/* ── Groups ──────────────────────────────────────────────── */
+
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.group {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--group-accent, var(--border-strong));
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.groupHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.groupDot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--group-accent, var(--text-dim));
+  flex-shrink: 0;
+}
+
+.groupLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-hi);
+  flex: 1;
+}
+
+.groupCount {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--group-accent, var(--text-dim));
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 0 7px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.groupDesc {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--text-lo);
+}
+
+/* ── Feature chips ───────────────────────────────────────── */
+
+.chipGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 22px;
+  padding: 0 9px;
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.02em;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--chip-accent, var(--text-md));
+  opacity: 0.9;
+}
+
+.chip:hover {
+  opacity: 1;
+  border-color: var(--border-strong);
+}

@@ -1,0 +1,208 @@
+.panel {
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* ── Intro bar ───────────────────────────────────────────── */
+
+.intro {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+
+.introStat {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-lo);
+}
+
+.introDivider {
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+/* ── Steps list ──────────────────────────────────────────── */
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+/* ── Step card ───────────────────────────────────────────── */
+
+.stepCard {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--step-accent, var(--border-strong));
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.stepOrder {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--r-sm);
+  background: var(--bg-3);
+  border: 1px solid var(--border-strong);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--step-accent, var(--text-lo));
+  flex-shrink: 0;
+}
+
+.stepLabel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--text-hi);
+  flex: 1;
+}
+
+.stepNote {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-lo);
+}
+
+/* ── Row delta ───────────────────────────────────────────── */
+
+.rowDelta {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-left: auto;
+}
+
+.rowBefore {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.rowArrow {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+}
+
+.rowAfter {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-md);
+}
+
+.rowDropped {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--accent-amber);
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+  border-radius: 999px;
+  padding: 0 6px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* ── Step meta ───────────────────────────────────────────── */
+
+.stepMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.metaBlock {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-3);
+}
+
+.metaBlockLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding-top: 2px;
+  width: 80px;
+  flex-shrink: 0;
+}
+
+/* ── Param chips ─────────────────────────────────────────── */
+
+.paramList,
+.colList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1);
+}
+
+.paramChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 20px;
+  padding: 0 8px;
+  background: var(--bg-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.paramKey {
+  color: var(--text-dim);
+}
+
+.paramVal {
+  color: var(--text-hi);
+  font-weight: 600;
+}
+
+/* ── Column chips ─────────────────────────────────────────── */
+
+.colChip {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-md);
+}
+
+/* ── Generated count ─────────────────────────────────────── */
+
+.genCount {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--step-accent, var(--text-hi));
+}

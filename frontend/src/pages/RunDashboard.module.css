@@ -1,0 +1,73 @@
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-7);
+}
+
+.block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.lastBlock {
+  padding-bottom: var(--sp-7);
+}
+
+/* ── Section header ─────────────────────────────────────────────────────── */
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-1);
+  gap: var(--sp-3);
+}
+
+.sectionLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-lo);
+
+  /* Subtle left tick mark */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sectionLabel::before {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 12px;
+  background: var(--accent-cyan);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.sectionAnnotation {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────── */
+
+@media (max-width: 1024px) {
+  .stack {
+    gap: var(--sp-6);
+  }
+}
+
+@media (max-width: 768px) {
+  .stack {
+    gap: var(--sp-5);
+  }
+  .sectionAnnotation {
+    display: none;
+  }
+}

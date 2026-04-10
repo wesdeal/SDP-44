@@ -1,0 +1,251 @@
+.panel {
+  padding: var(--sp-4) var(--sp-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* ── Strategy header strip ───────────────────────────────── */
+
+.strategyHeader {
+  display: flex;
+  gap: var(--sp-5);
+  flex-wrap: wrap;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.stratHeaderItem {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.stratLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.stratValue {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-hi);
+}
+
+/* ── Model card grid ─────────────────────────────────────── */
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+}
+
+@media (max-width: 900px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── Individual model card ───────────────────────────────── */
+
+.modelCard {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--model-color, var(--border-strong));
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-2);
+}
+
+.modelName {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--model-color, var(--text-hi));
+}
+
+.strategyNote {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-lo);
+}
+
+/* ── Card stats ──────────────────────────────────────────── */
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-2);
+}
+
+/* Intentional override: the outer `.cardGrid` uses 3-col;
+   the inner one per-card uses 2-col. Because they are in different
+   scopes this works fine in practice. */
+
+.cardStat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-sm);
+  padding: var(--sp-2) var(--sp-3);
+}
+
+.cardStatLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.cardStatVal {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-hi);
+}
+
+.cardStatHighlight {
+  color: var(--model-color, var(--accent-cyan));
+}
+
+/* ── Rationale ───────────────────────────────────────────── */
+
+.rationaleRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+
+.rationaleLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.rationaleText {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--text-lo);
+}
+
+/* ── Hyperparameter section ──────────────────────────────── */
+
+.hpSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-2);
+}
+
+.hpLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.hpGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hpRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding: 2px 0;
+}
+
+.hpKey {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-lo);
+}
+
+.hpVal {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-md);
+}
+
+/* ── Rejected models ─────────────────────────────────────── */
+
+.rejectedSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  border-top: 1px solid var(--border);
+  padding-top: var(--sp-3);
+}
+
+.rejectedLabel {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.rejectedList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.rejectedRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent-red);
+  border-radius: var(--r-sm);
+  opacity: 0.7;
+}
+
+.rejectedName {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-md);
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+.rejectedReason {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-lo);
+}

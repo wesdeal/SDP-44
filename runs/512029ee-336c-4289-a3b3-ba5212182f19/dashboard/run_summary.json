@@ -1,0 +1,67 @@
+{
+  "run_id": "512029ee-336c-4289-a3b3-ba5212182f19",
+  "created_at": "2026-03-31T03:25:30.627625+00:00",
+  "assembled_at": "2026-03-31T03:25:39.404128+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/ETTh2.csv",
+    "file_format": "csv",
+    "original_filename": "ETTh2.csv"
+  },
+  "config": {
+    "runs_dir": "runs",
+    "random_seed": 42,
+    "tune_hyperparameters": false,
+    "forecast_horizon": 10
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:30.628644+00:00",
+      "completed_at": "2026-03-31T03:25:35.950779+00:00",
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:35.951981+00:00",
+      "completed_at": "2026-03-31T03:25:35.953146+00:00",
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:35.956158+00:00",
+      "completed_at": "2026-03-31T03:25:36.869128+00:00",
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:35.955327+00:00",
+      "completed_at": "2026-03-31T03:25:35.957387+00:00",
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:36.870696+00:00",
+      "completed_at": "2026-03-31T03:25:36.872305+00:00",
+      "error": null
+    },
+    "training": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:36.872839+00:00",
+      "completed_at": "2026-03-31T03:25:38.218648+00:00",
+      "error": null
+    },
+    "evaluation": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:38.222004+00:00",
+      "completed_at": "2026-03-31T03:25:39.400852+00:00",
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-03-31T03:25:39.402944+00:00",
+      "completed_at": null,
+      "error": null
+    }
+  }
+}

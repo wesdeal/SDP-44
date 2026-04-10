@@ -1,0 +1,60 @@
+{
+  "run_id": "0a84dd6d-8f78-4c88-aa99-59b733fedea9",
+  "task_type": "time_series_forecasting",
+  "selected_models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "rationale": "Baseline slot for time_series_forecasting: Predicts the training set mean. Required baseline for regression tasks.",
+      "substituted_from": "ARIMA",
+      "substitution_reason": "Preferred model 'ARIMA' is not available in the registry or catalog for task_type='time_series_forecasting'; substituted with 'DummyRegressor'."
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "rationale": "Classical slot for time_series_forecasting: Gradient boosted trees. High-capacity, widely used benchmark for tabular data.",
+      "substituted_from": null,
+      "substitution_reason": null
+    },
+    {
+      "name": "Chronos",
+      "tier": "specialized",
+      "rationale": "Specialized slot for time_series_forecasting: Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering.",
+      "substituted_from": null,
+      "substitution_reason": null
+    }
+  ],
+  "selection_strategy": "tier_gated_deterministic",
+  "models_considered": [
+    "DummyRegressor",
+    "RandomForest",
+    "XGBoost",
+    "Chronos"
+  ],
+  "models_rejected": [
+    {
+      "name": "DummyClassifier",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_classification']"
+    },
+    {
+      "name": "LinearModel",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_regression', 'tabular_classification']"
+    },
+    {
+      "name": "LightGBM",
+      "rejection_reason": "catalog available=false"
+    },
+    {
+      "name": "ARIMA",
+      "rejection_reason": "univariate_only=true but task has is_multivariate_ts=true; model cannot exploit multivariate features."
+    },
+    {
+      "name": "LSTM",
+      "rejection_reason": "registry_key 'LSTM' not importable (not present in ModelRegistry)"
+    },
+    {
+      "name": "SVR",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_regression']"
+    }
+  ]
+}

@@ -8,7 +8,7 @@
       "compatible_tasks": ["tabular_regression", "time_series_forecasting"],
       "requires_features": false,
       "cpu_feasible": true,
-      "available": true,
+      "available": false,
       "registry_key": "DummyRegressor",
       "description": "Predicts the training set mean. Required baseline for regression tasks.",
       "io": {
@@ -31,7 +31,7 @@
       "compatible_tasks": ["tabular_classification"],
       "requires_features": false,
       "cpu_feasible": true,
-      "available": true,
+      "available": false,
       "registry_key": "DummyClassifier",
       "description": "Predicts majority class or uniform random. Required baseline for classification.",
       "io": {
@@ -221,7 +221,7 @@
       "family": "ts_foundation",
       "compatible_tasks": ["time_series_forecasting"],
       "requires_features": false,
-      "cpu_feasible": false,
+      "cpu_feasible": true,
       "available": false,
       "registry_key": "Chronos",
       "description": "Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering.",
@@ -246,6 +246,7 @@
       "foundation": {
         "provider": "amazon",
         "repo_id": "amazon/chronos-t5-tiny",
+        "default_model_size": "tiny",
         "device": "cpu"
       }
     },

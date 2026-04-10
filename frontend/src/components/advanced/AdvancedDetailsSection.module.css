@@ -1,0 +1,30 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+/* ── Intro ───────────────────────────────────────────────── */
+
+.intro {
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border-strong);
+  border-radius: var(--r-md);
+}
+
+.introText {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--text-lo);
+}
+
+/* ── Accordion stack ─────────────────────────────────────── */
+
+.accordions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}

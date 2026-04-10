@@ -1,0 +1,114 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Two-column grid */
+.body {
+  display: grid;
+  grid-template-columns: 55fr 45fr;
+  gap: var(--sp-5);
+  padding: var(--sp-5);
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .body {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leftCol,
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  min-width: 0;
+}
+
+/* Overview card */
+.overviewCard {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.overviewRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+.modelName {
+  flex: 1;
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--model-accent, var(--text-hi));
+  min-width: 0;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: var(--bg-3);
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+}
+.statusOk {
+  color: var(--accent-green);
+  background: rgba(52, 211, 153, 0.07);
+  border-color: rgba(52, 211, 153, 0.28);
+}
+
+.roleLabel {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--model-accent, var(--text-lo));
+  opacity: 0.85;
+}
+
+.rationale {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-lo);
+}
+
+/* Subsection wrapper */
+.subsection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.subsectionLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  padding-left: 2px;
+}
+
+/* Footer */
+.footerRow {
+  border-top: 1px solid var(--border);
+}

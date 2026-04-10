@@ -1,0 +1,336 @@
+.card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.3fr 1px 1fr;
+  gap: var(--sp-6);
+  background: linear-gradient(
+    160deg,
+    rgba(34, 211, 238, 0.07) 0%,
+    rgba(34, 211, 238, 0.01) 50%,
+    var(--bg-1) 100%
+  );
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  border-radius: var(--r-lg);
+  padding: var(--sp-6);
+  box-shadow:
+    0 0 40px -20px rgba(34, 211, 238, 0.45),
+    var(--shadow-panel);
+  overflow: hidden;
+}
+
+/* Top-edge accent line */
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(34, 211, 238, 0.7) 25%,
+    rgba(34, 211, 238, 0.7) 75%,
+    transparent
+  );
+}
+
+/* Ambient glow at top-left */
+.card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    700px circle at 0% 0%,
+    rgba(34, 211, 238, 0.06),
+    transparent 60%
+  );
+}
+
+@media (max-width: 960px) {
+  .card {
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
+    padding: var(--sp-5);
+  }
+}
+
+/* ── Left side ───────────────────────────────────────────────────────────── */
+
+.left {
+  position: relative;
+  min-width: 0;
+  z-index: 1;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(34, 211, 238, 0.7);
+  margin-bottom: var(--sp-3);
+}
+
+.eyebrowDot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-cyan);
+  box-shadow: 0 0 8px var(--accent-cyan);
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+  flex-wrap: wrap;
+}
+
+.name {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-hi);
+  margin: 0;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.winnerBadge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: var(--r-sm);
+  background: rgba(34, 211, 238, 0.15);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid rgba(34, 211, 238, 0.5);
+  box-shadow: 0 0 12px -4px rgba(34, 211, 238, 0.4);
+}
+
+/* ── Primary metric hero ─────────────────────────────────────────────────── */
+
+.metricBlock {
+  margin-bottom: var(--sp-5);
+  padding: var(--sp-4) var(--sp-4) var(--sp-3);
+  background: rgba(34, 211, 238, 0.04);
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: var(--r-md);
+  display: inline-block;
+  min-width: 140px;
+}
+
+.metricLabel {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(34, 211, 238, 0.6);
+  margin-bottom: var(--sp-1);
+}
+
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: 44px;
+  font-weight: 600;
+  color: var(--accent-cyan);
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-shadow: 0 0 30px rgba(34, 211, 238, 0.4);
+}
+
+.metricHint {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  margin-top: var(--sp-1);
+  letter-spacing: 0.06em;
+}
+
+/* ── Summary text ────────────────────────────────────────────────────────── */
+
+.summary {
+  font-size: 13px;
+  color: var(--text-md);
+  line-height: 1.6;
+  margin: 0 0 var(--sp-4);
+  max-width: 64ch;
+}
+
+/* ── Strengths list ──────────────────────────────────────────────────────── */
+
+.strengthsList {
+  list-style: none;
+  margin: 0 0 var(--sp-3);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.strengthItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  font-size: 12px;
+  color: var(--text-md);
+  line-height: 1.4;
+}
+
+.strengthMark {
+  flex-shrink: 0;
+  color: var(--accent-green);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+/* ── Rationale fallback ──────────────────────────────────────────────────── */
+
+.rationale {
+  font-size: 13px;
+  color: var(--text-md);
+  line-height: 1.55;
+  margin: 0;
+  padding-left: 14px;
+  max-width: 60ch;
+  position: relative;
+}
+
+.rationaleMark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+}
+
+/* ── Divider ─────────────────────────────────────────────────────────────── */
+
+.divider {
+  background: var(--border);
+  width: 1px;
+  align-self: stretch;
+}
+
+@media (max-width: 960px) {
+  .divider {
+    display: none;
+  }
+}
+
+/* ── Right side ──────────────────────────────────────────────────────────── */
+
+.right {
+  position: relative;
+  min-width: 0;
+  z-index: 1;
+}
+
+.rightHeader {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: var(--sp-4);
+}
+
+.deltaList {
+  list-style: none;
+  margin: 0 0 var(--sp-4);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.deltaItem {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-3) var(--sp-4);
+  transition: border-color var(--t-base);
+}
+
+.deltaItem:hover {
+  border-color: var(--border-strong);
+}
+
+.deltaTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-2);
+}
+
+.deltaModel {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-hi);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.deltaRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+
+.deltaMetricValue {
+  color: var(--text-lo);
+}
+
+.deltaArrow {
+  color: var(--text-dim);
+}
+
+.deltaPct {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.deltaAbs {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+/* ── Multiplier summary chips ────────────────────────────────────────────── */
+
+.multiplierRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
+
+.multiplierChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.08);
+  border: 1px solid rgba(34, 211, 238, 0.25);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--accent-cyan);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}

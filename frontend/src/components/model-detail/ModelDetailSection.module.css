@@ -1,0 +1,9 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--bg-1);
+  box-shadow: var(--shadow-panel);
+}

@@ -1,0 +1,63 @@
+{
+  "run_id": "512029ee-336c-4289-a3b3-ba5212182f19",
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:30.628644+00:00",
+      "completed_at": "2026-03-31T03:25:35.950779+00:00",
+      "duration_seconds": 5.322,
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:35.951981+00:00",
+      "completed_at": "2026-03-31T03:25:35.953146+00:00",
+      "duration_seconds": 0.001,
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:35.956158+00:00",
+      "completed_at": "2026-03-31T03:25:36.869128+00:00",
+      "duration_seconds": 0.913,
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:35.955327+00:00",
+      "completed_at": "2026-03-31T03:25:35.957387+00:00",
+      "duration_seconds": 0.002,
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:36.870696+00:00",
+      "completed_at": "2026-03-31T03:25:36.872305+00:00",
+      "duration_seconds": 0.002,
+      "error": null
+    },
+    "training": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:36.872839+00:00",
+      "completed_at": "2026-03-31T03:25:38.218648+00:00",
+      "duration_seconds": 1.346,
+      "error": null
+    },
+    "evaluation": {
+      "status": "completed",
+      "started_at": "2026-03-31T03:25:38.222004+00:00",
+      "completed_at": "2026-03-31T03:25:39.400852+00:00",
+      "duration_seconds": 1.179,
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-03-31T03:25:39.402944+00:00",
+      "completed_at": null,
+      "duration_seconds": null,
+      "error": null
+    }
+  },
+  "missing_artifacts": [],
+  "assembled_at": "2026-03-31T03:25:39.467731+00:00"
+}
