@@ -6,12 +6,8 @@ import FeatureEngineeringPanel from "./FeatureEngineeringPanel.jsx";
 import ModelStrategyPanel from "./ModelStrategyPanel.jsx";
 import PipelineMetadataPanel from "./PipelineMetadataPanel.jsx";
 
-const fe = (run) => run.feature_engineering;
-
 export default function AdvancedDetailsSection({ run }) {
-  const totalFeatures = fe(run).total_features;
-  const { train, validation, test } = run.eval_protocol.split_counts;
-  const total = train + validation + test;
+  const totalFeatures = run.feature_engineering?.total_features ?? 0;
 
   return (
     <div className={styles.section}>
@@ -38,7 +34,7 @@ export default function AdvancedDetailsSection({ run }) {
 
         <DetailsAccordion
           title="Preprocessing & Feature Engineering"
-          subtitle={`${run.preprocessing_plan.steps.length} steps applied`}
+          subtitle={`${run.preprocessing_plan?.steps?.length ?? 0} steps applied`}
           badge={`${totalFeatures} features total`}
           badgeVariant="cyan"
         >
@@ -57,7 +53,7 @@ export default function AdvancedDetailsSection({ run }) {
         <DetailsAccordion
           title="Model Strategy Metadata"
           subtitle="per-model configuration & rationale"
-          badge={`${run.selected_models.selected_models.length} models`}
+          badge={`${run.selected_models?.selected_models?.length ?? 0} models`}
           badgeVariant="purple"
         >
           <ModelStrategyPanel run={run} />
@@ -66,8 +62,8 @@ export default function AdvancedDetailsSection({ run }) {
         <DetailsAccordion
           title="Pipeline Configuration"
           subtitle="run-level metadata"
-          badge={run.pipeline_metadata.using_mock_data ? "mock data" : "live"}
-          badgeVariant={run.pipeline_metadata.using_mock_data ? "amber" : "green"}
+          badge={run.pipeline_metadata?.using_mock_data ? "mock data" : "live"}
+          badgeVariant={run.pipeline_metadata?.using_mock_data ? "amber" : "green"}
         >
           <PipelineMetadataPanel run={run} />
         </DetailsAccordion>

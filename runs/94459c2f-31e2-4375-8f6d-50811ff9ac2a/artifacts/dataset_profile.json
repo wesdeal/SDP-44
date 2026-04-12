@@ -1,0 +1,202 @@
+{
+  "run_id": "94459c2f-31e2-4375-8f6d-50811ff9ac2a",
+  "dataset_name": "ETTh2.csv",
+  "file_format": "csv",
+  "num_rows": 17420,
+  "num_columns": 8,
+  "columns": [
+    {
+      "name": "date",
+      "dtype_pandas": "object",
+      "inferred_type": "datetime",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 17420,
+      "sample_values": [
+        "2016-07-01 00:00:00",
+        "2016-07-01 01:00:00",
+        "2016-07-01 02:00:00",
+        "2016-07-01 03:00:00",
+        "2016-07-01 04:00:00"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": true,
+      "is_monotonically_increasing": true
+    },
+    {
+      "name": "HUFL",
+      "dtype_pandas": "float64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 683,
+      "sample_values": [
+        41.13000106811523,
+        37.52799987792969,
+        37.946998596191406,
+        38.95199966430664,
+        38.11399841308594
+      ],
+      "min": 0.0,
+      "max": 107.89299774169922,
+      "mean": 37.193345627938015,
+      "std": 10.218854795442825,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "HULL",
+      "dtype_pandas": "float64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 325,
+      "sample_values": [
+        12.480999946594238,
+        10.13599967956543,
+        11.309000015258787,
+        11.895000457763672,
+        11.47599983215332
+      ],
+      "min": -18.68000030517578,
+      "max": 36.43899917602539,
+      "mean": 8.537565270904558,
+      "std": 6.02044183387418,
+      "has_negative_values": true,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "MUFL",
+      "dtype_pandas": "float64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 1521,
+      "sample_values": [
+        36.5359992980957,
+        33.93600082397461,
+        35.33000183105469,
+        35.54399871826172,
+        35.40999984741211
+      ],
+      "min": 11.204999923706056,
+      "max": 93.2300033569336,
+      "mean": 43.83035570537729,
+      "std": 13.05679802602345,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "MULL",
+      "dtype_pandas": "float64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 813,
+      "sample_values": [
+        9.354999542236328,
+        7.532000064849853,
+        9.006999969482422,
+        9.435999870300291,
+        9.623000144958496
+      ],
+      "min": -6.5939998626708975,
+      "max": 28.73600006103516,
+      "mean": 8.322694250349336,
+      "std": 4.366058824539037,
+      "has_negative_values": true,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "LUFL",
+      "dtype_pandas": "float64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 1680,
+      "sample_values": [
+        4.423999786376953,
+        4.434999942779541,
+        2.0999999046325684,
+        3.380000114440918,
+        2.0360000133514404
+      ],
+      "min": -14.350000381469728,
+      "max": 17.218000411987305,
+      "mean": -3.423604593341304,
+      "std": 6.144403123778719,
+      "has_negative_values": true,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "LULL",
+      "dtype_pandas": "float64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 363,
+      "sample_values": [
+        1.3109999895095823,
+        1.2150000333786009,
+        0.0,
+        1.2150000333786009,
+        0.0
+      ],
+      "min": -31.46199989318848,
+      "max": 2.931999921798706,
+      "mean": -2.085968873154556,
+      "std": 6.0127964713102395,
+      "has_negative_values": true,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "OT",
+      "dtype_pandas": "float64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 1628,
+      "sample_values": [
+        38.6619987487793,
+        37.124000549316406,
+        36.46500015258789,
+        33.60850143432617,
+        31.850500106811523
+      ],
+      "min": -2.6465001106262207,
+      "max": 58.87699890136719,
+      "mean": 26.609375894739827,
+      "std": 11.888265757577505,
+      "has_negative_values": true,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    }
+  ],
+  "has_header": true,
+  "detected_datetime_columns": [
+    "date"
+  ],
+  "llm_analysis": {
+    "dataset_description": "This dataset appears to represent time-series data related to various measurements (HUFL, HULL, MUFL, MULL, LUFL, LULL, OT) over time, indexed by date.",
+    "suggested_target_variable": "OT",
+    "target_confidence": "high",
+    "target_reasoning": "The 'OT' column seems to be a key measurement that could be influenced by the other variables, making it a strong candidate for the target variable.",
+    "known_quality_issues": [],
+    "has_trend": true,
+    "has_seasonality": false,
+    "is_multivariate": true,
+    "data_source_hint": "likely related to environmental or industrial measurements",
+    "ingestion_date": "2023-10-01"
+  },
+  "profiling_completed_at": "2026-04-11T19:48:46.602759+00:00"
+}

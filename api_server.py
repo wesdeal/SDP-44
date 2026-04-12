@@ -14,15 +14,17 @@ Endpoints:
 
 import json
 import os
+import shutil
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
 RUNS_DIR = Path(__file__).parent / "runs"
+INPUTS_DIR = Path(__file__).parent / "inputs"
 
 # ── App ────────────────────────────────────────────────────────────────────────
 
@@ -31,7 +33,7 @@ app = FastAPI(title="Pipeline Dashboard API", version="1.0.0")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
-    allow_methods=["GET", "OPTIONS"],
+    allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
 
@@ -199,3 +201,78 @@ def get_plot(run_id: str, filename: str):
     media_type = media_types.get(ext, "application/octet-stream")
 
     return FileResponse(path, media_type=media_type)
+
+
+@app.post("/api/runs/upload")
+async def upload_and_start_run(file: UploadFile = File(...)):
+    """
+    Accept a dataset file upload, save it, and start the pipeline asynchronously.
+
+    Returns { run_id } immediately. The caller should poll
+    GET /api/runs/{run_id}/status for live stage progress.
+
+    Accepted file types: .csv, .parquet, .json
+    """
+    _ALLOWED_SUFFIXES = {".csv", ".parquet", ".json"}
+    suffix = Path(file.filename).suffix.lower() if file.filename else ""
+    if suffix not in _ALLOWED_SUFFIXES:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unsupported file type '{suffix}'. Accepted: .csv, .parquet, .json",
+        )
+
+    # Save uploaded file to inputs/
+    INPUTS_DIR.mkdir(exist_ok=True)
+    dest = INPUTS_DIR / file.filename
+    try:
+        with open(dest, "wb") as f:
+            shutil.copyfileobj(file.file, f)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to save file: {exc}")
+
+    # Launch pipeline in background thread, return run_id immediately
+    from orchestrator import run_pipeline_async
+
+    config = {
+        "runs_dir": str(RUNS_DIR),
+        "random_seed": 42,
+        "tune_hyperparameters": True,
+    }
+    try:
+        run_id = run_pipeline_async(str(dest), config)
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Failed to start pipeline: {exc}")
+
+    return {"run_id": run_id}
+
+
+@app.get("/api/runs/{run_id}/status")
+def get_run_status(run_id: str):
+    """
+    Return stage-level status for a run, suitable for polling from the frontend.
+
+    Returns {
+        run_id, status, updated_at,
+        stages: { stage_name: { status, started_at, completed_at, error } }
+    }
+    """
+    manifest = _load_manifest(run_id)
+    stages_raw = manifest.get("stages", {})
+
+    stages = {
+        name: {
+            "status": s.get("status", "pending"),
+            "started_at": s.get("started_at"),
+            "completed_at": s.get("completed_at"),
+            "error": s.get("error"),
+        }
+        for name, s in stages_raw.items()
+    }
+
+    return {
+        "run_id": run_id,
+        "status": _effective_status(manifest),
+        "updated_at": manifest.get("updated_at"),
+        "dataset_name": _run_summary(run_id, manifest).get("dataset_name"),
+        "stages": stages,
+    }

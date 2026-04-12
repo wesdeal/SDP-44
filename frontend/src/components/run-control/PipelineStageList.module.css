@@ -1,0 +1,202 @@
+/* ── PipelineStageList ───────────────────────────────────────────────────── */
+
+.card {
+  background: var(--bg-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-panel);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-4) var(--sp-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.cardTitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-lo);
+}
+
+.cardMeta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+.stageList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── PipelineStageRow ────────────────────────────────────────────────────── */
+
+.stageRow {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-3) var(--sp-5);
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t-fast);
+}
+
+.stageRow:last-child {
+  border-bottom: none;
+}
+
+.stageRowRunning {
+  background: rgba(251, 191, 36, 0.03);
+}
+
+.stageRowCompleted {
+  /* subtle, no background change needed */
+}
+
+.stageRowFailed {
+  background: rgba(248, 113, 113, 0.04);
+}
+
+/* ── Status indicator ────────────────────────────────────────────────────── */
+
+.indicator {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Pending: hollow ring */
+.indicatorPending {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-dim);
+  background: transparent;
+}
+
+/* Running: animated amber dot */
+.indicatorRunning {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-amber);
+  box-shadow: 0 0 8px rgba(251, 191, 36, 0.5);
+  animation: stagePulse 1.2s ease-in-out infinite;
+}
+
+/* Completed: cyan check circle */
+.indicatorCompleted {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(52, 211, 153, 0.12);
+  border: 1px solid rgba(52, 211, 153, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Failed: red X circle */
+.indicatorFailed {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Partial failure */
+.indicatorPartial {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(251, 191, 36, 0.1);
+  border: 1px solid rgba(251, 191, 36, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Stage content ───────────────────────────────────────────────────────── */
+
+.stageContent {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.stageName {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-hi);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.stageNamePending {
+  color: var(--text-lo);
+  font-weight: 400;
+}
+
+.parallelBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim);
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 1px 4px;
+  text-transform: uppercase;
+}
+
+.stageSub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-lo);
+}
+
+.stageSubRunning {
+  color: var(--accent-amber);
+}
+
+.stageSubFailed {
+  color: var(--accent-red);
+}
+
+.stageSubCompleted {
+  color: var(--text-dim);
+}
+
+/* ── Right-side timing ───────────────────────────────────────────────────── */
+
+.stageTiming {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.04em;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+
+@keyframes stagePulse {
+  0%, 100% { opacity: 0.45; transform: scale(0.85); }
+  50%       { opacity: 1;    transform: scale(1);    }
+}

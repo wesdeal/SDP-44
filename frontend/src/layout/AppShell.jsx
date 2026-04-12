@@ -14,7 +14,7 @@ const STATUS_STYLE = {
   failed: styles.statusFailed,
 };
 
-export default function AppShell({ run, runSelector, children }) {
+export default function AppShell({ run, runSelector, controlLink, children }) {
   const status = run?.status ?? "loading";
   const runIdShort = run?.run_id ? shortId(run.run_id, 8) : "—";
   const dataset = run?.dataset_profile?.dataset_name ?? null;
@@ -51,6 +51,13 @@ export default function AppShell({ run, runSelector, children }) {
             </>
           )}
         </div>
+
+        {controlLink && (
+          <>
+            <div className={styles.divider} aria-hidden="true" />
+            {controlLink}
+          </>
+        )}
 
         {runSelector && (
           <>

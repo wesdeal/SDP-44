@@ -63,6 +63,7 @@ function FeatureGroup({ groupKey, features }) {
 
 export default function FeatureEngineeringPanel({ run }) {
   const fe = run.feature_engineering;
+  if (!fe) return null;
 
   return (
     <div className={styles.panel}>

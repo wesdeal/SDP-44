@@ -3,12 +3,14 @@
 Public API
 ----------
 run_pipeline(input_file: str, config: dict) -> str
+run_pipeline_async(input_file: str, config: dict) -> str
 
 This is the sole entry point for pipeline execution (IMPLEMENTATION_RULES.md §3).
 All stage coordination happens here; agents are never called from each other.
 """
 
 import os
+import threading
 from concurrent.futures import ThreadPoolExecutor
 
 from core.manifest import initialize_manifest, read_manifest
@@ -85,6 +87,77 @@ def run_pipeline(input_file: str, config: dict) -> str:
 
     final_manifest = read_manifest(manifest_path)
     return final_manifest["stages"]["artifact_assembly"]["artifacts"]["dashboard_bundle"]
+
+
+# ---------------------------------------------------------------------------
+# Async public API
+# ---------------------------------------------------------------------------
+
+def run_pipeline_async(input_file: str, config: dict) -> str:
+    """Initialize the manifest and start the pipeline in a background thread.
+
+    Returns the run_id immediately. All pipeline stages run asynchronously in a
+    daemon thread. Callers can poll the manifest via /api/runs/{run_id}/status
+    to track progress.
+
+    Args:
+        input_file: Path to the raw input dataset (CSV / Parquet / JSON).
+        config: Run-level configuration dict (same as run_pipeline).
+
+    Returns:
+        The run_id UUID string.
+    """
+    manifest = initialize_manifest(input_file, config)
+    run_id = manifest["run_id"]
+    runs_dir = config.get("runs_dir", "runs")
+    manifest_path = os.path.join(runs_dir, run_id, "job_manifest.json")
+
+    t = threading.Thread(
+        target=_run_from_manifest,
+        args=(manifest_path,),
+        daemon=True,
+        name=f"pipeline-{run_id[:8]}",
+    )
+    t.start()
+    return run_id
+
+
+def _run_from_manifest(manifest_path: str) -> None:
+    """Execute all pipeline stages for an already-initialized manifest.
+
+    Mirrors the body of run_pipeline() but skips initialize_manifest since
+    the manifest already exists. Used by run_pipeline_async().
+    """
+    try:
+        IngestionAgent().run(manifest_path)
+        _require_completed(manifest_path, "ingestion")
+
+        ProblemClassificationAgent().run(manifest_path)
+        _require_completed(manifest_path, "problem_classification")
+
+        _run_parallel_pair(manifest_path)
+        _require_completed(manifest_path, "preprocessing_planning")
+        _require_completed(manifest_path, "evaluation_protocol")
+
+        ModelSelectionAgent().run(manifest_path)
+        _require_completed(manifest_path, "model_selection")
+
+        training_failed = False
+        try:
+            TrainingAgent().run(manifest_path)
+        except Exception:
+            training_failed = True
+
+        if not training_failed:
+            try:
+                EvaluationAgent().run(manifest_path)
+            except Exception:
+                pass
+
+        ArtifactAssemblyAgent().run(manifest_path)
+    except Exception:
+        import traceback
+        traceback.print_exc()
 
 
 # ---------------------------------------------------------------------------

@@ -11,6 +11,7 @@ function MetaRow({ label, value, valueClass }) {
 
 export default function PipelineMetadataPanel({ run }) {
   const m = run.pipeline_metadata;
+  if (!m) return null;
   const taskDisplay = m.task_type.replace(/_/g, " ");
 
   return (

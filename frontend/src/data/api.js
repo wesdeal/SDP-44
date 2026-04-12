@@ -108,3 +108,51 @@ export async function listRuns() {
   if (!res.ok) throw new Error(`HTTP ${res.status} — /api/runs`);
   return res.json();
 }
+
+/**
+ * createRun(file)
+ *
+ * Upload a dataset file and start a new pipeline run.
+ * Always hits the real backend regardless of LIVE_MODE.
+ *
+ * POST /api/runs/upload  →  { run_id }
+ *
+ * @param {File} file — The dataset file to upload (.csv / .parquet / .json)
+ * @returns {Promise<{ run_id: string }>}
+ */
+export async function createRun(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const res = await fetch(`${API_BASE}/api/runs/upload`, {
+    method: "POST",
+    body: formData,
+  });
+
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`;
+    try {
+      const body = await res.json();
+      if (body.detail) detail = body.detail;
+    } catch (_) {}
+    throw new Error(detail);
+  }
+  return res.json();
+}
+
+/**
+ * getRunStatus(runId)
+ *
+ * Poll the live stage-level status of a run.
+ * Always hits the real backend regardless of LIVE_MODE.
+ *
+ * GET /api/runs/{runId}/status  →  { run_id, status, updated_at, stages }
+ *
+ * @param {string} runId
+ * @returns {Promise<{ run_id: string, status: string, updated_at: string, stages: object }>}
+ */
+export async function getRunStatus(runId) {
+  const res = await fetch(`${API_BASE}/api/runs/${runId}/status`);
+  if (!res.ok) throw new Error(`HTTP ${res.status} — /api/runs/${runId}/status`);
+  return res.json();
+}

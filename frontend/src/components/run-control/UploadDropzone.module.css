@@ -1,0 +1,213 @@
+/* ── UploadDropzone ──────────────────────────────────────────────────────── */
+
+.dropzone {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  background: var(--bg-1);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--r-xl);
+  padding: var(--sp-7) var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  cursor: pointer;
+  transition: border-color var(--t-base), background var(--t-base), box-shadow var(--t-base);
+  outline: none;
+}
+
+.dropzone:hover,
+.dropzone:focus-visible {
+  border-color: var(--accent-cyan-dim);
+  background: var(--bg-2);
+}
+
+.dropzoneOver {
+  border-color: var(--accent-cyan);
+  background: rgba(34, 211, 238, 0.04);
+  box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.2), 0 0 32px -8px rgba(34, 211, 238, 0.15);
+}
+
+.dropzoneHasFile {
+  border-style: solid;
+  border-color: var(--border-strong);
+  background: var(--bg-2);
+}
+
+/* ── Upload icon ─────────────────────────────────────────────────────────── */
+
+.iconWrap {
+  width: 52px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-lg);
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  color: var(--text-lo);
+  transition: color var(--t-base), border-color var(--t-base);
+}
+
+.dropzoneOver .iconWrap {
+  color: var(--accent-cyan);
+  border-color: rgba(34, 211, 238, 0.3);
+}
+
+.dropzoneHasFile .iconWrap {
+  color: var(--accent-green);
+  border-color: rgba(52, 211, 153, 0.3);
+  background: rgba(52, 211, 153, 0.06);
+}
+
+/* ── Text group ──────────────────────────────────────────────────────────── */
+
+.textGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+  text-align: center;
+}
+
+.primaryText {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-md);
+}
+
+.secondaryText {
+  font-size: 12px;
+  color: var(--text-lo);
+}
+
+.acceptText {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+}
+
+/* ── File preview ────────────────────────────────────────────────────────── */
+
+.filePreview {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: var(--sp-2) var(--sp-3);
+  width: 100%;
+  max-width: 360px;
+}
+
+.fileIcon {
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--r-sm);
+  background: rgba(34, 211, 238, 0.08);
+  color: var(--accent-cyan);
+  flex-shrink: 0;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fileName {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fileSize {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-lo);
+}
+
+.fileClear {
+  margin-left: auto;
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-dim);
+  padding: 4px;
+  border-radius: var(--r-sm);
+  line-height: 1;
+  font-size: 16px;
+  transition: color var(--t-fast);
+}
+
+.fileClear:hover {
+  color: var(--accent-red);
+}
+
+/* ── Hidden file input (visually hidden, click-forwarded via onClick) ────── */
+
+.fileInput {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ── Start button ────────────────────────────────────────────────────────── */
+
+.startBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 10px 28px;
+  border-radius: var(--r-md);
+  border: 1px solid rgba(34, 211, 238, 0.4);
+  background: rgba(34, 211, 238, 0.08);
+  color: var(--accent-cyan);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background var(--t-base), border-color var(--t-base), box-shadow var(--t-base);
+  font-weight: 500;
+}
+
+.startBtn:hover:not(:disabled) {
+  background: rgba(34, 211, 238, 0.13);
+  border-color: rgba(34, 211, 238, 0.6);
+  box-shadow: 0 0 20px -6px rgba(34, 211, 238, 0.3);
+}
+
+.startBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Error message ───────────────────────────────────────────────────────── */
+
+.errorMsg {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent-red);
+  background: rgba(248, 113, 113, 0.07);
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  border-radius: var(--r-md);
+  padding: var(--sp-2) var(--sp-3);
+  max-width: 480px;
+  width: 100%;
+}

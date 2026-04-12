@@ -1,0 +1,120 @@
+{
+  "run_id": "8db0cf7f-4a9d-4e06-a9fe-2f4a2677f05d",
+  "steps_applied": [
+    {
+      "order": 1,
+      "method": "imputation",
+      "parameters_used": {
+        "strategy": "mean"
+      },
+      "fitted_params": {},
+      "rows_before": 144,
+      "rows_after": 144,
+      "columns_affected": []
+    },
+    {
+      "order": 2,
+      "method": "rolling_stats",
+      "parameters_used": {
+        "window": 24,
+        "include_target_lags": false,
+        "target_col": "#Passengers"
+      },
+      "fitted_params": {
+        "window": 24
+      },
+      "rows_before": 144,
+      "rows_after": 144,
+      "columns_affected": []
+    },
+    {
+      "order": 3,
+      "method": "lag_features",
+      "parameters_used": {
+        "lags": [
+          1,
+          2,
+          3,
+          6,
+          24
+        ],
+        "include_target_lags": true,
+        "target_col": "#Passengers"
+      },
+      "fitted_params": {
+        "lags": [
+          1,
+          2,
+          3,
+          6,
+          24
+        ],
+        "new_columns": [
+          "#Passengers_lag_1",
+          "#Passengers_lag_2",
+          "#Passengers_lag_3",
+          "#Passengers_lag_6",
+          "#Passengers_lag_24"
+        ]
+      },
+      "rows_before": 144,
+      "rows_after": 120,
+      "columns_affected": [
+        "#Passengers_lag_1",
+        "#Passengers_lag_2",
+        "#Passengers_lag_3",
+        "#Passengers_lag_6",
+        "#Passengers_lag_24"
+      ]
+    },
+    {
+      "order": 4,
+      "method": "z_norm",
+      "parameters_used": {},
+      "fitted_params": {
+        "#Passengers_lag_1": {
+          "mean": 307.2916666666667,
+          "std": 109.56911029371169
+        },
+        "#Passengers_lag_2": {
+          "mean": 304.9916666666667,
+          "std": 110.69978137838496
+        },
+        "#Passengers_lag_3": {
+          "mean": 302.2583333333333,
+          "std": 110.86324126548388
+        },
+        "#Passengers_lag_6": {
+          "mean": 291.94166666666666,
+          "std": 103.32306098134896
+        },
+        "#Passengers_lag_24": {
+          "mean": 245.90833333333333,
+          "std": 94.54566761036112
+        }
+      },
+      "rows_before": 120,
+      "rows_after": 120,
+      "columns_affected": [
+        "#Passengers_lag_1",
+        "#Passengers_lag_2",
+        "#Passengers_lag_3",
+        "#Passengers_lag_6",
+        "#Passengers_lag_24"
+      ]
+    }
+  ],
+  "final_shape": {
+    "rows": 120,
+    "cols": 7
+  },
+  "feature_columns": [
+    "#Passengers_lag_1",
+    "#Passengers_lag_2",
+    "#Passengers_lag_3",
+    "#Passengers_lag_6",
+    "#Passengers_lag_24"
+  ],
+  "target_column": "#Passengers",
+  "time_column": "Month"
+}

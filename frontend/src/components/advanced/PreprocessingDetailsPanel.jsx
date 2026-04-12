@@ -111,8 +111,9 @@ function StepCard({ plan, manifest }) {
 
 export default function PreprocessingDetailsPanel({ run }) {
   const { preprocessing_plan, preprocessing_manifest } = run;
+  if (!preprocessing_plan) return null;
   const manifestByOrder = {};
-  preprocessing_manifest.steps_applied.forEach((s) => {
+  (preprocessing_manifest?.steps_applied ?? []).forEach((s) => {
     manifestByOrder[s.order] = s;
   });
 

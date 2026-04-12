@@ -1,48 +1,60 @@
 import { useEffect, useState } from "react";
 import AppShell from "./layout/AppShell.jsx";
 import RunDashboard from "./pages/RunDashboard.jsx";
+import RunControlPage from "./pages/RunControlPage.jsx";
 import { getRun, listRuns, getLatestRunId, DEFAULT_RUN_ID, LIVE_MODE } from "./data/api.js";
 
 /**
  * Root component.
  *
- * Run resolution order:
- *   1. ?runId= URL query param  → use as-is
- *   2. Live mode, no param      → GET /api/runs/latest → use that run_id
- *   3. Mock mode, no param      → DEFAULT_RUN_ID
+ * Views:
+ *   "control"   — Run Control / Pipeline Status page (default, no runId in URL)
+ *   "dashboard" — Results dashboard for a specific run (?view=dashboard&runId=...)
  *
- * The run selector in the AppShell header populates from GET /api/runs and
- * lets the user switch between any available run without reloading the page.
+ * Navigation is URL-param-driven (no router library), matching the existing pattern.
+ * Backwards-compat: a bare ?runId= URL (no view param) opens the dashboard directly.
  */
 export default function App() {
-  // null = not yet resolved (shows skeleton)
+  // ── View state ─────────────────────────────────────────────────────────
+  const [view, setView] = useState(() => {
+    const params = new URLSearchParams(window.location.search);
+    // Bare ?runId= is treated as dashboard (backwards compat)
+    if (params.get("view") === "dashboard" || params.has("runId")) return "dashboard";
+    return "control";
+  });
+
+  // ── Dashboard state ────────────────────────────────────────────────────
   const [runId, setRunId] = useState(null);
   const [run, setRun] = useState(null);
   const [error, setError] = useState(null);
   const [runs, setRuns] = useState([]);
 
-  // ── Step 1: Resolve the initial run ID ────────────────────────────────────
+  // ── Resolve initial runId when in dashboard view ───────────────────────
   useEffect(() => {
+    if (view !== "dashboard") return;
+
     const fromUrl = new URLSearchParams(window.location.search).get("runId");
     if (fromUrl) {
       setRunId(fromUrl);
       return;
     }
+    // No runId in URL — resolve latest
     getLatestRunId()
       .then((id) => setRunId(id ?? DEFAULT_RUN_ID))
       .catch(() => setRunId(DEFAULT_RUN_ID));
-  }, []);
+  }, [view]);
 
-  // ── Step 2: Populate run selector list ────────────────────────────────────
+  // ── Populate run selector list ─────────────────────────────────────────
   useEffect(() => {
+    if (view !== "dashboard") return;
     listRuns()
       .then(setRuns)
-      .catch(() => {}); // silently fail — selector just won't appear
-  }, []);
+      .catch(() => {});
+  }, [view]);
 
-  // ── Step 3: Fetch run data whenever runId changes ─────────────────────────
+  // ── Fetch run data whenever runId changes ──────────────────────────────
   useEffect(() => {
-    if (!runId) return;
+    if (!runId || view !== "dashboard") return;
     let alive = true;
     setRun(null);
     setError(null);
@@ -50,26 +62,57 @@ export default function App() {
       .then((r) => { if (alive) setRun(r); })
       .catch((e) => { if (alive) setError(e); });
     return () => { alive = false; };
-  }, [runId]);
+  }, [runId, view]);
 
-  // ── Run selector handler ───────────────────────────────────────────────────
+  // ── Navigation helpers ─────────────────────────────────────────────────
+
+  /** Switch to the results dashboard for a specific run. */
+  function goToDashboard(id) {
+    setRunId(id);
+    setRun(null);
+    setError(null);
+    setView("dashboard");
+    const url = new URL(window.location.href);
+    url.searchParams.set("view", "dashboard");
+    url.searchParams.set("runId", id);
+    window.history.pushState({}, "", url.toString());
+  }
+
+  /** Switch to the Run Control page. */
+  function goToControl() {
+    setView("control");
+    const url = new URL(window.location.href);
+    url.searchParams.set("view", "control");
+    url.searchParams.delete("runId");
+    window.history.pushState({}, "", url.toString());
+  }
+
+  // ── Run selector handler (dashboard) ──────────────────────────────────
   function handleRunChange(newRunId) {
     setRunId(newRunId);
-    // Sync the URL so the page is bookmarkable / shareable
     const url = new URL(window.location.href);
     url.searchParams.set("runId", newRunId);
     window.history.pushState({}, "", url.toString());
   }
 
-  // Only show selector when we have multiple runs (live mode)
+  // ── Run selector dropdown ──────────────────────────────────────────────
   const runSelector =
-    runs.length > 0 ? (
+    view === "dashboard" && runs.length > 0 ? (
       <RunSelector runs={runs} currentRunId={runId} onRunChange={handleRunChange} />
     ) : null;
 
+  // ── Control link in topbar ─────────────────────────────────────────────
+  const controlLink =
+    view === "dashboard" ? (
+      <ControlLink onClick={goToControl} />
+    ) : null;
+
   return (
-    <AppShell run={run} runSelector={runSelector}>
-      {error ? (
+    <AppShell run={view === "dashboard" ? run : null} runSelector={runSelector}
+      controlLink={controlLink}>
+      {view === "control" ? (
+        <RunControlPage onNavigateToDashboard={goToDashboard} />
+      ) : error ? (
         <ErrorPanel error={error} />
       ) : run ? (
         <RunDashboard run={run} />
@@ -79,6 +122,38 @@ export default function App() {
     </AppShell>
   );
 }
+
+/* ── Control link ─────────────────────────────────────────────────────────── */
+
+function ControlLink({ onClick }) {
+  return (
+    <button onClick={onClick} style={controlLinkStyle} title="Go to Pipeline Control">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+        style={{ marginRight: 6 }}>
+        <polyline points="15 18 9 12 15 6" />
+      </svg>
+      Control
+    </button>
+  );
+}
+
+const controlLinkStyle = {
+  display: "inline-flex",
+  alignItems: "center",
+  padding: "4px 10px",
+  background: "none",
+  border: "1px solid var(--border-strong)",
+  borderRadius: "var(--r-md)",
+  color: "var(--text-lo)",
+  fontFamily: "var(--font-mono)",
+  fontSize: 10,
+  letterSpacing: "0.1em",
+  textTransform: "uppercase",
+  cursor: "pointer",
+  transition: "color 150ms ease, border-color 150ms ease",
+  flexShrink: 0,
+};
 
 /* ── Run selector ─────────────────────────────────────────────────────────── */
 

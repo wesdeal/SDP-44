@@ -1,0 +1,66 @@
+{
+  "run_id": "1c5c5fd8-3bcd-46a3-ac70-3a70d785a333",
+  "created_at": "2026-04-11T14:27:15.390237+00:00",
+  "assembled_at": "2026-04-11T14:42:22.041510+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/ETTh2.csv",
+    "file_format": "csv",
+    "original_filename": "ETTh2.csv"
+  },
+  "config": {
+    "runs_dir": "/Users/wesdeal/Desktop/Pipeline/runs",
+    "random_seed": 42,
+    "tune_hyperparameters": true
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-11T14:27:15.391674+00:00",
+      "completed_at": "2026-04-11T14:27:23.432629+00:00",
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-11T14:27:23.434190+00:00",
+      "completed_at": "2026-04-11T14:27:23.436562+00:00",
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-11T14:27:23.442073+00:00",
+      "completed_at": "2026-04-11T14:27:24.344258+00:00",
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-11T14:27:23.439848+00:00",
+      "completed_at": "2026-04-11T14:27:23.446018+00:00",
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-04-11T14:27:24.346707+00:00",
+      "completed_at": "2026-04-11T14:27:24.348199+00:00",
+      "error": null
+    },
+    "training": {
+      "status": "completed",
+      "started_at": "2026-04-11T14:27:24.348654+00:00",
+      "completed_at": "2026-04-11T14:42:21.237232+00:00",
+      "error": null
+    },
+    "evaluation": {
+      "status": "completed",
+      "started_at": "2026-04-11T14:42:21.244987+00:00",
+      "completed_at": "2026-04-11T14:42:22.033783+00:00",
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-04-11T14:42:22.039463+00:00",
+      "completed_at": null,
+      "error": null
+    }
+  }
+}

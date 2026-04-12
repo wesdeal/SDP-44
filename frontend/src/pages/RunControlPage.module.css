@@ -1,0 +1,121 @@
+/* ── RunControlPage layout ─────────────────────────────────────────────────── */
+
+.page {
+  display: flex;
+  /* Break out of AppShell's 32px padding to go full-bleed within max-width */
+  margin: calc(-1 * var(--sp-6));
+  height: calc(100vh - 52px); /* 52px = topbar height — fixed so sidebar scrolls internally */
+  overflow: hidden;
+}
+
+/* ── Sidebar ──────────────────────────────────────────────────────────────── */
+
+.sidebar {
+  width: 400px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-1);
+  border-right: 1px solid var(--border);
+  overflow: hidden; /* inner past-runs list scrolls, not the sidebar itself */
+}
+
+/* ── Main content area ────────────────────────────────────────────────────── */
+
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Upload main panel ────────────────────────────────────────────────────── */
+
+.uploadMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-6);
+  padding: var(--sp-8) var(--sp-6);
+}
+
+.uploadTitle {
+  text-align: center;
+}
+
+.uploadTitleLabel {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: var(--sp-2);
+}
+
+.uploadTitleHeading {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-hi);
+  margin: 0 0 var(--sp-2);
+}
+
+.uploadTitleSub {
+  font-size: 13px;
+  color: var(--text-lo);
+  margin: 0;
+}
+
+/* ── Pipeline status main panel ───────────────────────────────────────────── */
+
+.statusMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: var(--sp-4);
+}
+
+/* ── Completion main panel ────────────────────────────────────────────────── */
+
+.completionMain {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: var(--sp-4);
+}
+
+/* ── Empty state (no run yet, shown in main when no run) ─────────────────── */
+
+.emptyState {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.emptyDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-dim);
+  opacity: 0.4;
+}

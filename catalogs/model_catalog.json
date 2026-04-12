@@ -8,7 +8,7 @@
       "compatible_tasks": ["tabular_regression", "time_series_forecasting"],
       "requires_features": false,
       "cpu_feasible": true,
-      "available": false,
+      "available": true,
       "registry_key": "DummyRegressor",
       "description": "Predicts the training set mean. Required baseline for regression tasks.",
       "io": {
@@ -31,7 +31,7 @@
       "compatible_tasks": ["tabular_classification"],
       "requires_features": false,
       "cpu_feasible": true,
-      "available": false,
+      "available": true,
       "registry_key": "DummyClassifier",
       "description": "Predicts majority class or uniform random. Required baseline for classification.",
       "io": {
