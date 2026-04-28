@@ -1,0 +1,17 @@
+{
+  "run_id": "201a61a4-b530-457d-b44d-3143c48fb317",
+  "task_type": "time_series_forecasting",
+  "modality": "time_series",
+  "target_col": "OT",
+  "target_dtype": "numeric",
+  "target_cardinality": 1628,
+  "time_col": "date",
+  "group_col": null,
+  "forecast_horizon": 10,
+  "is_multivariate_ts": true,
+  "classification_subtype": null,
+  "regression_subtype": "standard",
+  "task_confidence": "high",
+  "task_reasoning": "Datetime column 'date' is monotonically increasing and target 'OT' is numeric \u2192 time_series_forecasting.",
+  "warnings": []
+}

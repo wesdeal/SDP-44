@@ -1,0 +1,158 @@
+{
+  "run_id": "dfd366b9-77ce-466d-9293-ad17d06ffbee",
+  "dataset_name": "AAPL_Stock_Price_Data.csv",
+  "file_format": "csv",
+  "num_rows": 22,
+  "num_columns": 6,
+  "columns": [
+    {
+      "name": "Date",
+      "dtype_pandas": "object",
+      "inferred_type": "datetime",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 22,
+      "sample_values": [
+        "04/15/2026",
+        "04/14/2026",
+        "04/13/2026",
+        "04/10/2026",
+        "04/09/2026"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": true,
+      "is_monotonically_increasing": false
+    },
+    {
+      "name": "Close/Last",
+      "dtype_pandas": "object",
+      "inferred_type": "categorical",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 22,
+      "sample_values": [
+        "$266.43",
+        "$258.83",
+        "$259.20",
+        "$260.48",
+        "$260.49"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "Volume",
+      "dtype_pandas": "int64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 22,
+      "sample_values": [
+        49913510,
+        48370710,
+        36234700,
+        31291470,
+        28121570
+      ],
+      "min": 28121570.0,
+      "max": 88331080.0,
+      "mean": 41549832.72727273,
+      "std": 13534920.537795201,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "Open",
+      "dtype_pandas": "object",
+      "inferred_type": "categorical",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 22,
+      "sample_values": [
+        "$258.16",
+        "$259.245",
+        "$259.73",
+        "$259.98",
+        "$259.00"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "High",
+      "dtype_pandas": "object",
+      "inferred_type": "categorical",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 22,
+      "sample_values": [
+        "$266.56",
+        "$261.93",
+        "$260.18",
+        "$262.19",
+        "$261.12"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": "Low",
+      "dtype_pandas": "object",
+      "inferred_type": "categorical",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 22,
+      "sample_values": [
+        "$257.81",
+        "$257.19",
+        "$256.66",
+        "$259.0231",
+        "$256.07"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    }
+  ],
+  "has_header": true,
+  "detected_datetime_columns": [
+    "Date"
+  ],
+  "llm_analysis": {
+    "dataset_description": "AAPL stock price data including daily closing prices, volume, and other related metrics.",
+    "suggested_target_variable": "Close/Last",
+    "target_confidence": "high",
+    "target_reasoning": "The 'Close/Last' column represents the final price of the stock for each day, making it a primary target for stock price prediction.",
+    "known_quality_issues": [],
+    "has_trend": true,
+    "has_seasonality": false,
+    "is_multivariate": true,
+    "data_source_hint": "financial market data",
+    "ingestion_date": "2023-10-01"
+  },
+  "profiling_completed_at": "2026-04-16T21:03:01.006906+00:00"
+}

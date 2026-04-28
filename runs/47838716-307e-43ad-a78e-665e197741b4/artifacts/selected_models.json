@@ -1,0 +1,63 @@
+{
+  "run_id": "47838716-307e-43ad-a78e-665e197741b4",
+  "task_type": "time_series_forecasting",
+  "selected_models": [
+    {
+      "name": "XGBoost",
+      "tier": "baseline",
+      "rationale": "Baseline slot for time_series_forecasting: Gradient boosted trees. High-capacity, widely used benchmark for tabular data.",
+      "substituted_from": "ARIMA",
+      "substitution_reason": "No baseline-tier model available for task_type='time_series_forecasting' (all rejected or unavailable); cross-tier fallback to 'XGBoost'."
+    },
+    {
+      "name": "RandomForest",
+      "tier": "classical",
+      "rationale": "Classical slot for time_series_forecasting: Ensemble of decision trees. Robust, parallelizable, handles mixed types well.",
+      "substituted_from": "XGBoost",
+      "substitution_reason": "Preferred model 'XGBoost' was already assigned to another tier; substituted with 'RandomForest'."
+    },
+    {
+      "name": "Chronos",
+      "tier": "specialized",
+      "rationale": "Specialized slot for time_series_forecasting: Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering.",
+      "substituted_from": null,
+      "substitution_reason": null
+    }
+  ],
+  "selection_strategy": "tier_gated_deterministic",
+  "models_considered": [
+    "RandomForest",
+    "XGBoost",
+    "Chronos"
+  ],
+  "models_rejected": [
+    {
+      "name": "DummyRegressor",
+      "rejection_reason": "catalog available=false"
+    },
+    {
+      "name": "DummyClassifier",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_classification']"
+    },
+    {
+      "name": "LinearModel",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_regression', 'tabular_classification']"
+    },
+    {
+      "name": "LightGBM",
+      "rejection_reason": "catalog available=false"
+    },
+    {
+      "name": "ARIMA",
+      "rejection_reason": "univariate_only=true but task has is_multivariate_ts=true; model cannot exploit multivariate features."
+    },
+    {
+      "name": "LSTM",
+      "rejection_reason": "registry_key 'LSTM' not importable (not present in ModelRegistry)"
+    },
+    {
+      "name": "SVR",
+      "rejection_reason": "task_type 'time_series_forecasting' not in compatible_tasks ['tabular_regression']"
+    }
+  ]
+}

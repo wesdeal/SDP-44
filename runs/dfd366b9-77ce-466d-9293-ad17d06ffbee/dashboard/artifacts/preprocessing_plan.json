@@ -1,0 +1,26 @@
+{
+  "run_id": "dfd366b9-77ce-466d-9293-ad17d06ffbee",
+  "steps": [
+    {
+      "order": 1,
+      "method": "imputation",
+      "parameters": {
+        "strategy": "mean"
+      },
+      "applies_to": "features_only",
+      "reason": "Fill missing values before normalization.",
+      "skip_columns": []
+    },
+    {
+      "order": 2,
+      "method": "z_norm",
+      "parameters": {},
+      "applies_to": "all_numeric",
+      "reason": "Standardize numeric features to zero mean and unit variance.",
+      "skip_columns": []
+    }
+  ],
+  "preserve_temporal_order": false,
+  "exclude_columns_from_features": [],
+  "plan_source": "heuristic_fallback"
+}

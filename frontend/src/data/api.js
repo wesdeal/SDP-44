@@ -120,9 +120,10 @@ export async function listRuns() {
  * @param {File} file — The dataset file to upload (.csv / .parquet / .json)
  * @returns {Promise<{ run_id: string }>}
  */
-export async function createRun(file) {
+export async function createRun(file, tuneHyperparameters = true) {
   const formData = new FormData();
   formData.append("file", file);
+  formData.append("tune_hyperparameters", String(tuneHyperparameters));
 
   const res = await fetch(`${API_BASE}/api/runs/upload`, {
     method: "POST",

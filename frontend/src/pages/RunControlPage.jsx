@@ -86,7 +86,7 @@ function RunStatusHeader({ status, datasetName, runId }) {
 
 /* ── Upload main panel ────────────────────────────────────────────────────── */
 
-function UploadPanel({ file, onFileSelect, onStartRun, isStarting, uploadError }) {
+function UploadPanel({ file, onFileSelect, onStartRun, isStarting, uploadError, tuneHyperparameters, onTuneToggle }) {
   return (
     <div className={styles.uploadMain}>
       <div className={styles.uploadTitle}>
@@ -96,6 +96,48 @@ function UploadPanel({ file, onFileSelect, onStartRun, isStarting, uploadError }
           Upload a dataset to begin automatic model evaluation
         </p>
       </div>
+
+      {/* Hyperparameter tuning toggle */}
+      <label style={{
+        display: "flex",
+        alignItems: "center",
+        gap: "var(--sp-3)",
+        cursor: "pointer",
+        userSelect: "none",
+        fontFamily: "var(--font-mono)",
+        fontSize: 11,
+        color: "var(--text-lo)",
+        marginBottom: "var(--sp-3)",
+      }}>
+        <span style={{ position: "relative", display: "inline-block", width: 36, height: 20 }}>
+          <input
+            type="checkbox"
+            checked={tuneHyperparameters}
+            onChange={(e) => onTuneToggle(e.target.checked)}
+            style={{ opacity: 0, width: 0, height: 0, position: "absolute" }}
+          />
+          <span style={{
+            position: "absolute", inset: 0,
+            borderRadius: 10,
+            background: tuneHyperparameters ? "var(--accent-blue, #3b82f6)" : "var(--surface-2, #2a2a2a)",
+            border: "1px solid var(--border, rgba(255,255,255,0.08))",
+            transition: "background 0.2s",
+          }} />
+          <span style={{
+            position: "absolute",
+            top: 3,
+            left: tuneHyperparameters ? 18 : 3,
+            width: 14, height: 14,
+            borderRadius: "50%",
+            background: "var(--text-hi, #fff)",
+            transition: "left 0.2s",
+          }} />
+        </span>
+        Hyperparameter tuning
+        <span style={{ color: tuneHyperparameters ? "var(--accent-green)" : "var(--text-dim)" }}>
+          {tuneHyperparameters ? "on" : "off"}
+        </span>
+      </label>
 
       <UploadDropzone
         file={file}
@@ -160,6 +202,7 @@ export default function RunControlPage({ onNavigateToDashboard, initialRunId }) 
   const [runStatus, setRunStatus] = useState(null);
   const [uploadError, setUploadError] = useState(null);
   const [isStarting, setIsStarting] = useState(false);
+  const [tuneHyperparameters, setTuneHyperparameters] = useState(true);
   const [runs, setRuns] = useState([]);
 
   // ── Fetch past runs list ─────────────────────────────────────────────────
@@ -220,7 +263,7 @@ export default function RunControlPage({ onNavigateToDashboard, initialRunId }) 
     setUploadError(null);
 
     try {
-      const { run_id } = await createRun(file);
+      const { run_id } = await createRun(file, tuneHyperparameters);
       setRunId(run_id);
       setRunStatus(null);
       setMode("running");
@@ -288,6 +331,8 @@ export default function RunControlPage({ onNavigateToDashboard, initialRunId }) 
             onStartRun={handleStartRun}
             isStarting={isStarting}
             uploadError={uploadError}
+            tuneHyperparameters={tuneHyperparameters}
+            onTuneToggle={setTuneHyperparameters}
           />
         )}
 

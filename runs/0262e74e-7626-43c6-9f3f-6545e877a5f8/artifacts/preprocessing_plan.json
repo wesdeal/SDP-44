@@ -1,0 +1,72 @@
+{
+  "run_id": "0262e74e-7626-43c6-9f3f-6545e877a5f8",
+  "steps": [
+    {
+      "order": 1,
+      "method": "imputation",
+      "parameters": {
+        "strategy": "mean"
+      },
+      "applies_to": "features_only",
+      "reason": "Fill missing values before feature engineering.",
+      "skip_columns": []
+    },
+    {
+      "order": 2,
+      "method": "rolling_stats",
+      "parameters": {
+        "window": 24,
+        "include_target_lags": false,
+        "target_col": "OT"
+      },
+      "applies_to": [
+        "HUFL",
+        "HULL",
+        "MUFL",
+        "MULL",
+        "LUFL",
+        "LULL"
+      ],
+      "reason": "Rolling mean/std (24-step window) on original features to capture local trends without leaking from the target.",
+      "skip_columns": []
+    },
+    {
+      "order": 3,
+      "method": "lag_features",
+      "parameters": {
+        "lags": [
+          1,
+          2,
+          3,
+          6,
+          24
+        ],
+        "include_target_lags": true,
+        "target_col": "OT"
+      },
+      "applies_to": [
+        "HUFL",
+        "HULL",
+        "MUFL",
+        "MULL",
+        "LUFL",
+        "LULL"
+      ],
+      "reason": "Lag features (1, 2, 3, 6, 24 steps) on original features plus target lags so tree-based models can learn temporal dynamics.",
+      "skip_columns": []
+    },
+    {
+      "order": 4,
+      "method": "z_norm",
+      "parameters": {},
+      "applies_to": "all_numeric",
+      "reason": "Standardize all numeric columns (original + rolling + lag) to zero mean and unit variance.",
+      "skip_columns": []
+    }
+  ],
+  "preserve_temporal_order": true,
+  "exclude_columns_from_features": [
+    "date"
+  ],
+  "plan_source": "heuristic_fallback"
+}

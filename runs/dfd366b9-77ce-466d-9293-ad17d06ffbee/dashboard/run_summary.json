@@ -1,0 +1,66 @@
+{
+  "run_id": "dfd366b9-77ce-466d-9293-ad17d06ffbee",
+  "created_at": "2026-04-16T21:02:57.178821+00:00",
+  "assembled_at": "2026-04-16T21:03:01.038747+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/AAPL_Stock_Price_Data.csv",
+    "file_format": "csv",
+    "original_filename": "AAPL_Stock_Price_Data.csv"
+  },
+  "config": {
+    "runs_dir": "/Users/wesdeal/Desktop/Pipeline/runs",
+    "random_seed": 42,
+    "tune_hyperparameters": false
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:02:57.180863+00:00",
+      "completed_at": "2026-04-16T21:03:01.008634+00:00",
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:03:01.009932+00:00",
+      "completed_at": "2026-04-16T21:03:01.012242+00:00",
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:03:01.016868+00:00",
+      "completed_at": "2026-04-16T21:03:01.028044+00:00",
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:03:01.015836+00:00",
+      "completed_at": "2026-04-16T21:03:01.019888+00:00",
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:03:01.029844+00:00",
+      "completed_at": "2026-04-16T21:03:01.031894+00:00",
+      "error": null
+    },
+    "training": {
+      "status": "failed",
+      "started_at": "2026-04-16T21:03:01.032430+00:00",
+      "completed_at": "2026-04-16T21:03:01.036744+00:00",
+      "error": "The least populated class in y has only 1 member, which is too few. The minimum number of groups for any class cannot be less than 2."
+    },
+    "evaluation": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-04-16T21:03:01.037658+00:00",
+      "completed_at": null,
+      "error": null
+    }
+  }
+}

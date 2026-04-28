@@ -1,0 +1,19 @@
+{
+  "run_id": "5ad061d8-2977-496b-a4c4-ed02c587c97c",
+  "task_type": "time_series_forecasting",
+  "modality": "time_series",
+  "target_col": "Close/Last",
+  "target_dtype": "numeric",
+  "target_cardinality": 22,
+  "time_col": "Date",
+  "group_col": null,
+  "forecast_horizon": 10,
+  "is_multivariate_ts": true,
+  "classification_subtype": null,
+  "regression_subtype": "standard",
+  "task_confidence": "high",
+  "task_reasoning": "Datetime column 'Date' is monotonically decreasing (newest-first) and target 'Close/Last' is numeric \u2192 time_series_forecasting. Data will need to be sorted ascending before training.",
+  "warnings": [
+    "TIME_COL_DESCENDING: datetime column 'Date' is sorted newest-first. Preprocessing should sort it ascending before training."
+  ]
+}

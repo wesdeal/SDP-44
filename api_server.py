@@ -17,7 +17,7 @@ import os
 import shutil
 from pathlib import Path
 
-from fastapi import FastAPI, File, HTTPException, UploadFile
+from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 
@@ -204,7 +204,10 @@ def get_plot(run_id: str, filename: str):
 
 
 @app.post("/api/runs/upload")
-async def upload_and_start_run(file: UploadFile = File(...)):
+async def upload_and_start_run(
+    file: UploadFile = File(...),
+    tune_hyperparameters: bool = Form(True),
+):
     """
     Accept a dataset file upload, save it, and start the pipeline asynchronously.
 
@@ -236,7 +239,7 @@ async def upload_and_start_run(file: UploadFile = File(...)):
     config = {
         "runs_dir": str(RUNS_DIR),
         "random_seed": 42,
-        "tune_hyperparameters": True,
+        "tune_hyperparameters": tune_hyperparameters,
     }
     try:
         run_id = run_pipeline_async(str(dest), config)

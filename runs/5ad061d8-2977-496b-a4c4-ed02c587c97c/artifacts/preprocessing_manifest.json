@@ -1,0 +1,143 @@
+{
+  "run_id": "5ad061d8-2977-496b-a4c4-ed02c587c97c",
+  "steps_applied": [
+    {
+      "order": 1,
+      "method": "imputation",
+      "parameters_used": {
+        "strategy": "mean"
+      },
+      "fitted_params": {},
+      "rows_before": 22,
+      "rows_after": 22,
+      "columns_affected": []
+    },
+    {
+      "order": 2,
+      "method": "rolling_stats",
+      "parameters_used": {
+        "window": 24,
+        "include_target_lags": false,
+        "target_col": "Close/Last"
+      },
+      "fitted_params": {
+        "window": 24
+      },
+      "rows_before": 22,
+      "rows_after": 22,
+      "columns_affected": [
+        "Volume_rolling_mean_24",
+        "Volume_rolling_std_24"
+      ]
+    },
+    {
+      "order": 3,
+      "method": "lag_features",
+      "parameters_used": {
+        "lags": [
+          1,
+          2,
+          3,
+          6,
+          24
+        ],
+        "include_target_lags": true,
+        "target_col": "Close/Last"
+      },
+      "fitted_params": {
+        "lags": [
+          1,
+          2,
+          3,
+          6,
+          24
+        ],
+        "new_columns": [
+          "Volume_lag_1",
+          "Volume_lag_2",
+          "Volume_lag_3",
+          "Volume_lag_6",
+          "Volume_lag_24"
+        ]
+      },
+      "rows_before": 22,
+      "rows_after": 0,
+      "columns_affected": [
+        "Volume_lag_1",
+        "Volume_lag_2",
+        "Volume_lag_3",
+        "Volume_lag_6",
+        "Volume_lag_24"
+      ]
+    },
+    {
+      "order": 4,
+      "method": "z_norm",
+      "parameters_used": {},
+      "fitted_params": {
+        "Volume": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        },
+        "Volume_rolling_mean_24": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        },
+        "Volume_rolling_std_24": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        },
+        "Volume_lag_1": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        },
+        "Volume_lag_2": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        },
+        "Volume_lag_3": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        },
+        "Volume_lag_6": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        },
+        "Volume_lag_24": {
+          "mean": NaN,
+          "std": 0.0,
+          "skipped_reason": "constant column"
+        }
+      },
+      "rows_before": 0,
+      "rows_after": 0,
+      "columns_affected": []
+    }
+  ],
+  "final_shape": {
+    "rows": 0,
+    "cols": 13
+  },
+  "feature_columns": [
+    "Volume",
+    "Open",
+    "High",
+    "Low",
+    "Volume_rolling_mean_24",
+    "Volume_rolling_std_24",
+    "Volume_lag_1",
+    "Volume_lag_2",
+    "Volume_lag_3",
+    "Volume_lag_6",
+    "Volume_lag_24"
+  ],
+  "target_column": "Close/Last",
+  "time_column": "Date"
+}

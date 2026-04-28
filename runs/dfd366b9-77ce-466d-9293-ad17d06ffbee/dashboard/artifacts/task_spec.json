@@ -1,0 +1,17 @@
+{
+  "run_id": "dfd366b9-77ce-466d-9293-ad17d06ffbee",
+  "task_type": "tabular_classification",
+  "modality": "tabular_iid",
+  "target_col": "Close/Last",
+  "target_dtype": "categorical",
+  "target_cardinality": 22,
+  "time_col": null,
+  "group_col": null,
+  "forecast_horizon": null,
+  "is_multivariate_ts": null,
+  "classification_subtype": "multiclass",
+  "regression_subtype": null,
+  "task_confidence": "high",
+  "task_reasoning": "Target 'Close/Last' is categorical or integer with cardinality 22 \u2264 20 \u2192 tabular_classification.",
+  "warnings": []
+}

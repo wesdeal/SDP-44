@@ -1,0 +1,86 @@
+{
+  "run_id": "7822b4f2-a990-4fee-8e59-ac7baae2df8d",
+  "created_at": "2026-04-16T21:56:15.866464+00:00",
+  "updated_at": "2026-04-16T21:56:21.076647+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/ETTh2.csv",
+    "file_format": "csv",
+    "original_filename": "ETTh2.csv"
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:56:15.868274+00:00",
+      "completed_at": "2026-04-16T21:56:20.143562+00:00",
+      "artifacts": {
+        "dataset_profile": "/Users/wesdeal/Desktop/Pipeline/runs/7822b4f2-a990-4fee-8e59-ac7baae2df8d/artifacts/dataset_profile.json"
+      },
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:56:20.145314+00:00",
+      "completed_at": "2026-04-16T21:56:20.148363+00:00",
+      "artifacts": {
+        "task_spec": "/Users/wesdeal/Desktop/Pipeline/runs/7822b4f2-a990-4fee-8e59-ac7baae2df8d/artifacts/task_spec.json"
+      },
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:56:20.154597+00:00",
+      "completed_at": "2026-04-16T21:56:21.072605+00:00",
+      "artifacts": {
+        "preprocessing_plan": "/Users/wesdeal/Desktop/Pipeline/runs/7822b4f2-a990-4fee-8e59-ac7baae2df8d/artifacts/preprocessing_plan.json",
+        "processed_data": "/Users/wesdeal/Desktop/Pipeline/runs/7822b4f2-a990-4fee-8e59-ac7baae2df8d/artifacts/processed_data.csv",
+        "preprocessing_manifest": "/Users/wesdeal/Desktop/Pipeline/runs/7822b4f2-a990-4fee-8e59-ac7baae2df8d/artifacts/preprocessing_manifest.json"
+      },
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:56:20.153298+00:00",
+      "completed_at": "2026-04-16T21:56:20.156070+00:00",
+      "artifacts": {
+        "eval_protocol": "/Users/wesdeal/Desktop/Pipeline/runs/7822b4f2-a990-4fee-8e59-ac7baae2df8d/artifacts/eval_protocol.json"
+      },
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-04-16T21:56:21.074559+00:00",
+      "completed_at": "2026-04-16T21:56:21.076131+00:00",
+      "artifacts": {
+        "selected_models": "/Users/wesdeal/Desktop/Pipeline/runs/7822b4f2-a990-4fee-8e59-ac7baae2df8d/artifacts/selected_models.json"
+      },
+      "error": null
+    },
+    "training": {
+      "status": "running",
+      "started_at": "2026-04-16T21:56:21.076647+00:00",
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "evaluation": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    }
+  },
+  "config": {
+    "runs_dir": "/Users/wesdeal/Desktop/Pipeline/runs",
+    "random_seed": 42,
+    "tune_hyperparameters": false
+  }
+}
