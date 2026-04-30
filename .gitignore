@@ -4,4 +4,5 @@ __pycache__/
 # Local environment files
 .env
 .env.*
-!.env.example
+runs/
+

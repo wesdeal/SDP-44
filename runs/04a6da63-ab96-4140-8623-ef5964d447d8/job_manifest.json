@@ -1,0 +1,88 @@
+{
+  "run_id": "04a6da63-ab96-4140-8623-ef5964d447d8",
+  "created_at": "2026-04-28T19:29:17.352133+00:00",
+  "updated_at": "2026-04-28T19:29:22.073082+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/AAPL_Stock_Price_Data.csv",
+    "file_format": "csv",
+    "original_filename": "AAPL_Stock_Price_Data.csv"
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:17.353485+00:00",
+      "completed_at": "2026-04-28T19:29:22.045857+00:00",
+      "artifacts": {
+        "dataset_profile": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/artifacts/dataset_profile.json"
+      },
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.046758+00:00",
+      "completed_at": "2026-04-28T19:29:22.047740+00:00",
+      "artifacts": {
+        "task_spec": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/artifacts/task_spec.json"
+      },
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.050903+00:00",
+      "completed_at": "2026-04-28T19:29:22.061730+00:00",
+      "artifacts": {
+        "preprocessing_plan": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/artifacts/preprocessing_plan.json",
+        "processed_data": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/artifacts/processed_data.csv",
+        "preprocessing_manifest": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/artifacts/preprocessing_manifest.json"
+      },
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.049654+00:00",
+      "completed_at": "2026-04-28T19:29:22.052296+00:00",
+      "artifacts": {
+        "eval_protocol": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/artifacts/eval_protocol.json"
+      },
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.062567+00:00",
+      "completed_at": "2026-04-28T19:29:22.064170+00:00",
+      "artifacts": {
+        "selected_models": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/artifacts/selected_models.json"
+      },
+      "error": null
+    },
+    "training": {
+      "status": "failed",
+      "started_at": "2026-04-28T19:29:22.064714+00:00",
+      "completed_at": "2026-04-28T19:29:22.069629+00:00",
+      "artifacts": {},
+      "error": "The least populated class in y has only 1 member, which is too few. The minimum number of groups for any class cannot be less than 2."
+    },
+    "evaluation": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.070195+00:00",
+      "completed_at": "2026-04-28T19:29:22.073082+00:00",
+      "artifacts": {
+        "dashboard_bundle": "/Users/wesdeal/Desktop/Pipeline/runs/04a6da63-ab96-4140-8623-ef5964d447d8/dashboard"
+      },
+      "error": null
+    }
+  },
+  "config": {
+    "runs_dir": "/Users/wesdeal/Desktop/Pipeline/runs",
+    "random_seed": 42,
+    "tune_hyperparameters": true
+  }
+}

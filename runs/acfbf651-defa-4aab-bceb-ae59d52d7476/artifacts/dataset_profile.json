@@ -1,0 +1,158 @@
+{
+  "run_id": "acfbf651-defa-4aab-bceb-ae59d52d7476",
+  "dataset_name": "HistoricalQuotes.csv",
+  "file_format": "csv",
+  "num_rows": 2518,
+  "num_columns": 6,
+  "columns": [
+    {
+      "name": "Date",
+      "dtype_pandas": "object",
+      "inferred_type": "datetime",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 2518,
+      "sample_values": [
+        "02/28/2020",
+        "02/27/2020",
+        "02/26/2020",
+        "02/25/2020",
+        "02/24/2020"
+      ],
+      "min": null,
+      "max": null,
+      "mean": null,
+      "std": null,
+      "has_negative_values": false,
+      "is_temporal": true,
+      "is_monotonically_increasing": false
+    },
+    {
+      "name": " Close/Last",
+      "dtype_pandas": "object",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 2417,
+      "sample_values": [
+        " $273.36",
+        " $273.52",
+        " $292.65",
+        " $288.08",
+        " $298.18"
+      ],
+      "min": 29.8357,
+      "max": 327.2,
+      "mean": 114.76952227958698,
+      "std": 60.66240519355336,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": " Volume",
+      "dtype_pandas": "int64",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 2514,
+      "sample_values": [
+        106721200,
+        80151380,
+        49678430,
+        57668360,
+        55548830
+      ],
+      "min": 11362050.0,
+      "max": 462442329.0,
+      "mean": 72580094.26211278,
+      "std": 56631126.10881547,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": " Open",
+      "dtype_pandas": "object",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 2415,
+      "sample_values": [
+        " $257.26",
+        " $281.1",
+        " $286.53",
+        " $300.95",
+        " $297.26"
+      ],
+      "min": 29.3928,
+      "max": 324.74,
+      "mean": 114.72844301032566,
+      "std": 60.54689283236948,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": " High",
+      "dtype_pandas": "object",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 2399,
+      "sample_values": [
+        " $278.41",
+        " $286",
+        " $297.88",
+        " $302.53",
+        " $304.18"
+      ],
+      "min": 29.9286,
+      "max": 327.85,
+      "mean": 115.76641536934073,
+      "std": 61.13445586208643,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    },
+    {
+      "name": " Low",
+      "dtype_pandas": "object",
+      "inferred_type": "numeric",
+      "missing_count": 0,
+      "missing_fraction": 0.0,
+      "unique_count": 2408,
+      "sample_values": [
+        " $256.37",
+        " $272.96",
+        " $286.5",
+        " $286.13",
+        " $289.23"
+      ],
+      "min": 28.4643,
+      "max": 323.35,
+      "mean": 113.69058173153296,
+      "std": 60.08510456884119,
+      "has_negative_values": false,
+      "is_temporal": false,
+      "is_monotonically_increasing": null
+    }
+  ],
+  "has_header": true,
+  "detected_datetime_columns": [
+    "Date"
+  ],
+  "llm_analysis": {
+    "dataset_description": "Historical stock prices with trading volume",
+    "suggested_target_variable": " Close/Last",
+    "target_confidence": "high",
+    "target_reasoning": "The 'Close/Last' price is a common target variable in financial datasets, representing the final price of a stock at the end of a trading day.",
+    "known_quality_issues": [],
+    "has_trend": true,
+    "has_seasonality": false,
+    "is_multivariate": true,
+    "data_source_hint": "Financial market data",
+    "ingestion_date": "2023-10-01"
+  },
+  "profiling_completed_at": "2026-04-28T19:52:49.754899+00:00"
+}

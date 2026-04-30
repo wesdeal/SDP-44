@@ -1,0 +1,25 @@
+{
+  "model_name": "XGBoost",
+  "hyperparameters": {
+    "n_estimators": 359,
+    "max_depth": 8,
+    "learning_rate": 0.19045508552606177,
+    "subsample": 0.9208963054510918,
+    "colsample_bytree": 0.8393541304929205,
+    "reg_alpha": 0.015953800975261386,
+    "reg_lambda": 4.022244261351342e-06
+  },
+  "is_trained": true,
+  "created_at": "2026-04-28 15:59:43",
+  "model_type": "XGBoostModel",
+  "training_time_seconds": 0.8531811237335205,
+  "n_features": 5,
+  "n_training_samples": 1762,
+  "feature_names": [
+    "Date",
+    " Volume",
+    " Open",
+    " High",
+    " Low"
+  ]
+}

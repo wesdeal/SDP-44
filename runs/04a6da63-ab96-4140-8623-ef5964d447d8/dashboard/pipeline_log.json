@@ -1,0 +1,94 @@
+{
+  "run_id": "04a6da63-ab96-4140-8623-ef5964d447d8",
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:17.353485+00:00",
+      "completed_at": "2026-04-28T19:29:22.045857+00:00",
+      "duration_seconds": 4.692,
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.046758+00:00",
+      "completed_at": "2026-04-28T19:29:22.047740+00:00",
+      "duration_seconds": 0.001,
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.050903+00:00",
+      "completed_at": "2026-04-28T19:29:22.061730+00:00",
+      "duration_seconds": 0.011,
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.049654+00:00",
+      "completed_at": "2026-04-28T19:29:22.052296+00:00",
+      "duration_seconds": 0.003,
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:29:22.062567+00:00",
+      "completed_at": "2026-04-28T19:29:22.064170+00:00",
+      "duration_seconds": 0.002,
+      "error": null
+    },
+    "training": {
+      "status": "failed",
+      "started_at": "2026-04-28T19:29:22.064714+00:00",
+      "completed_at": "2026-04-28T19:29:22.069629+00:00",
+      "duration_seconds": 0.005,
+      "error": "The least populated class in y has only 1 member, which is too few. The minimum number of groups for any class cannot be less than 2."
+    },
+    "evaluation": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "duration_seconds": null,
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-04-28T19:29:22.070195+00:00",
+      "completed_at": null,
+      "duration_seconds": null,
+      "error": null
+    }
+  },
+  "missing_artifacts": [
+    {
+      "artifact": "evaluation_report",
+      "missing": true,
+      "reason": "path not found in manifest"
+    },
+    {
+      "artifact": "comparison_table",
+      "missing": true,
+      "reason": "path not found in manifest"
+    },
+    {
+      "artifact": "training_results",
+      "missing": true,
+      "reason": "path not found in manifest"
+    },
+    {
+      "artifact": "leaderboard.json",
+      "missing": true,
+      "reason": "upstream comparison_table, evaluation_report, or eval_protocol missing"
+    },
+    {
+      "artifact": "model_cards/",
+      "missing": true,
+      "reason": "upstream eval_report, training_results, selected_models, or comparison_table missing"
+    },
+    {
+      "artifact": "plots/comparison_chart.png",
+      "missing": true,
+      "reason": "comparison_table missing"
+    }
+  ],
+  "assembled_at": "2026-04-28T19:29:22.072717+00:00"
+}

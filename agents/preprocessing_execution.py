@@ -136,16 +136,16 @@ def _apply_plan(
 
     steps = sorted(plan.get("steps", []), key=lambda s: s["order"])
 
-    # Snapshot target column to verify it is unchanged after non-target steps.
-    target_snapshot = (
-        df[target_col].reset_index(drop=True).copy()
-        if target_col in df.columns
-        else None
-    )
-
     steps_applied: list[dict] = []
     failure_count = 0
-    current_df = df.copy()
+    current_df = _coerce_currency_columns(df)
+
+    # Snapshot target column after coercion so the check compares apples-to-apples.
+    target_snapshot = (
+        current_df[target_col].reset_index(drop=True).copy()
+        if target_col in current_df.columns
+        else None
+    )
 
     for step in steps:
         method = step.get("method", "")
@@ -667,6 +667,47 @@ def _load_input(manifest: dict) -> pd.DataFrame:
     if file_format == "json":
         return pd.read_json(file_path)
     raise ValueError(f"Unsupported file_format: {file_format!r}")
+
+
+def _coerce_currency_columns(df: pd.DataFrame) -> pd.DataFrame:
+    """Convert object columns containing formatted strings to float.
+
+    Applied in order per non-null sample:
+    1. Currency/numeric strings (e.g. ``$1,234.56``) → float via strip + to_numeric.
+    2. Datetime strings (e.g. ``02/11/2016``) → days since Unix epoch as float.
+
+    Columns where fewer than 80 % of non-null values parse successfully are
+    left untouched so genuinely categorical columns are not corrupted.
+    """
+    _PARSE_THRESHOLD = 0.8
+    _EPOCH = pd.Timestamp("1970-01-01")
+    df = df.copy()
+    for col in df.columns:
+        if not (df[col].dtype == object or pd.api.types.is_string_dtype(df[col])):
+            continue
+        non_null = df[col].dropna()
+        if len(non_null) == 0:
+            continue
+        # 1. Currency / formatted numeric strings
+        try:
+            cleaned = non_null.str.replace(r"[\$,]", "", regex=True)
+            parsed = pd.to_numeric(cleaned, errors="coerce")
+            if parsed.notna().mean() >= _PARSE_THRESHOLD:
+                df[col] = pd.to_numeric(
+                    df[col].str.replace(r"[\$,]", "", regex=True), errors="coerce"
+                )
+                continue
+        except Exception:
+            pass
+        # 2. Datetime strings → days since Unix epoch (NaT → NaN)
+        try:
+            parsed_dt = pd.to_datetime(non_null, errors="coerce")
+            if parsed_dt.notna().mean() >= _PARSE_THRESHOLD:
+                df[col] = (pd.to_datetime(df[col], errors="coerce") - _EPOCH).dt.days.astype("float64")
+                continue
+        except Exception:
+            pass
+    return df
 
 
 def _excluded_columns(plan: dict, task_spec: dict) -> set:

@@ -1,0 +1,66 @@
+{
+  "run_id": "acfbf651-defa-4aab-bceb-ae59d52d7476",
+  "created_at": "2026-04-28T19:52:46.593164+00:00",
+  "assembled_at": "2026-04-28T19:52:50.201563+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/HistoricalQuotes.csv",
+    "file_format": "csv",
+    "original_filename": "HistoricalQuotes.csv"
+  },
+  "config": {
+    "runs_dir": "/Users/wesdeal/Desktop/Pipeline/runs",
+    "random_seed": 42,
+    "tune_hyperparameters": true
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:46.597514+00:00",
+      "completed_at": "2026-04-28T19:52:49.756978+00:00",
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.758284+00:00",
+      "completed_at": "2026-04-28T19:52:49.760397+00:00",
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.765234+00:00",
+      "completed_at": "2026-04-28T19:52:49.808096+00:00",
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.763479+00:00",
+      "completed_at": "2026-04-28T19:52:49.767063+00:00",
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.809005+00:00",
+      "completed_at": "2026-04-28T19:52:49.810716+00:00",
+      "error": null
+    },
+    "training": {
+      "status": "partial_failure",
+      "started_at": "2026-04-28T19:52:49.811238+00:00",
+      "completed_at": "2026-04-28T19:52:49.967994+00:00",
+      "error": null
+    },
+    "evaluation": {
+      "status": "failed",
+      "started_at": "2026-04-28T19:52:49.968574+00:00",
+      "completed_at": "2026-04-28T19:52:50.199319+00:00",
+      "error": "Only 1 model(s) evaluated successfully; at least 2 required (AGENT_ARCHITECTURE.md \u00a74 Agent 7)."
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-04-28T19:52:50.199970+00:00",
+      "completed_at": null,
+      "error": null
+    }
+  }
+}

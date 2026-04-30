@@ -189,6 +189,10 @@ def _profile_columns(df: pd.DataFrame) -> tuple:
 
         if inferred_type == _TYPE_NUMERIC:
             numeric = pd.to_numeric(series, errors="coerce")
+            if numeric.isna().all() and hasattr(series, "str"):
+                # Column typed as numeric via currency-string probe; strip symbols
+                cleaned = series.str.replace(r"[\$,]", "", regex=True)
+                numeric = pd.to_numeric(cleaned, errors="coerce")
             valid = numeric.dropna()
             if len(valid) > 0:
                 min_val = _safe_float(valid.min())
@@ -244,6 +248,14 @@ def _infer_type(series: pd.Series) -> str:
                 parsed = pd.to_datetime(non_null, errors="coerce")
                 if parsed.notna().mean() >= _DATETIME_PARSE_THRESHOLD:
                     return _TYPE_DATETIME
+            except Exception:
+                pass
+            # Probe for formatted numeric strings (e.g. "$1,234.56")
+            try:
+                cleaned = non_null.str.replace(r"[\$,]", "", regex=True)
+                parsed_num = pd.to_numeric(cleaned, errors="coerce")
+                if parsed_num.notna().mean() >= _DATETIME_PARSE_THRESHOLD:
+                    return _TYPE_NUMERIC
             except Exception:
                 pass
         return _TYPE_CATEGORICAL

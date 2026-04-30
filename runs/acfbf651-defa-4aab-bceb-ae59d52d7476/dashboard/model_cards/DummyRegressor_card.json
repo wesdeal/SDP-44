@@ -1,0 +1,25 @@
+{
+  "model_name": "DummyRegressor",
+  "tier": "baseline",
+  "task_type": "tabular_regression",
+  "rationale_for_selection": "Baseline slot for tabular_regression: Predicts the training set mean. Required baseline for regression tasks.",
+  "hyperparameters": {
+    "strategy": "mean"
+  },
+  "hyperparameter_source": "optuna_tuned",
+  "training_duration_seconds": 0.0255,
+  "metrics": {
+    "primary_metric_name": "rmse",
+    "primary_metric_value": 56.6602268993692,
+    "all_metrics": {
+      "rmse": 56.6602268993692,
+      "mae": 45.90700509004017,
+      "mape": 0.5360672633873647,
+      "r2": -0.0003656484117620096
+    }
+  },
+  "rank": 1,
+  "is_recommended": true,
+  "plot_path": "plots/DummyRegressor_eval.png",
+  "trained_model_path": "../trained_models/DummyRegressor"
+}

@@ -1,0 +1,53 @@
+{
+  "run_id": "acfbf651-defa-4aab-bceb-ae59d52d7476",
+  "primary_metric": "rmse",
+  "test_split_size": 504,
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 56.6602268993692,
+        "mae": 45.90700509004017,
+        "mape": 0.5360672633873647,
+        "r2": -0.0003656484117620096
+      },
+      "n_test_samples": 504,
+      "inference_time_ms": 0.049,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/acfbf651-defa-4aab-bceb-ae59d52d7476/plots/DummyRegressor_eval.png",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "failed",
+      "metrics": {
+        "rmse": null,
+        "mae": null,
+        "mape": null,
+        "r2": null
+      },
+      "n_test_samples": 504,
+      "inference_time_ms": null,
+      "plot_path": null,
+      "error": "Skipped: training status was 'failed'"
+    },
+    {
+      "name": "SVR",
+      "tier": "specialized",
+      "status": "failed",
+      "metrics": {
+        "rmse": null,
+        "mae": null,
+        "mape": null,
+        "r2": null
+      },
+      "n_test_samples": 504,
+      "inference_time_ms": null,
+      "plot_path": null,
+      "error": "Skipped: training status was 'failed'"
+    }
+  ],
+  "evaluated_at": "2026-04-28T19:52:50.198532+00:00"
+}

@@ -1,0 +1,59 @@
+{
+  "run_id": "acfbf651-defa-4aab-bceb-ae59d52d7476",
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "success",
+      "hyperparameters": {
+        "strategy": "mean"
+      },
+      "hyperparameter_source": "optuna_tuned",
+      "best_val_score": 62.142003318063935,
+      "training_duration_seconds": 0.0255,
+      "training_history": {
+        "training_time": 0.00015878677368164062
+      },
+      "model_path": "/Users/wesdeal/Desktop/Pipeline/runs/acfbf651-defa-4aab-bceb-ae59d52d7476/trained_models/DummyRegressor",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "failed",
+      "hyperparameters": {},
+      "hyperparameter_source": "default",
+      "best_val_score": null,
+      "training_duration_seconds": 0.0864,
+      "training_history": {},
+      "model_path": "/Users/wesdeal/Desktop/Pipeline/runs/acfbf651-defa-4aab-bceb-ae59d52d7476/trained_models/XGBoost",
+      "error": "DataFrame.dtypes for data must be int, float, bool or category. When categorical type is supplied, the experimental DMatrix parameter`enable_categorical` must be set to `True`.  Invalid columns:Date: object"
+    },
+    {
+      "name": "SVR",
+      "tier": "specialized",
+      "status": "failed",
+      "hyperparameters": {},
+      "hyperparameter_source": "default",
+      "best_val_score": null,
+      "training_duration_seconds": 0.036,
+      "training_history": {},
+      "model_path": "/Users/wesdeal/Desktop/Pipeline/runs/acfbf651-defa-4aab-bceb-ae59d52d7476/trained_models/SVR",
+      "error": "could not convert string to float: '02/11/2016'"
+    }
+  ],
+  "split_info": {
+    "strategy": "random",
+    "n_train": 1762,
+    "n_val": 252,
+    "n_test": 504
+  },
+  "feature_columns": [
+    "Date",
+    " Volume",
+    " Open",
+    " High",
+    " Low"
+  ],
+  "target_column": " Close/Last"
+}

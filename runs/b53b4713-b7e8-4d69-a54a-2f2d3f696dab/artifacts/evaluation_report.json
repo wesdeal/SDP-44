@@ -1,0 +1,53 @@
+{
+  "run_id": "b53b4713-b7e8-4d69-a54a-2f2d3f696dab",
+  "primary_metric": "mae",
+  "test_split_size": 3480,
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 8.097558575444033,
+        "mae": 7.357087541371584,
+        "mape": 1.721162707497165,
+        "smape": 0.7091348500403339
+      },
+      "n_test_samples": 3480,
+      "inference_time_ms": 0.087,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/b53b4713-b7e8-4d69-a54a-2f2d3f696dab/plots/DummyRegressor_eval.png",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 0.6778202306014786,
+        "mae": 0.48030178841074994,
+        "mape": 0.1030231146233,
+        "smape": 0.10345088703105361
+      },
+      "n_test_samples": 3480,
+      "inference_time_ms": 3.426,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/b53b4713-b7e8-4d69-a54a-2f2d3f696dab/plots/XGBoost_eval.png",
+      "error": null
+    },
+    {
+      "name": "RandomForest",
+      "tier": "specialized",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 0.6784806889122126,
+        "mae": 0.47753190285495584,
+        "mape": 0.10213888293806074,
+        "smape": 0.1016487909316962
+      },
+      "n_test_samples": 3480,
+      "inference_time_ms": 25.793,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/b53b4713-b7e8-4d69-a54a-2f2d3f696dab/plots/RandomForest_eval.png",
+      "error": null
+    }
+  ],
+  "evaluated_at": "2026-04-28T20:05:21.869441+00:00"
+}

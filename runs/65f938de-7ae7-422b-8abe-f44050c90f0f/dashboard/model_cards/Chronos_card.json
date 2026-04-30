@@ -1,0 +1,31 @@
+{
+  "model_name": "Chronos",
+  "tier": "specialized",
+  "task_type": "time_series_forecasting",
+  "rationale_for_selection": "Specialized slot for time_series_forecasting: Pretrained zero-shot forecasting transformer (Amazon). Works without feature engineering.",
+  "hyperparameters": {
+    "model_size": "tiny",
+    "prediction_length": 24,
+    "context_length": 1024,
+    "num_samples": 44,
+    "temperature": 1.1681707242915131,
+    "top_k": 21,
+    "top_p": 0.8809583457968103
+  },
+  "hyperparameter_source": "optuna_tuned",
+  "training_duration_seconds": 4177.5688,
+  "metrics": {
+    "primary_metric_name": "mae",
+    "primary_metric_value": 3.577730099009029,
+    "all_metrics": {
+      "rmse": 4.349360615245902,
+      "mae": 3.577730099009029,
+      "mape": 0.5164269576691016,
+      "smape": 0.5312574358606954
+    }
+  },
+  "rank": 2,
+  "is_recommended": false,
+  "plot_path": "plots/Chronos_eval.png",
+  "trained_model_path": "../trained_models/Chronos"
+}

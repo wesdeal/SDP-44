@@ -1,0 +1,28 @@
+{
+  "model_name": "SVR",
+  "tier": "specialized",
+  "task_type": "tabular_regression",
+  "rationale_for_selection": "Specialized slot for tabular_regression: Support Vector Regression. Good for small-to-medium datasets with non-linear boundaries.",
+  "hyperparameters": {
+    "C": 58.36045905134119,
+    "epsilon": 0.11711426667473589,
+    "kernel": "linear",
+    "gamma": "auto"
+  },
+  "hyperparameter_source": "optuna_tuned",
+  "training_duration_seconds": 47.6519,
+  "metrics": {
+    "primary_metric_name": "rmse",
+    "primary_metric_value": 0.6504418234095486,
+    "all_metrics": {
+      "rmse": 0.6504418234095486,
+      "mae": 0.4566332928786107,
+      "mape": 0.004043501171528938,
+      "r2": 0.9998681685379356
+    }
+  },
+  "rank": 1,
+  "is_recommended": true,
+  "plot_path": "plots/SVR_eval.png",
+  "trained_model_path": "../trained_models/SVR"
+}

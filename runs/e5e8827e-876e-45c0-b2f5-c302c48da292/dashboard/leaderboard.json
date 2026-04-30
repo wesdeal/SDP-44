@@ -1,0 +1,37 @@
+{
+  "run_id": "e5e8827e-876e-45c0-b2f5-c302c48da292",
+  "dataset_name": "HistoricalQuotes.csv",
+  "task_type": "tabular_regression",
+  "primary_metric": "rmse",
+  "higher_is_better": false,
+  "models": [
+    {
+      "rank": 1,
+      "name": "SVR",
+      "tier": "specialized",
+      "primary_metric_value": 0.6504418234095486,
+      "delta_from_baseline": 56.009785,
+      "delta_pct": 98.852,
+      "recommendation": "Best Overall"
+    },
+    {
+      "rank": 2,
+      "name": "XGBoost",
+      "tier": "classical",
+      "primary_metric_value": 1.0692501477229137,
+      "delta_from_baseline": 55.590977,
+      "delta_pct": 98.1129,
+      "recommendation": "Strong Performer"
+    },
+    {
+      "rank": 3,
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 56.6602268993692,
+      "delta_from_baseline": 0.0,
+      "delta_pct": 0.0,
+      "recommendation": "Baseline"
+    }
+  ],
+  "generated_at": "2026-04-28T20:00:32.714599+00:00"
+}

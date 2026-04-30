@@ -1,0 +1,53 @@
+{
+  "run_id": "e5e8827e-876e-45c0-b2f5-c302c48da292",
+  "primary_metric": "rmse",
+  "test_split_size": 504,
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 56.6602268993692,
+        "mae": 45.90700509004017,
+        "mape": 0.5360672633873647,
+        "r2": -0.0003656484117620096
+      },
+      "n_test_samples": 504,
+      "inference_time_ms": 0.066,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/e5e8827e-876e-45c0-b2f5-c302c48da292/plots/DummyRegressor_eval.png",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 1.0692501477229137,
+        "mae": 0.7248258014012904,
+        "mape": 0.006817111598847809,
+        "r2": 0.9996437451469239
+      },
+      "n_test_samples": 504,
+      "inference_time_ms": 4.621,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/e5e8827e-876e-45c0-b2f5-c302c48da292/plots/XGBoost_eval.png",
+      "error": null
+    },
+    {
+      "name": "SVR",
+      "tier": "specialized",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 0.6504418234095486,
+        "mae": 0.4566332928786107,
+        "mape": 0.004043501171528938,
+        "r2": 0.9998681685379356
+      },
+      "n_test_samples": 504,
+      "inference_time_ms": 8.331,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/e5e8827e-876e-45c0-b2f5-c302c48da292/plots/SVR_eval.png",
+      "error": null
+    }
+  ],
+  "evaluated_at": "2026-04-28T20:00:32.711472+00:00"
+}

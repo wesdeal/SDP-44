@@ -1,0 +1,80 @@
+{
+  "run_id": "c946b3c5-9174-497b-af3c-12b89d80f5ae",
+  "created_at": "2026-04-28T19:45:36.504602+00:00",
+  "updated_at": "2026-04-28T19:45:40.405618+00:00",
+  "status": "pending",
+  "input": {
+    "file_path": "/Users/wesdeal/Desktop/Pipeline/inputs/AAPL_Stock_Price_Data.csv",
+    "file_format": "csv",
+    "original_filename": "AAPL_Stock_Price_Data.csv"
+  },
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:45:36.505716+00:00",
+      "completed_at": "2026-04-28T19:45:40.388657+00:00",
+      "artifacts": {
+        "dataset_profile": "/Users/wesdeal/Desktop/Pipeline/runs/c946b3c5-9174-497b-af3c-12b89d80f5ae/artifacts/dataset_profile.json"
+      },
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:45:40.389729+00:00",
+      "completed_at": "2026-04-28T19:45:40.391124+00:00",
+      "artifacts": {
+        "task_spec": "/Users/wesdeal/Desktop/Pipeline/runs/c946b3c5-9174-497b-af3c-12b89d80f5ae/artifacts/task_spec.json"
+      },
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "failed",
+      "started_at": "2026-04-28T19:45:40.394533+00:00",
+      "completed_at": "2026-04-28T19:45:40.405618+00:00",
+      "artifacts": {},
+      "error": "TARGET_MODIFIED: target column values changed during preprocessing without an explicit target_only step."
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:45:40.393718+00:00",
+      "completed_at": "2026-04-28T19:45:40.396056+00:00",
+      "artifacts": {
+        "eval_protocol": "/Users/wesdeal/Desktop/Pipeline/runs/c946b3c5-9174-497b-af3c-12b89d80f5ae/artifacts/eval_protocol.json"
+      },
+      "error": null
+    },
+    "model_selection": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "training": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "evaluation": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    },
+    "artifact_assembly": {
+      "status": "pending",
+      "started_at": null,
+      "completed_at": null,
+      "artifacts": {},
+      "error": null
+    }
+  },
+  "config": {
+    "runs_dir": "/Users/wesdeal/Desktop/Pipeline/runs",
+    "random_seed": 42,
+    "tune_hyperparameters": true
+  }
+}

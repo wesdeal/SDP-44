@@ -1,0 +1,19 @@
+{
+  "run_id": "acfbf651-defa-4aab-bceb-ae59d52d7476",
+  "dataset_name": "HistoricalQuotes.csv",
+  "task_type": "tabular_regression",
+  "primary_metric": "rmse",
+  "higher_is_better": false,
+  "models": [
+    {
+      "rank": 1,
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 56.6602268993692,
+      "delta_from_baseline": 0.0,
+      "delta_pct": 0.0,
+      "recommendation": "Best Overall"
+    }
+  ],
+  "generated_at": "2026-04-28T19:52:50.202045+00:00"
+}

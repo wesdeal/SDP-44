@@ -1,0 +1,23 @@
+{
+  "model_name": "XGBoost",
+  "tier": "classical",
+  "task_type": "tabular_regression",
+  "rationale_for_selection": "Classical slot for tabular_regression: Gradient boosted trees. High-capacity, widely used benchmark for tabular data.",
+  "hyperparameters": {},
+  "hyperparameter_source": "default",
+  "training_duration_seconds": 0.0864,
+  "metrics": {
+    "primary_metric_name": "rmse",
+    "primary_metric_value": null,
+    "all_metrics": {
+      "rmse": null,
+      "mae": null,
+      "mape": null,
+      "r2": null
+    }
+  },
+  "rank": null,
+  "is_recommended": false,
+  "plot_path": null,
+  "trained_model_path": "../trained_models/XGBoost"
+}

@@ -1,0 +1,65 @@
+{
+  "run_id": "e5e8827e-876e-45c0-b2f5-c302c48da292",
+  "steps_applied": [
+    {
+      "order": 1,
+      "method": "imputation",
+      "parameters_used": {
+        "strategy": "mean"
+      },
+      "fitted_params": {},
+      "rows_before": 2518,
+      "rows_after": 2518,
+      "columns_affected": []
+    },
+    {
+      "order": 2,
+      "method": "z_norm",
+      "parameters_used": {},
+      "fitted_params": {
+        "Date": {
+          "mean": 16492.62589356632,
+          "std": 1055.0257546464595
+        },
+        " Volume": {
+          "mean": 72580094.26211278,
+          "std": 56619879.73275207
+        },
+        " Open": {
+          "mean": 114.72844301032566,
+          "std": 60.534868824142016
+        },
+        " High": {
+          "mean": 115.76641536934073,
+          "std": 61.12231516970933
+        },
+        " Low": {
+          "mean": 113.69058173153296,
+          "std": 60.07317226715093
+        }
+      },
+      "rows_before": 2518,
+      "rows_after": 2518,
+      "columns_affected": [
+        "Date",
+        " Volume",
+        " Open",
+        " High",
+        " Low"
+      ]
+    }
+  ],
+  "final_shape": {
+    "rows": 2518,
+    "cols": 6
+  },
+  "feature_columns": [
+    "Date",
+    " Volume",
+    " Open",
+    " High",
+    " Low"
+  ],
+  "target_column": " Close/Last",
+  "time_column": null
+}

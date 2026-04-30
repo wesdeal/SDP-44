@@ -1,0 +1,53 @@
+{
+  "run_id": "71f478fd-6550-400d-a42d-6ee7535ab96f",
+  "primary_metric": "mae",
+  "test_split_size": 3480,
+  "models": [
+    {
+      "name": "DummyRegressor",
+      "tier": "baseline",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 11.03415242322554,
+        "mae": 8.971632466447877,
+        "mape": 1.6052547820272933,
+        "smape": 0.3735561811305464
+      },
+      "n_test_samples": 3480,
+      "inference_time_ms": 0.092,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/71f478fd-6550-400d-a42d-6ee7535ab96f/plots/DummyRegressor_eval.png",
+      "error": null
+    },
+    {
+      "name": "XGBoost",
+      "tier": "classical",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 1.1302718399111022,
+        "mae": 0.7872993436189711,
+        "mape": 0.26499687298746855,
+        "smape": 0.048162310171557435
+      },
+      "n_test_samples": 3480,
+      "inference_time_ms": 3.191,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/71f478fd-6550-400d-a42d-6ee7535ab96f/plots/XGBoost_eval.png",
+      "error": null
+    },
+    {
+      "name": "Chronos",
+      "tier": "specialized",
+      "status": "evaluated",
+      "metrics": {
+        "rmse": 20.358655399495362,
+        "mae": 17.715773141093756,
+        "mape": 1.013726104733978,
+        "smape": 0.9241325057366433
+      },
+      "n_test_samples": 3480,
+      "inference_time_ms": 83059.271,
+      "plot_path": "/Users/wesdeal/Desktop/Pipeline/runs/71f478fd-6550-400d-a42d-6ee7535ab96f/plots/Chronos_eval.png",
+      "error": null
+    }
+  ],
+  "evaluated_at": "2026-04-30T22:26:30.495556+00:00"
+}

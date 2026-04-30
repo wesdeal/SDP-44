@@ -1,0 +1,63 @@
+{
+  "run_id": "acfbf651-defa-4aab-bceb-ae59d52d7476",
+  "stages": {
+    "ingestion": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:46.597514+00:00",
+      "completed_at": "2026-04-28T19:52:49.756978+00:00",
+      "duration_seconds": 3.159,
+      "error": null
+    },
+    "problem_classification": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.758284+00:00",
+      "completed_at": "2026-04-28T19:52:49.760397+00:00",
+      "duration_seconds": 0.002,
+      "error": null
+    },
+    "preprocessing_planning": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.765234+00:00",
+      "completed_at": "2026-04-28T19:52:49.808096+00:00",
+      "duration_seconds": 0.043,
+      "error": null
+    },
+    "evaluation_protocol": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.763479+00:00",
+      "completed_at": "2026-04-28T19:52:49.767063+00:00",
+      "duration_seconds": 0.004,
+      "error": null
+    },
+    "model_selection": {
+      "status": "completed",
+      "started_at": "2026-04-28T19:52:49.809005+00:00",
+      "completed_at": "2026-04-28T19:52:49.810716+00:00",
+      "duration_seconds": 0.002,
+      "error": null
+    },
+    "training": {
+      "status": "partial_failure",
+      "started_at": "2026-04-28T19:52:49.811238+00:00",
+      "completed_at": "2026-04-28T19:52:49.967994+00:00",
+      "duration_seconds": 0.157,
+      "error": null
+    },
+    "evaluation": {
+      "status": "failed",
+      "started_at": "2026-04-28T19:52:49.968574+00:00",
+      "completed_at": "2026-04-28T19:52:50.199319+00:00",
+      "duration_seconds": 0.231,
+      "error": "Only 1 model(s) evaluated successfully; at least 2 required (AGENT_ARCHITECTURE.md \u00a74 Agent 7)."
+    },
+    "artifact_assembly": {
+      "status": "running",
+      "started_at": "2026-04-28T19:52:50.199970+00:00",
+      "completed_at": null,
+      "duration_seconds": null,
+      "error": null
+    }
+  },
+  "missing_artifacts": [],
+  "assembled_at": "2026-04-28T19:52:50.390370+00:00"
+}

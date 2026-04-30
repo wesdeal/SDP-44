@@ -74,6 +74,12 @@ class ChronosModel(BaseModel):
         Note: Chronos is a pretrained model, so 'build' loads the pretrained weights.
         No architecture construction is needed.
         """
+        # Disable OpenMP parallelism to prevent deadlocks when multiple runs share
+        # the same process (uvicorn worker). Leaked daemon threads from prior runs
+        # permanently own the OpenMP worker pool; any new fork/join in the same
+        # pool deadlocks. Single-threaded inference on chronos-t5-tiny is ~0.5s.
+        torch.set_num_threads(1)
+
         model_size = self.hyperparameters.get('model_size', 'tiny')
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -89,11 +95,21 @@ class ChronosModel(BaseModel):
         model_id = model_id_map.get(model_size, 'amazon/chronos-t5-small')
 
         print(f"Loading Chronos model: {model_id} on {device}...")
-        self.model = ChronosPipeline.from_pretrained(
-            model_id,
-            device_map=device,
-            torch_dtype=torch.bfloat16 if device == 'cuda' else torch.float32
-        )
+        # Try local cache first to avoid a slow HuggingFace metadata HTTP check.
+        try:
+            self.model = ChronosPipeline.from_pretrained(
+                model_id,
+                device_map=device,
+                torch_dtype=torch.bfloat16 if device == 'cuda' else torch.float32,
+                local_files_only=True,
+            )
+        except Exception:
+            print(f"  Cache miss — downloading {model_id} from HuggingFace...")
+            self.model = ChronosPipeline.from_pretrained(
+                model_id,
+                device_map=device,
+                torch_dtype=torch.bfloat16 if device == 'cuda' else torch.float32,
+            )
 
         self.metadata['model_id'] = model_id
         self.metadata['device'] = device
@@ -165,9 +181,12 @@ class ChronosModel(BaseModel):
         if not self.is_trained:
             raise ValueError("Model must be prepared (call train()) before making predictions!")
 
+        # Ensure single-threaded torch ops to avoid OpenMP deadlock across pipeline threads.
+        torch.set_num_threads(1)
+
         prediction_length = len(X)
         context_length = self.hyperparameters.get('context_length', 512)
-        num_samples = self.hyperparameters.get('num_samples', 20)
+        num_samples = self.hyperparameters.get('num_samples', 10)
         temperature = self.hyperparameters.get('temperature', 1.0)
         top_k = self.hyperparameters.get('top_k', 50)
         top_p = self.hyperparameters.get('top_p', 1.0)
@@ -264,3 +283,17 @@ class ChronosModel(BaseModel):
             self.context_data = np.concatenate([self.context_data, new_data])
 
         print(f"✓ Context updated: {len(self.context_data)} total samples")
+
+    def save(self, save_path: Path) -> None:
+        """Save model weights and context_data; context_data is required for predict()."""
+        super().save(save_path)
+        if self.context_data is not None:
+            np.save(Path(save_path) / f"{self.model_name}_context.npy", self.context_data)
+
+    def load(self, load_path: Path) -> None:
+        """Load model weights and restore context_data so predict() works after load."""
+        super().load(load_path)
+        torch.set_num_threads(1)
+        context_file = Path(load_path) / f"{self.model_name}_context.npy"
+        if context_file.exists():
+            self.context_data = np.load(context_file)

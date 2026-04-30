@@ -1,0 +1,19 @@
+{
+  "run_id": "acfbf651-defa-4aab-bceb-ae59d52d7476",
+  "ranked_by": "rmse",
+  "ranking": [
+    {
+      "rank": 1,
+      "model_name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 56.6602268993692,
+      "is_best": true,
+      "all_metrics": {
+        "rmse": 56.6602268993692,
+        "mae": 45.90700509004017,
+        "mape": 0.5360672633873647,
+        "r2": -0.0003656484117620096
+      }
+    }
+  ]
+}

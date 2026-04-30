@@ -1,0 +1,17 @@
+{
+  "run_id": "c946b3c5-9174-497b-af3c-12b89d80f5ae",
+  "task_type": "tabular_regression",
+  "modality": "tabular_iid",
+  "target_col": "Close/Last",
+  "target_dtype": "numeric",
+  "target_cardinality": 22,
+  "time_col": null,
+  "group_col": null,
+  "forecast_horizon": null,
+  "is_multivariate_ts": null,
+  "classification_subtype": null,
+  "regression_subtype": "standard",
+  "task_confidence": "high",
+  "task_reasoning": "Target 'Close/Last' is numeric \u2192 tabular_regression.",
+  "warnings": []
+}

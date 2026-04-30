@@ -29,6 +29,27 @@ export default function App() {
   const [error, setError] = useState(null);
   const [runs, setRuns] = useState([]);
 
+  // ── Sync view/runId when the user navigates with browser back/forward ──
+  useEffect(() => {
+    function onPopState() {
+      const params = new URLSearchParams(window.location.search);
+      const nextView =
+        params.get("view") === "dashboard" || params.has("runId")
+          ? "dashboard"
+          : "control";
+      setView(nextView);
+      if (nextView === "dashboard") {
+        setRunId(params.get("runId") ?? null);
+      } else {
+        setRunId(null);
+        setRun(null);
+        setError(null);
+      }
+    }
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
   // ── Resolve initial runId when in dashboard view ───────────────────────
   useEffect(() => {
     if (view !== "dashboard") return;

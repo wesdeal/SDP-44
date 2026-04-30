@@ -1,0 +1,45 @@
+{
+  "run_id": "e5e8827e-876e-45c0-b2f5-c302c48da292",
+  "ranked_by": "rmse",
+  "ranking": [
+    {
+      "rank": 1,
+      "model_name": "SVR",
+      "tier": "specialized",
+      "primary_metric_value": 0.6504418234095486,
+      "is_best": true,
+      "all_metrics": {
+        "rmse": 0.6504418234095486,
+        "mae": 0.4566332928786107,
+        "mape": 0.004043501171528938,
+        "r2": 0.9998681685379356
+      }
+    },
+    {
+      "rank": 2,
+      "model_name": "XGBoost",
+      "tier": "classical",
+      "primary_metric_value": 1.0692501477229137,
+      "is_best": false,
+      "all_metrics": {
+        "rmse": 1.0692501477229137,
+        "mae": 0.7248258014012904,
+        "mape": 0.006817111598847809,
+        "r2": 0.9996437451469239
+      }
+    },
+    {
+      "rank": 3,
+      "model_name": "DummyRegressor",
+      "tier": "baseline",
+      "primary_metric_value": 56.6602268993692,
+      "is_best": false,
+      "all_metrics": {
+        "rmse": 56.6602268993692,
+        "mae": 45.90700509004017,
+        "mape": 0.5360672633873647,
+        "r2": -0.0003656484117620096
+      }
+    }
+  ]
+}

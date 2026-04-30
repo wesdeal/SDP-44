@@ -1,0 +1,14 @@
+{
+  "model_name": "SVR",
+  "hyperparameters": {
+    "C": 58.36045905134119,
+    "epsilon": 0.11711426667473589,
+    "kernel": "linear",
+    "gamma": "auto"
+  },
+  "is_trained": true,
+  "created_at": "2026-04-28 16:00:31",
+  "model_type": "SVRModel",
+  "training_time_seconds": 0.7857029438018799,
+  "n_training_samples": 1762
+}
