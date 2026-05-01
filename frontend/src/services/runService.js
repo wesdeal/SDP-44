@@ -107,7 +107,11 @@ export function deriveSummaryStats(run) {
     {
       label: "Primary metric",
       value: ep.primary_metric ?? "—",
-      sublabel: "lower is better",
+      sublabel: (() => {
+        const metricDef = (ep.metrics ?? []).find(m => m.name === ep.primary_metric);
+        if (!metricDef) return null;
+        return metricDef.higher_is_better ? "higher is better" : "lower is better";
+      })(),
     },
     {
       label: "Best model",
@@ -158,6 +162,10 @@ export function deriveLeaderboardRows(run) {
         RMSE: r.all_metrics?.RMSE ?? null,
         MAPE: r.all_metrics?.MAPE ?? null,
         sMAPE: r.all_metrics?.sMAPE ?? null,
+        f1_weighted: r.all_metrics?.f1_weighted ?? null,
+        accuracy: r.all_metrics?.accuracy ?? null,
+        roc_auc: r.all_metrics?.roc_auc ?? null,
+        logloss: r.all_metrics?.logloss ?? null,
         training_seconds: tr?.training_duration_seconds ?? null,
         inference_ms: ev?.inference_time_ms ?? null,
         status: ev?.status ?? tr?.status ?? "—",
@@ -295,6 +303,10 @@ export function deriveMetricChartRows(run) {
         RMSE: r.all_metrics?.RMSE ?? null,
         MAPE: r.all_metrics?.MAPE ?? null,
         sMAPE: r.all_metrics?.sMAPE ?? null,
+        f1_weighted: r.all_metrics?.f1_weighted ?? null,
+        accuracy: r.all_metrics?.accuracy ?? null,
+        roc_auc: r.all_metrics?.roc_auc ?? null,
+        logloss: r.all_metrics?.logloss ?? null,
         training_duration_seconds: tr?.training_duration_seconds ?? null,
         inference_time_ms: ev?.inference_time_ms ?? null,
       };

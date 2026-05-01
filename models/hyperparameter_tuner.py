@@ -88,7 +88,8 @@ class HyperparameterTuner:
         )
 
         # Get best result
-        self.best_params = study.best_params
+        fixed_params = self._get_fixed_params()
+        self.best_params = {**fixed_params, **study.best_params}
         self.best_score = study.best_value
 
         print(f"  ✓ Best validation {self.primary_metric}: {self.best_score:.4f}")
@@ -107,7 +108,7 @@ class HyperparameterTuner:
             Validation metric value (direction determined by primary_metric)
         """
         # Get hyperparameters for this trial
-        hyperparameters = self._get_search_space(trial)
+        hyperparameters = {**self._get_fixed_params(), **self._get_search_space(trial)}
 
         try:
             # Create and train model
@@ -129,7 +130,7 @@ class HyperparameterTuner:
                 [self.primary_metric],
             )
             score = metrics.get(self.primary_metric)
-            if score is None:
+            if score is None or not np.isfinite(score):
                 return float('inf') if self._direction == "minimize" else float('-inf')
             return score
 
@@ -158,7 +159,7 @@ class HyperparameterTuner:
                 'colsample_bytree': trial.suggest_float('colsample_bytree', 0.6, 1.0),
                 'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10.0, log=True),
                 'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10.0, log=True),
-                'random_state': 42
+                'random_state': 42,
             }
 
         elif self.model_name == 'RandomForest':
@@ -188,13 +189,11 @@ class HyperparameterTuner:
             task_type = self.task_type or "tabular_regression"
             if task_type == "tabular_regression":
                 return {
-                    'task_type': task_type,
                     'alpha': trial.suggest_float('alpha', 1e-4, 100.0, log=True),
                     'random_state': 42,
                 }
             else:  # tabular_classification
                 return {
-                    'task_type': task_type,
                     'C': trial.suggest_float('C', 1e-4, 100.0, log=True),
                     'max_iter': trial.suggest_int('max_iter', 100, 2000),
                     'random_state': 42,
@@ -217,3 +216,10 @@ class HyperparameterTuner:
 
         else:
             return {}
+    def _get_fixed_params(self) -> dict:
+        """Return fixed (non-tuned) params that must be included in best_params."""
+        fixed = {}
+        if self.model_name in ('LinearModel', 'XGBoost', 'RandomForest'):
+            if self.task_type:
+                fixed['task_type'] = self.task_type
+        return fixed

@@ -220,6 +220,15 @@ def _apply_plan(
             }
         )
 
+    # Post-execution guardrail 0: encode any remaining string feature columns.
+    # This handles datasets where the preprocessing plan omits encoding steps.
+    for col in current_df.columns:
+        if col == target_col or col in excluded:
+            continue
+        if current_df[col].dtype == object or pd.api.types.is_string_dtype(current_df[col]):
+            le = LabelEncoder()
+            current_df[col] = le.fit_transform(current_df[col].astype(str))
+
     # Post-execution guardrail A: no NaNs may remain in feature columns.
     feature_cols = [
         c for c in current_df.columns
@@ -661,7 +670,7 @@ def _load_input(manifest: dict) -> pd.DataFrame:
     file_path = manifest["input"]["file_path"]
     file_format = manifest["input"]["file_format"]
     if file_format == "csv":
-        return pd.read_csv(file_path)
+        return pd.read_csv(file_path, sep=None, engine="python")
     if file_format == "parquet":
         return pd.read_parquet(file_path)
     if file_format == "json":

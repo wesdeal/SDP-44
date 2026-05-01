@@ -2,10 +2,10 @@
 XGBoost Model Implementation
 Gradient boosting model for time series forecasting
 """
-
-from xgboost import XGBRegressor
+from xgboost import XGBClassifier, XGBRegressor
 import pandas as pd
 import numpy as np
+from sklearn.preprocessing import LabelEncoder
 from typing import Dict, Any, Optional
 import time
 
@@ -33,6 +33,7 @@ class XGBoostModel(BaseModel):
         if hyperparameters is None:
             hyperparameters = {}
         super().__init__(model_name, hyperparameters)
+        self._label_encoder = None
 
     def build(self):
         """
@@ -47,7 +48,9 @@ class XGBoostModel(BaseModel):
             - reg_alpha: L1 regularization
             - reg_lambda: L2 regularization
         """
-        self.model = XGBRegressor(
+        task_type = self.hyperparameters.get('task_type', 'tabular_regression')
+        ModelClass = XGBClassifier if 'classification' in task_type else XGBRegressor
+        self.model = ModelClass(
             n_estimators=self.hyperparameters.get('n_estimators', 100),
             max_depth=self.hyperparameters.get('max_depth', 6),
             learning_rate=self.hyperparameters.get('learning_rate', 0.1),
@@ -56,9 +59,9 @@ class XGBoostModel(BaseModel):
             reg_alpha=self.hyperparameters.get('reg_alpha', 0.0),
             reg_lambda=self.hyperparameters.get('reg_lambda', 1.0),
             random_state=self.hyperparameters.get('random_state', 42),
-            tree_method='hist',  # Fast histogram-based algorithm
-            eval_metric='rmse',
-            verbosity=0  # Suppress warnings
+            tree_method='hist',
+            eval_metric='mlogloss' if 'classification' in task_type else 'rmse',
+            verbosity=0
         )
 
         print(f"✓ XGBoost model built with {len(self.hyperparameters)} hyperparameters")
@@ -91,6 +94,15 @@ class XGBoostModel(BaseModel):
         eval_set = [(X_train, y_train)]
         if X_val is not None and y_val is not None:
             eval_set.append((X_val, y_val))
+
+        if isinstance(self.model, XGBClassifier):
+            self._label_encoder = LabelEncoder()
+            y_train = self._label_encoder.fit_transform(y_train)
+            if y_val is not None:
+                y_val = self._label_encoder.transform(y_val)
+            eval_set = [(X_train, y_train)]
+            if X_val is not None and y_val is not None:
+                eval_set.append((X_val, y_val))
 
         # Train the model
         self.model.fit(
@@ -139,7 +151,28 @@ class XGBoostModel(BaseModel):
             raise ValueError("Model must be trained before making predictions!")
 
         predictions = self.model.predict(X)
+
+        if self._label_encoder is not None:
+            predictions = self._label_encoder.inverse_transform(
+                predictions.astype(int)
+            )
+
         return predictions
+
+    def save(self, save_path):
+        super().save(save_path)
+        if self._label_encoder is not None:
+            import joblib
+            from pathlib import Path
+            joblib.dump(self._label_encoder, Path(save_path) / "XGBoost_label_encoder.pkl")
+
+    def load(self, load_path):
+        super().load(load_path)
+        from pathlib import Path
+        import joblib
+        encoder_path = Path(load_path) / "XGBoost_label_encoder.pkl"
+        if encoder_path.exists():
+            self._label_encoder = joblib.load(encoder_path)
 
     def get_feature_importance(self) -> pd.DataFrame:
         """

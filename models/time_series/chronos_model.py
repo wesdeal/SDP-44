@@ -199,7 +199,7 @@ class ChronosModel(BaseModel):
 
         # Generate forecast
         forecast = self.model.predict(
-            context=context_tensor,
+            context_tensor,
             prediction_length=prediction_length,
             num_samples=num_samples,
             temperature=temperature,
@@ -237,7 +237,7 @@ class ChronosModel(BaseModel):
 
         # Generate forecast
         forecast = self.model.predict(
-            context=context_tensor,
+            context_tensor,
             prediction_length=prediction_length,
             num_samples=num_samples
         )

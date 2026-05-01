@@ -155,7 +155,7 @@ class TrainingAgent:
 
             tune = bool(config.get("tune_hyperparameters", False))
             n_trials = int(config.get("n_optuna_trials", 20))
-            task_type = selected_models_doc.get("task_type", "")
+            task_type = selected_models_doc.get("task_type") or ""
 
             # --- Train each selected model; catch per-model failures ---
             model_records: list[dict] = []
@@ -201,7 +201,7 @@ class TrainingAgent:
                     else:
                         # Seed default params with task_type so models that
                         # require it (e.g. LinearModel) can build without tuning.
-                        best_params = {"task_type": task_type} if task_type else {}
+                        best_params = {"task_type": task_type} if task_type else {"task_type": "tabular_regression"}
                         best_val_score = None
                         hyperparameter_source = "default"
 

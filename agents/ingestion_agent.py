@@ -154,7 +154,7 @@ class IngestionAgent:
 def _load_file(file_path: str, file_format: str) -> pd.DataFrame:
     """Load the raw file into a DataFrame based on declared format."""
     if file_format == "csv":
-        return pd.read_csv(file_path)
+        return pd.read_csv(file_path, sep=None, engine="python")
     if file_format == "parquet":
         return pd.read_parquet(file_path)
     if file_format == "json":
